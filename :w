@@ -1,0 +1,6 @@
+frontend/node_modules/
+.*
+!.gitignore
+frontend/sass/
+frontend/js/
+
