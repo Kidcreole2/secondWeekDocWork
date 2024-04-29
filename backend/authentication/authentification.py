@@ -13,6 +13,7 @@ login_manager.init_app(app)
 
 class Users(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    permission = db.Column(db.String(20),nullable=False)
     username = db.Column(db.String(20),unique=True,nullable=False)
     password = db.Column(db.String(30),nullable=False)
 
@@ -52,7 +53,7 @@ def logout():
 
 @app.route("/")
 def home():
-    return render_template("home.html")
+    return render_template("index.html")
 
 if __name__ == "__main__":
     app.run()
