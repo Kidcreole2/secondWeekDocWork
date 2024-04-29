@@ -6,3 +6,5 @@ frontend/js/
 backend/test/
 *__pycache__*
 instance/
+
+*.sqlite
