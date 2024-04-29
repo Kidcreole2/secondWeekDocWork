@@ -13,22 +13,22 @@
 
     <body>
 
-            <form>
+            <form action="/login" method="post">
 
               <h1 class="h3 mb-3 fw-normal">Пожайлуста войдите</h1>
           
               <div class="form-floating">
-                <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-                <label for="floatingInput">Email</label>
+                <input type="text" class="form-control" id="floatingInput" name="floatingInput" placeholder="Login">
+                <label for="floatingInput">Login</label>
               </div>
               <div class="form-floating">
-                <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                <input type="password" class="form-control" name="floatingPassword" id="floatingPassword" placeholder="Password">
                 <label for="floatingPassword">Пароль</label>
               </div>
           
 
-              <a href="frontend/index.html"><button formaction="" type="submit">Войти</button></a>
-              <a href="../sign_up/registration.html"><button type="button">Зарегистрироваться</button></a>
+              <button type="submit">Войти</button>
+              <a href="/register"><button  type="button">Зарегистрироваться</button></a>
             </form>
 
           
