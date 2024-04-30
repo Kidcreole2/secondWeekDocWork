@@ -10,8 +10,13 @@
         <link rel="stylesheet" href="">
     </head>
     <body>
+        {% if current_user.is_authenticated %}
         <h1>Admin</h1>
-        
+        <h1>You are logged in</h1>
+        <a href="/logout">Logout</a>
+        {% else %}
+        <h1>You are not logged in</h1>
+        {% endif %}
         <script src="" async defer></script>
     </body>
 </html>

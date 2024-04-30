@@ -26,9 +26,10 @@ def register():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
-        login = username=request.form.get("floatingInput")
-        password = request.form.get("floatingPassword")
-        role = Users.login(login, password)
+        login = request.form.get("login")
+        print(login)
+        password = request.form.get("password")
+        role = Users.auth_user(login, password)
         
         match role:
             case "123":
