@@ -1,0 +1,19 @@
+body{
+    margin: 0;
+}
+header{
+    background-color: rgb(109, 55, 136);
+
+}
+a{
+    text-decoration: none;
+}
+
+h1{
+    color: #000;
+}  
+
+button{
+    font-size: medium;
+    border-radius: 12px;
+}

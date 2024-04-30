@@ -7,43 +7,41 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     </head>
     <body>
-        {% if current_user.is_authenticated %}
+        {% if current_user.is_authenticated %} 
         <header>
             <div style="display: flex; justify-content: space-between;">
-            <h2 style="text-align: center;">Преподаватель</h2>
-            <div style="display: flex;  flex-direction: row-reverse;"> 
-            <a href="/logout"><button type="button">Выйти</button></a>
+            <h1 style="text-align: center;">Преподаватель</h1>
+            <div style="display: flex;  align-self: center;"> 
+            <a href="/logout"><button class="w3-btn w3-green" type="button">Выйти</button></a>
         </div>
         </div>
             <hr>
         </header>
-
-        <h4>Пользователи</h4>
-
-        <form>
-            <label for="parent">Школа</label>
-            <select id="parent">
+        <form style="margin-left: 20px; margin-right: 20px;">
+            <label for="school"><h3>Школа</h3></label>
+            <select class="w3-select" id="school">
               <option value="1">ВПШ</option>
               <option value="2">ИШЦТ</option>
               <option value="3">ВШП</option>
             </select>
           
-            <label for="child">Группа</label>
-            <select id="child" disabled>
+            <label for="grupp"><h3>Группа</h3></label>
+            <select class="w3-select" id="grupp" disabled>
               <option value="" selected>Группа</option>
             </select>
           
-            <label for="grandchild">Студент</label>
-            <select id="grandchild" disabled>
+            <label for="student"><h3>Студент</h3></label>
+            <select class="w3-select" id="student" disabled>
               <option value="" selected>Студент</option>
             </select>
           </form>
-          {% else %}
+           {% else %} 
           <h1>You are not logged in</h1>
-          <a href="/"><button type="button">Return</button></a> 
-          {% endif %}
+          <a href="/"><button class="w3-btn w3-green" type="button">Return</button></a> 
+           {% endif %} 
 
         <script src="js/script.js" async defer></script>
     </body>

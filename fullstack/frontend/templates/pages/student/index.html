@@ -6,24 +6,25 @@
         <title></title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     </head>
     <body>
         {% if current_user.is_authenticated %}
         <header>
             <div style="display: flex; justify-content: space-between;">
-            <h2 style="text-align: center;">Студент</h2>
-            <div style="display: flex;  flex-direction: row-reverse;">
-            <a href="/logout"><button type="button">Выйти</button></a>
+            <h1 style="text-align: center;">Студент</h1>
+            <div style="display: flex;  align-self: center;">
+            <a href="/logout"><button class="w3-btn w3-green" type="button">Выйти</button></a>
         </div>
         </div>
             <hr>
         </header>
 
-        <button>Скачать</button>
+        <button class="w3-btn w3-green" style="margin-left: 10px;">Скачать</button>
         {% else %}
         <h1>You are not logged in</h1>
-        <a href="/"><button type="button">Return</button></a> 
+        <a href="/"><button class="w3-btn w3-green" style="margin-left: 10px;" type="button">Return</button></a> 
         {% endif %}
 
         

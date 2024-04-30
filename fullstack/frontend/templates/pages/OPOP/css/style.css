@@ -2,19 +2,18 @@ body{
     margin: 0;
 }
 header{
-    background-color: aquamarine;
+    background-color: rgb(109, 55, 136);
+
+}
+a{
+    text-decoration: none;
 }
 
 button{
-    background-color: #04AA6D;
     font-size: medium;
     border-radius: 12px;
-    border: 2px solid #04AA6D;
-    transition-duration: 0.4s;
-      
-
 }
-.button:hover {
-    background-color: #045c3c; 
-    color: white;
-  }
+
+h1{
+    color: #000;
+}  

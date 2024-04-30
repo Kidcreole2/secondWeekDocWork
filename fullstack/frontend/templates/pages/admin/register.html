@@ -6,51 +6,57 @@
         <title></title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
+        <link rel="stylesheet" href="css/register.css">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     </head>
     <body>
         <header>
-            <h3 style="text-align: center;">Админка</h3> 
-            <a href="/"><button type="button">На главную</button></a>   
+          <div style="display: flex; justify-content: space-between;">
+            <h1 style="text-align: center;">Админка</h1> 
+            <a style="display: flex; align-items: center;" href="/"><button class="w3-btn w3-green" type="button">На главную</button></a>   
+          </div>
             <hr>
         </header>
+        <hr>
+    <form action="#" method="post">
+        <div class="w3-card-4">
+            <div class="w3-container w3-green">
+              <h2>Создание</h2>
+            </div>
+            <form class="w3-container" action="/action_page.php" style="margin-left: 20px; margin-right: 20px;">
+              <p>      
+              <label class="w3-text-green"><b>Имя</b></label>
+              <input class="w3-input w3-border w3-sand" name="firstname" type="text"></p>
+              <p>      
+              <label class="w3-text-green"><b>Фамилия</b></label>
+              <input class="w3-input w3-border w3-sand" name="lastname" type="text"></p>
+              <p>      
+              <label class="w3-text-green"><b>Отчество</b></label>
+              <input class="w3-input w3-border w3-sand" name="surname" type="text"></p>
+              <p>      
+              <label class="w3-text-green"><b>Логин</b></label>
+              <input class="w3-input w3-border w3-sand" name="login" type="text"></p>
+              <p>      
+              <label class="w3-text-green"><b>Роль</b></label>
+              <input class="w3-input w3-border w3-sand" name="role" type="text"></p>
+              <p>      
+              <label class="w3-text-green"><b>Пароль</b></label>
+              <input class="w3-input w3-border w3-sand" name="password" type="text"></p>
+              <p>      
+              <label class="w3-text-green"><b>Повторите пароль</b></label>
+              <input class="w3-input w3-border w3-sand" name="passwordConfirm" type="text"></p>
+              <p>
+              <button formaction="" type="submit" class="w3-btn w3-green">Добавить пользователя</button></p>
+            </form>
+          </div>
+</form>
 
-        <h4>Создание</h4>
 
 
 
-        <form action="#"  method="post">
-        <div class="form-name">
-            <input type="text" class="form-name" name="firstname" placeholder="Иван" required>
-            <label for="firstname">Имя</label>
-          </div>
-          <div class="form-surname">
-            <input type="text" class="form-surname" name="lastname" placeholder="Иванович" required>
-            <label for="lastname">Фамилия</label>
-          </div>
-          <div class="form-patronymic">
-            <input type="text" class="form-patronymic" name="surname" placeholder="Иванов" required>
-            <label for="surname">Отчество</label>
-          </div>
-          <div class="form-login">
-            <input type="text" class="form-login" name="login" placeholder="ИИИ" required>
-            <label for="login">Логин</label>
-          </div>
-          <div class="form-role">
-            <input type="text" class="form-role" name="role" placeholder="Админ" required>
-            <label for="role">Роль</label>
-          </div>
-          <div class="form-pass">
-            <input type="password" class="form-pass" name="password" placeholder="Пароль" required>
-            <label for="password">Пароль</label>
-          </div>
-          <div class="form-two-pass">
-            <input type="password" class="form-two-pass" name="passwordConfirm" placeholder="Пароль" required>
-            <label for="passwordConfirm">Повторите пароль</label>
-          </div>
-          <button formaction="" type="submit">Добавить пользователя</button>
-        </form>
 
+
+       
 
 
         <script src="" async defer></script>
