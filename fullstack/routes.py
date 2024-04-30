@@ -34,7 +34,7 @@ def login():
         role = Users.auth_user(login, password)
         
         match role:
-            case "123":
+            case "admin":
                 return render_template("pages/admin/index.html")
             case "opop_supervisor":
                 return render_template("pages/opop/index.html")
