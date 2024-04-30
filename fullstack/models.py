@@ -54,7 +54,7 @@ class Users(UserMixin, db.Model):
         
 class Practice(db.Model) :
     __tablename__ = "practice"
-    practice_id = db.Column(db.Integer, primary_key = True)
+    id = db.Column(db.Integer, primary_key = True)
     year = db.Column(db.Integer, nullable = False)
     period_practice = db.Column(db.String(20), nullable = False)
     name = db.Column(db.String(50), nullable = False)
@@ -77,9 +77,9 @@ class Practice(db.Model) :
         self.type_of_practice = type_of_practice
         self.kind_of_practice = kind_of_practice
         
-class Insitute(db.Model) :
+class Institute(db.Model) :
     __tablename__ = "institute"
-    insistute_id = db.Column(db.Integer, primary_key = True)
+    id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(40), nullable = False)
 
     # связи
@@ -90,7 +90,7 @@ class Insitute(db.Model) :
 
 class Place(db.Model) :
     __tablename__ = "place"
-    place_id = db.Column(db.Integer, primary_key = True)
+    id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(100), nullable = False)
 
     # связи
@@ -102,6 +102,7 @@ class Place(db.Model) :
 
 class Director_OPOP(db.Model) :
     __tablename__ = "director_opop"
+    id = db.Column(db.Integer, primary_key = True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     post = db.Column(db.String(100), nullable = False)
 
@@ -115,6 +116,7 @@ class Director_OPOP(db.Model) :
 
 class Director_Practice_USU(db.Model) :
     __tablename__ = "director_practice_usu"
+    id = db.Column(db.Integer, primary_key = True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     post = db.Column(db.String(100), nullable = False)
 
@@ -128,6 +130,7 @@ class Director_Practice_USU(db.Model) :
 
 class Director_Practice_Company(db.Model) :
     __tablename__ = "director_practice_company"
+    id = db.Column(db.Integer, primary_key = True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     post = db.Column(db.String(100), nullable = False)
 
@@ -141,6 +144,7 @@ class Director_Practice_Company(db.Model) :
 
 class Director_Practice_Organization(db.Model) :
     __tablename__ = "director_practice_organization"
+    id = db.Column(db.Integer, primary_key = True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     post = db.Column(db.String(100), nullable = False)
 
@@ -154,8 +158,9 @@ class Director_Practice_Organization(db.Model) :
 
 class Specialization(db.Model) :
     __tablename__ = "specialization"
+    id = db.Column(db.Integer, primary_key = True)
     specialization_id = db.Column(db.Integer, primary_key = True)
-    institute_id = db.Column(db.Integer, db.ForeignKey("insistute.insistute_id"))
+    institute_id = db.Column(db.Integer, db.ForeignKey("institute.id"))
     director_opop_id = db.Column(db.Integer,  db.ForeignKey("director_opop.user_id"))
     name = db.Column(db.String(100), nullable = False)
     specialization_code = db.Column(db.String(20), nullable = False)
@@ -173,6 +178,7 @@ class Specialization(db.Model) :
 
 class Group(db.Model) :
     __tablename__ = "group"
+    id = db.Column(db.Integer, primary_key = True)
     group_id = db.Column(db.Integer, primary_key = True)
     specialization_id = db.Column(db.Integer, db.ForeignKey("specialization.specialization_id"))
     name = db.Column(db.String(10), nullable = False, unique = True)
@@ -188,10 +194,11 @@ class Group(db.Model) :
         self.name = name
         self.course = course
 
-class Stuent(db.Model) :
+class Student(db.Model) :
     __tablename__ = "student"
+    id = db.Column(db.Integer, primary_key = True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
-    group_id = db.Column(db.Integer, db.ForeignKey("group.group_id"))
+    group_id = db.Column(db.Integer, db.ForeignKey("group.id"))
 
     # связи
     user = db.relationship("Users", back_populates="student")
@@ -204,8 +211,9 @@ class Stuent(db.Model) :
     
 class Practice_Group(db.Model) :
     __tablename__ = "practice_group"
-    group_id = db.Column(db.Integer, db.ForeignKey("group.group_id"))
-    practice_id = db.Column(db.Integer, db.ForeignKey("practice.practice_id"))
+    id = db.Column(db.Integer, primary_key = True)
+    group_id = db.Column(db.Integer, db.ForeignKey("group.id"))
+    practice_id = db.Column(db.Integer, db.ForeignKey("practice.id"))
 
     # связи
     practice = db.relationship("Practice", back_populates="practice_group")
@@ -217,8 +225,9 @@ class Practice_Group(db.Model) :
 
 class Practice_Place(db.Model) :
     __tablename__ = "practice_place"
-    practice_id = db.Column(db.Integer, db.ForeignKey("practice.practice_id"))
-    place_id = db.Column(db.Integer, db.ForeignKey("place.place_id"))
+    id = db.Column(db.Integer, primary_key = True)
+    practice_id = db.Column(db.Integer, db.ForeignKey("practice.id"))
+    place_id = db.Column(db.Integer, db.ForeignKey("place.id"))
     
     # связи
     place = db.relationship("Place", back_populates="practice_place")
@@ -230,8 +239,9 @@ class Practice_Place(db.Model) :
 
 class Director_USU_Practice(db.Model) :
     __tablename__ = "director_usu_practice"
+    id = db.Column(db.Integer, primary_key = True)
     director_practice_usu_id = db.Column(db.Integer, db.ForeignKey("director_practice_usu.user_id"))
-    practice_id = db.Column(db.Integer, db.ForeignKey("practice.practice_id"))
+    practice_id = db.Column(db.Integer, db.ForeignKey("practice.id"))
 
     # связи
     practice = db.relationship("Practice", back_populates="director_usu_practice")
@@ -243,8 +253,9 @@ class Director_USU_Practice(db.Model) :
 
 class Director_Company_Practice(db.Model) :
     __tablename__ = "director_company_practice"
+    id = db.Column(db.Integer, primary_key = True)
     director_practice_company_id = db.Column(db.Integer, db.ForeignKey("director_practice_company.user_id"))
-    practice_id = db.Column(db.Integer, db.ForeignKey("practice.practice_id"))
+    practice_id = db.Column(db.Integer, db.ForeignKey("practice.id"))
 
     # связи
     practice = db.relationship("Practice", back_populates="director_company_practice")
@@ -256,11 +267,12 @@ class Director_Company_Practice(db.Model) :
 
 class Student_Practice(db.Model) :
     __tablename__ = "student_practice"
+    id = db.Column(db.Integer, primary_key = True)
     student_id = db.Column(db.Integer, db.ForeignKey("student.user_id"))
-    practice_id = db.Column(db.Integer, db.ForeignKey("practice.practice_id"))
+    practice_id = db.Column(db.Integer, db.ForeignKey("practice.id"))
     director_practice_organization_id = db.Column(db.Integer, db.ForeignKey("director_practice_organization.user_id"))
     kind_of_contract = db.Column(db.String(100), nullable = False)
-    paid = db.Colomn(db.Bool, nullable = False)
+    paid = db.Column(db.Boolean, nullable = False)
     overcoming_difficulties = db.Column(db.Text, nullable = False)
     production_tasks = db.Column(db.Text, nullable = False)
     demonstrated_qualities = db.Column(db.Text, nullable = False)
