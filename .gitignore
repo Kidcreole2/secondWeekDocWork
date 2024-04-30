@@ -4,3 +4,6 @@ frontend/node_modules/
 frontend/sass/
 frontend/js/
 backend/test
+
+__pycache__/
+instance/
