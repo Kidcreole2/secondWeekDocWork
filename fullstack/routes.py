@@ -53,6 +53,10 @@ def logout():
     logout_user()
     return redirect(url_for("home"))
 
+@app.route("/opop_reduction")
+def opop_reduction():
+    return render_template("pages/opop/create.html")
+
 @app.route("/")
 def home():
     return render_template("login.html")
