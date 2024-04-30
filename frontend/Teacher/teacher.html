@@ -6,7 +6,7 @@
         <title></title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
+        <link rel="stylesheet" href="css/style.css">
     </head>
     <body>
         <header>
@@ -19,12 +19,29 @@
             <hr>
         </header>
 
-        <h4>я не понимаю что тут писать</h4>
+        <h4>Пользователи</h4>
 
-
+        <form>
+            <label for="parent">Школа</label>
+            <select id="parent">
+              <option value="1">ВПШ</option>
+              <option value="2">ИШЦТ</option>
+              <option value="3">ВШП</option>
+            </select>
+          
+            <label for="child">Группа</label>
+            <select id="child" disabled>
+              <option value="" selected>Группа</option>
+            </select>
+          
+            <label for="grandchild">Студент</label>
+            <select id="grandchild" disabled>
+              <option value="" selected>Студент</option>
+            </select>
+          </form>
 
         
 
-        <script src="" async defer></script>
+        <script src="js/script.js" async defer></script>
     </body>
 </html>
