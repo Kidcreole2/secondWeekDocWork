@@ -21,7 +21,7 @@ def register():
         Users.register(user)
         return redirect(url_for("home"))
     
-    return render_template("pages/Admin/register.html")
+    return render_template("pages/admin/register.html")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
