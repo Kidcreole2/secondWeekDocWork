@@ -7,5 +7,6 @@ backend/test/
 *__pycache__*
 instance/
 test/
+uploads/
 
 *.sqlite
