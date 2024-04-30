@@ -8,23 +8,6 @@ from models import Users
 def loader_user(user_id):
     return Users.query.get(user_id) 
 
-@app.route('/register', methods=["GET","POST"])
-def register():
-    if request.method == "POST":
-        user = Users(login=request.form['login'], 
-                     password=request.form['password'], 
-                     firstname=request.form['firstname'], 
-                     lastname=request.form['lastname'], 
-                     surname=request.form['surname'], 
-                     role=request.form["role"]
-                     )
-        reg_check = Users.register(user)
-        if reg_check:
-            return redirect(url_for("register"))
-        return redirect(url_for("home"))
-    
-    return render_template("pages/Admin/register.html")
-
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
@@ -45,20 +28,69 @@ def logout():
     logout_user()
     return redirect(url_for("home"))
 
-@app.route("/opop")
+@app.route("/opop_index")
 @login_required
-def opop_page():
+def opop_index():
     return render_template("pages/opop/index.html")
 
-@app.route("/admin")
+@app.route("/opop_add")
 @login_required
-def admin_page():
+def opop_add():
+    return render_template("pages/opop/add.html")
+
+@app.route("/admin_index")
+@login_required
+def admin_index():
     return render_template("pages/admin/index.html")
 
-@app.route("/teacher")
+@app.route("/admin_add", methods=["GET","POST"])
 @login_required
-def teacher_page():
-    return render_template("pages/teacher/index.html")
+def admin_add():
+    if request.method == "POST":
+        user = Users(login=request.form['login'], 
+                     password=request.form['password'], 
+                     firstname=request.form['firstname'], 
+                     lastname=request.form['lastname'], 
+                     surname=request.form['surname'], 
+                     role=request.form["role"]
+                     )
+        reg_check = Users.register(user)
+        if reg_check:
+            return redirect(url_for("register"))
+        return redirect(url_for("home"))
+    
+    return render_template("pages/admin/add.html")
+
+
+@app.route("/supervisorCompany_index")
+@login_required
+def supervisorCompany_index():
+    return render_template("pages/supervisorCompany/index.html")
+
+@app.route("/supervisorCompany_add")
+@login_required
+def supervisorCompany_add():
+    return render_template("pages/supervisorCompany/add.html")
+
+@app.route("/supervisorPracticeOrg_index")
+@login_required
+def supervisorPracticeOrg_index():
+    return render_template("pages/supervisorPracticeOrg/index.html")
+
+@app.route("/supervisorPracticeOrg_add")
+@login_required
+def supervisorPracticeOrg_add():
+    return render_template("pages/supervisorPracticeOrg/add.html")
+
+@app.route("/supervisorUgrasu_index")
+@login_required
+def supervisorUgrasu_index():
+    return render_template("pages/supervisorUgrasu/index.html")
+
+@app.route("/supervisorUgrasu_add")
+@login_required
+def supervisorUgrasu_add():
+    return render_template("pages/supervisorUgrasu/add.html")
 
 @app.route("/")
 def home():

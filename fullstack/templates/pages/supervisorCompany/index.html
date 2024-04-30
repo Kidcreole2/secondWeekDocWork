@@ -12,7 +12,7 @@
         {% if current_user.is_authenticated %}
         <header>
             <div style="display: flex; justify-content: space-between;">
-            <h2 style="text-align: center;">Преподаватель</h2>
+            <h2 style="text-align: center;">supervisorCompany</h2>
             <div style="display: flex;  flex-direction: row-reverse;"> 
             <a href="/logout"><button type="button">Выйти</button></a>
         </div>
@@ -40,6 +40,7 @@
               <option value="" selected>Студент</option>
             </select>
           </form>
+          <a href="/supervisorCompany_add"><button type="button">Go to supervisorCompany</button></a>
           {% else %}
           <h1>You are not logged in</h1>
           <a href="/"><button type="button">Return</button></a> 
