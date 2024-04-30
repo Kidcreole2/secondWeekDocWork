@@ -18,7 +18,9 @@ def register():
                      surname=request.form['surname'], 
                      role=request.form["role"]
                      )
-        Users.register(user)
+        reg_check = Users.register(user)
+        if reg_check:
+            return redirect(url_for("register"))
         return redirect(url_for("home"))
     
     return render_template("pages/Admin/register.html")
@@ -38,7 +40,12 @@ def login():
                 return render_template("pages/opop/index.html")
             case "practice_supervisor":
                 return render_template("pages/Teacher/index.html")
-    
+            case "student":
+                return render_template("pages/student/index.html")
+            case "wrong_login":
+                return render_template("login.html")
+            case "wrong_pass":
+                return render_template("login.html")
     return render_template("login.html", {role: True})
 
 @app.route("/logout")

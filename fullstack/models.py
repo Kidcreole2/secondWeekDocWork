@@ -25,17 +25,24 @@ class Users(UserMixin, db.Model):
     def auth_user(login, password) -> str:
         user = Users.query.filter_by(login=login).first()
         print(user)
-        if user.password == password:
+        if user is not None and user.password == password:
             login_user(user)
             return user.role
         else:
-            return "Wrong password"
+            if user is None:
+                return "wrong_login"
+            else:
+                return "wrong_pass"
     
     @staticmethod
     def register(user):
-        db.session.add(user)
-        db.session.commit()
-        pass
+        new_user = Users.query.filter_by(login=user.login).first()
+        if new_user is None:
+            db.session.add(user)
+            db.session.commit()
+            return False
+        else:
+            return True
 
 
 with app.app_context():
