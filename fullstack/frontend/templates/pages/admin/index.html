@@ -6,31 +6,25 @@
         <title></title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="">
     </head>
     <body>
         {% if current_user.is_authenticated %}
         <header>
             <div style="display: flex; justify-content: space-between;">
-            <h2 style="text-align: center;">Руководитель ОПОП</h2>
-            <div style="display: flex;  flex-direction: row-reverse; align-items: center;"> 
+            <h2 style="text-align: center;">Админка</h2>
+            <div style="display: flex;  flex-direction: row-reverse;"> 
             <a href="/logout"><button type="button">Выйти</button></a>
-
-                
-
-
-
-            <a href="/opop_reduction"><button type="button">Создать практику</button></a>
+            <a href="/register"><button type="button">Создать пользователя</button></a>
         </div>
-        </div>  
+        </div>
             <hr>
         </header>
 
-        <h4>Практики</h4>
+        <h4>Списки</h4>
 
 
 
-        
         {% else %}
         <h1>You are not logged in</h1>
         <a href="/"><button type="button">Return</button></a> 
