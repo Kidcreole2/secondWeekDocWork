@@ -6,7 +6,7 @@ from models import Users
 
 @login_manager.user_loader
 def loader_user(user_id):
-    return Users.query.get(user_id)
+    return Users.query.get(user_id) 
 
 @app.route('/register', methods=["GET","POST"])
 def register():
@@ -21,7 +21,7 @@ def register():
         Users.register(user)
         return redirect(url_for("home"))
     
-    return render_template("sign_up.html")
+    return render_template("pages/Admin/register.html")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -33,11 +33,11 @@ def login():
         
         match role:
             case "123":
-                return render_template("pages/admin.html")
+                return render_template("pages/admin/index.html")
             case "opop_supervisor":
-                return render_template("pages/opop_supervisor.html")
+                return render_template("pages/opop/index.html")
             case "practice_supervisor":
-                return render_template("pages/practice_supervisor.html")
+                return render_template("pages/Teacher/index.html")
     
     return render_template("login.html", {role: True})
 

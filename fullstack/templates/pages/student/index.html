@@ -9,19 +9,22 @@
         <link rel="stylesheet" href="">
     </head>
     <body>
+        {% if current_user.is_authenticated %}
         <header>
             <div style="display: flex; justify-content: space-between;">
             <h2 style="text-align: center;">Студент</h2>
-            <div style="display: flex;  flex-direction: row-reverse;"> 
-            <a href="../Aut/index.html"><button type="button">Выйти</button></a>
+            <div style="display: flex;  flex-direction: row-reverse;">
+            <a href="/logout"><button type="button">Выйти</button></a>
         </div>
         </div>
             <hr>
         </header>
 
         <button>Скачать</button>
-
-
+        {% else %}
+        <h1>You are not logged in</h1>
+        <a href="/"><button type="button">Return</button></a> 
+        {% endif %}
 
         
 

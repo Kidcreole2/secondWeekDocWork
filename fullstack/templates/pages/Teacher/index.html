@@ -9,6 +9,7 @@
         <link rel="stylesheet" href="css/style.css">
     </head>
     <body>
+        {% if current_user.is_authenticated %}
         <header>
             <div style="display: flex; justify-content: space-between;">
             <h2 style="text-align: center;">Преподаватель</h2>
@@ -39,8 +40,10 @@
               <option value="" selected>Студент</option>
             </select>
           </form>
-
-        
+          {% else %}
+          <h1>You are not logged in</h1>
+          <a href="/"><button type="button">Return</button></a> 
+          {% endif %}
 
         <script src="js/script.js" async defer></script>
     </body>

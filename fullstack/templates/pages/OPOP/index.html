@@ -9,23 +9,27 @@
         <link rel="stylesheet" href="">
     </head>
     <body>
+        {% if current_user.is_authenticated %}
         <header>
             <div style="display: flex; justify-content: space-between;">
-            <h2 style="text-align: center;">Админка</h2>
+            <h2 style="text-align: center;">Руководитель ОПОП</h2>
             <div style="display: flex;  flex-direction: row-reverse;"> 
-            <a href="../Aut/index.html"><button type="button">Выйти</button></a>
-            <a href="create.html"><button type="button">Создать пользователя</button></a>
+            <a href="/logout"><button type="button">Выйти</button></a>
+            <a href="create.html"><button type="button">Создать практику</button></a>
         </div>
         </div>
             <hr>
         </header>
 
-        <h4>Списки</h4>
+        <h4>Практики</h4>
 
 
 
         
-
+        {% else %}
+        <h1>You are not logged in</h1>
+        <a href="/"><button type="button">Return</button></a> 
+        {% endif %}
         <script src="" async defer></script>
     </body>
 </html>
