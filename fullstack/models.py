@@ -102,7 +102,7 @@ class Place(db.Model) :
     __tablename__ = "place"
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(100), nullable = False)
-
+    address = db.Column(db.String(100), nullable=False)
     # связи
     practice_place = db.relationship("Practice_Place", back_populates="place")
     
@@ -319,6 +319,7 @@ class Student_Practice(db.Model) :
     student_id = db.Column(db.Integer, db.ForeignKey("student.user_id"))
     practice_id = db.Column(db.Integer, db.ForeignKey("practice.id"))
     director_practice_organization_id = db.Column(db.Integer, db.ForeignKey("director_practice_organization.user_id"))
+    passed = db.Column(db.Boolean, nullable=False)
     kind_of_contract = db.Column(db.String(100), nullable = False)
     paid = db.Column(db.Boolean, nullable = False)
     overcoming_difficulties = db.Column(db.Text, nullable = False)
@@ -331,6 +332,7 @@ class Student_Practice(db.Model) :
     practice = db.relationship("Practice", back_populates="student_practice")
     director_practice_organization = db.relationship("Director_Practice_Organization", back_populates="student_practice")
     student = db.relationship("Student", back_populates="student_practice")
+    task = db.relationship("Task", back_populates="task")
 
     def __init__(self, student_id: int, practice_id: int, director_practice_organization_id: int, kind_of_contract: str, paid: bool, overcoming_difficulties: str, production_tasks: str, demonstrated_qualities: str, work_volume: str, remarks: str):
         self.student_id = student_id
@@ -343,7 +345,20 @@ class Student_Practice(db.Model) :
         self.demonstrated_qualities = demonstrated_qualities
         self.work_volume = work_volume
         self.remarks = remarks
-    
+
+class Task(db.Model):
+    __tablename__ = "task"
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String, nullable=False)
+    date = db.Column(db.DateTime, nullable=False)
+    student_practice_id = db.Column(db.Integer, db.ForeignKey("student_practice.id"))
+
+    student_practice = db.relationship("Student_Practice", back_populates="student_practice")
+    def __init__(self, name, date, student_practice_id):
+        self.name = name
+        self.date = date
+        self.student_practice_id = student_practice_id
+
 
 with app.app_context():
     db.create_all()
