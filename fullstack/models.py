@@ -15,11 +15,11 @@ class Users(UserMixin, db.Model):
     role = db.Column(db.String(20),nullable=False)
 
     # связи
-    student = db.relationship("Student", back_populates="user")
-    director_opop = db.relationship("Director_OPOP", back_populates="user")
-    director_practice_usu = db.relationship("Director_Practice_USU", back_populates="user")
-    director_practice_company = db.relationship("Director_Practice_Company", back_populates="user")
-    director_practice_organization = db.relationship("Director_Practice_Organization", back_populates="user")
+    student = db.relationship("Student", uselist=False, back_populates="user")
+    director_opop = db.relationship("Director_OPOP", uselist=False, back_populates="user")
+    director_practice_usu = db.relationship("Director_Practice_USU", uselist=False, back_populates="user")
+    director_practice_company = db.relationship("Director_Practice_Company", uselist=False, back_populates="user")
+    director_practice_organization = db.relationship("Director_Practice_Organization", uselist=False, back_populates="user")
     
     def __init__(self, login: str, password: str, firstname: str, lastname: str, surname: str, role):
         self.login = login
@@ -112,7 +112,7 @@ class Place(db.Model) :
 class Director_OPOP(db.Model) :
     __tablename__ = "director_opop"
     id = db.Column(db.Integer, primary_key = True)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), unique=True)
     post = db.Column(db.String(100), nullable = False)
 
     # связи
@@ -136,7 +136,7 @@ class Director_OPOP(db.Model) :
 class Director_Practice_USU(db.Model) :
     __tablename__ = "director_practice_usu"
     id = db.Column(db.Integer, primary_key = True)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), unique=True)
     post = db.Column(db.String(100), nullable = False)
 
     # связи
@@ -150,7 +150,7 @@ class Director_Practice_USU(db.Model) :
 class Director_Practice_Company(db.Model) :
     __tablename__ = "director_practice_company"
     id = db.Column(db.Integer, primary_key = True)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), unique=True)
     post = db.Column(db.String(100), nullable = False)
 
     # связи
@@ -164,7 +164,7 @@ class Director_Practice_Company(db.Model) :
 class Director_Practice_Organization(db.Model) :
     __tablename__ = "director_practice_organization"
     id = db.Column(db.Integer, primary_key = True)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), unique=True)
     post = db.Column(db.String(100), nullable = False)
 
     # связи
@@ -236,7 +236,7 @@ class Group(db.Model) :
 class Student(db.Model) :
     __tablename__ = "student"
     id = db.Column(db.Integer, primary_key = True)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), unique=True)
     group_id = db.Column(db.Integer, db.ForeignKey("group.id"))
 
     # связи
