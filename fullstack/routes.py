@@ -11,8 +11,8 @@ ALLOWED_EXTENSIONS = {'csv', 'xlsx'}
 def loader_user(user_id):
     return Users.query.get(user_id) 
 
-@app.route("/upload_students", methods=["GET", "POST"])
-# @login_required
+@app.route("/upload_specs", methods=["GET", "POST"])
+@login_required
 def upload():
     if request.method == "POST":
         if 'file' not in request.files:
@@ -25,7 +25,7 @@ def upload():
             flash('No selected file')
             return redirect(request.url)
         if file and allowed_file(file.filename):
-            save_file(file, "students")
+            save_file(file, "specs")
             flash("Файл успешно загружен")
             return redirect(request.url)
         else:

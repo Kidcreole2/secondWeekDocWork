@@ -26,6 +26,13 @@ def save_file(file, data_type):
         case "xlsx" | "xls" | "ods":
             data = pd.read_exel(os.path.join(app.config['UPLOAD_FOLDER'], datafilename))
     
+    match data_type:
+        case "specs":
+            load_specialisation_database(data)
+    
+    os.remove(os.path.join(app.config['UPLOAD_FOLDER'], datafilename))
+    
+def load_specialisation_database(data):
     opop_data = data.loc[:, ["opop_name", "opop_post"]].to_dict(orient="records")
     opop_names = set()
     for i in opop_data:
