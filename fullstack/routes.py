@@ -11,25 +11,27 @@ ALLOWED_EXTENSIONS = {'csv', 'xlsx'}
 def loader_user(user_id):
     return Users.query.get(user_id) 
 
-@app.route("/upload", methods=["GET", "POST"])
+@app.route("/upload_students", methods=["GET", "POST"])
+@login_required
 def upload():
     if request.method == "POST":
-        print(type(request.files["file"]))
         if 'file' not in request.files:
-            # flash('No file part')
+            flash('No file part')
             return redirect(request.url)
         file = request.files['file']
         # If the user does not select a file, the browser submits an
         # empty file without a filename.
         if file.filename == '':
-            # flash('No selected file')
+            flash('No selected file')
             return redirect(request.url)
         if file and allowed_file(file.filename):
-            save_file(file)
-            # flash("Заебись")
+            save_file(file, "students")
+            flash("Файл успешно загружен")
             return redirect(request.url)
-
+        else:
+            flash("неверный тип файла")
     messages = get_flashed_messages()
+    print(messages)
     return render_template("test/file_upload.html",  messages=messages)
 
 @app.route('/register', methods=["GET","POST"])
@@ -47,7 +49,7 @@ def register():
             return redirect(url_for("register"))
         return redirect(url_for("home"))
     
-    return render_template("pages/Admin/register.html")
+    return render_template("pages/admin/register.html")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():

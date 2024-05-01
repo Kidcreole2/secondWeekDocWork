@@ -48,9 +48,9 @@ class Users(UserMixin, db.Model):
         if new_user is None:
             db.session.add(user)
             db.session.commit()
-            return Users.query.filter_by(login=user.login).first().id
+            return { "id":Users.query.filter_by(login=user.login).first().id, "exists": False} 
         else:
-            return -1
+            return {"id": new_user.id, "exists": True}
         
 class Practice(db.Model) :
     __tablename__ = "practice"
@@ -96,7 +96,7 @@ class Institute(db.Model) :
             db.session.commit()
             return Institute.query.filter_by(name=institute.name).first().id
         else:
-            return -1
+            return new_institute.id
 
 class Place(db.Model) :
     __tablename__ = "place"
@@ -129,9 +129,9 @@ class Director_OPOP(db.Model) :
         if new_director == None:
             db.session.add(directior)
             db.session.commit()
-            return Director_OPOP.query.filter_by(user_id=directior.user_id).first().id
+            return {"id": Director_OPOP.query.filter_by(user_id=directior.user_id).first().id, "exists": False}
         else:
-            return -1
+            return {"id": new_director.id, "exists": True}
 
 class Director_Practice_USU(db.Model) :
     __tablename__ = "director_practice_usu"
@@ -203,7 +203,7 @@ class Specialization(db.Model) :
             db.session.commit()
             return Specialization.query.filter_by(name=spec.name).first().id
         else:
-            return -1
+            return new_spec.id
 
 class Group(db.Model) :
     __tablename__ = "group"
@@ -231,7 +231,7 @@ class Group(db.Model) :
             db.session.commit()
             return Group.query.filter_by(name=group.name).first().id
         else:
-            return -1
+            return new_group.id
 
 class Student(db.Model) :
     __tablename__ = "student"
@@ -256,7 +256,7 @@ class Student(db.Model) :
             db.session.commit()
             return Student.query.filter_by(user_id=student.user_id).first().id
         else:
-            return -1
+            return new_student.id
 
 class Practice_Group(db.Model) :
     __tablename__ = "practice_group"
@@ -350,5 +350,5 @@ with app.app_context():
     db.create_all()
 
 def load_students_data(data):
-
+    
     pass
