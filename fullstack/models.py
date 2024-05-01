@@ -15,11 +15,11 @@ class Users(UserMixin, db.Model):
     role = db.Column(db.String(20),nullable=False)
 
     # связи
-    student = db.relationship("Student", back_populates="user")
-    director_opop = db.relationship("Director_OPOP", back_populates="user")
-    director_practice_usu = db.relationship("Director_Practice_USU", back_populates="user")
-    director_practice_company = db.relationship("Director_Practice_Company", back_populates="user")
-    director_practice_organization = db.relationship("Director_Practice_Organization", back_populates="user")
+    student = db.relationship("Student", uselist=False, back_populates="user")
+    director_opop = db.relationship("Director_OPOP", uselist=False, back_populates="user")
+    director_practice_usu = db.relationship("Director_Practice_USU", uselist=False, back_populates="user")
+    director_practice_company = db.relationship("Director_Practice_Company", uselist=False, back_populates="user")
+    director_practice_organization = db.relationship("Director_Practice_Organization", uselist=False, back_populates="user")
     
     def __init__(self, login: str, password: str, firstname: str, lastname: str, surname: str, role):
         self.login = login
@@ -48,9 +48,9 @@ class Users(UserMixin, db.Model):
         if new_user is None:
             db.session.add(user)
             db.session.commit()
-            return False
+            return { "id":user.id, "exists": False} 
         else:
-            return True
+            return {"id": new_user.id, "exists": True}
         
 class Practice(db.Model) :
     __tablename__ = "practice"
@@ -76,11 +76,11 @@ class Practice(db.Model) :
         self.order = order
         self.type_of_practice = type_of_practice
         self.kind_of_practice = kind_of_practice
-        
+
 class Institute(db.Model) :
     __tablename__ = "institute"
     id = db.Column(db.Integer, primary_key = True)
-    name = db.Column(db.String(40), nullable = False)
+    name = db.Column(db.String(40), unique=True, nullable = False)
 
     # связи
     specialization = db.relationship("Specialization", back_populates="institute")
@@ -88,22 +88,31 @@ class Institute(db.Model) :
     def __init__(self, name: str):
         self.name = name
 
+    @staticmethod
+    def add_institute(institute):
+        new_institute = Institute.query.filter_by(name=institute.name).first()
+        if new_institute is None:
+            db.session.add(institute)
+            db.session.commit()
+            return Institute.query.filter_by(name=institute.name).first().id
+        else:
+            return new_institute.id
+
 class Place(db.Model) :
     __tablename__ = "place"
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(100), nullable = False)
-
+    address = db.Column(db.String(100), nullable=False)
     # связи
     practice_place = db.relationship("Practice_Place", back_populates="place")
     
     def __init__(self, name: str):
         self.name = name
 
-
 class Director_OPOP(db.Model) :
     __tablename__ = "director_opop"
     id = db.Column(db.Integer, primary_key = True)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), unique=True)
     post = db.Column(db.String(100), nullable = False)
 
     # связи
@@ -114,10 +123,20 @@ class Director_OPOP(db.Model) :
         self.user_id = user_id
         self.post = post
 
+    @staticmethod
+    def add_director_opop(directior):
+        new_director = Director_OPOP.query.filter_by(user_id=directior.user_id).first()
+        if new_director == None:
+            db.session.add(directior)
+            db.session.commit()
+            return {"id": directior.id, "exists": False}
+        else:
+            return {"id": new_director.id, "exists": True}
+
 class Director_Practice_USU(db.Model) :
     __tablename__ = "director_practice_usu"
     id = db.Column(db.Integer, primary_key = True)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), unique=True)
     post = db.Column(db.String(100), nullable = False)
 
     # связи
@@ -131,7 +150,7 @@ class Director_Practice_USU(db.Model) :
 class Director_Practice_Company(db.Model) :
     __tablename__ = "director_practice_company"
     id = db.Column(db.Integer, primary_key = True)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), unique=True)
     post = db.Column(db.String(100), nullable = False)
 
     # связи
@@ -145,7 +164,7 @@ class Director_Practice_Company(db.Model) :
 class Director_Practice_Organization(db.Model) :
     __tablename__ = "director_practice_organization"
     id = db.Column(db.Integer, primary_key = True)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), unique=True)
     post = db.Column(db.String(100), nullable = False)
 
     # связи
@@ -159,11 +178,10 @@ class Director_Practice_Organization(db.Model) :
 class Specialization(db.Model) :
     __tablename__ = "specialization"
     id = db.Column(db.Integer, primary_key = True)
-    specialization_id = db.Column(db.Integer, primary_key = True)
     institute_id = db.Column(db.Integer, db.ForeignKey("institute.id"))
     director_opop_id = db.Column(db.Integer,  db.ForeignKey("director_opop.user_id"))
-    name = db.Column(db.String(100), nullable = False)
-    specialization_code = db.Column(db.String(20), nullable = False)
+    name = db.Column(db.String(100), unique=True, nullable = False)
+    specialization_code = db.Column(db.String(20), unique=True, nullable = False)
 
     # связи
     institute = db.relationship("Institute", back_populates="specialization")
@@ -176,11 +194,21 @@ class Specialization(db.Model) :
         self.name = name
         self.specialization_code = specialization_code
 
+    @staticmethod
+    def add_specialisation(spec):
+        new_spec = Specialization.query.filter_by(name=spec.name).first()
+        if new_spec == None:
+            db.session.add(spec)
+            db.session.commit()
+            return spec.id
+        else:
+            return new_spec.id
+
 class Group(db.Model) :
     __tablename__ = "group"
     id = db.Column(db.Integer, primary_key = True)
     group_id = db.Column(db.Integer, primary_key = True)
-    specialization_id = db.Column(db.Integer, db.ForeignKey("specialization.specialization_id"))
+    specialization_id = db.Column(db.Integer, db.ForeignKey("specialization.id"))
     name = db.Column(db.String(10), nullable = False, unique = True)
     course = db.Column(db.String(15), nullable = False)
 
@@ -194,10 +222,20 @@ class Group(db.Model) :
         self.name = name
         self.course = course
 
+    @staticmethod
+    def add_group(group):
+        new_group = Group.query.filter_by(name=group.name).first()
+        if new_group is None:
+            db.session.add(group)
+            db.session.commit()
+            return Group.query.filter_by(name=group.name).first().id
+        else:
+            return new_group.id
+
 class Student(db.Model) :
     __tablename__ = "student"
     id = db.Column(db.Integer, primary_key = True)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), unique=True)
     group_id = db.Column(db.Integer, db.ForeignKey("group.id"))
 
     # связи
@@ -208,7 +246,17 @@ class Student(db.Model) :
     def __init__(self, user_id: int, group_id: int):
         self.user_id = user_id
         self.group_id = group_id
-    
+
+    @staticmethod
+    def add_student(student):
+        new_student = Student.query.filter(user_id=student.user_id).first()
+        if new_student == None:
+            db.session.add(student)
+            db.session.commit()
+            return Student.query.filter_by(user_id=student.user_id).first().id
+        else:
+            return new_student.id
+
 class Practice_Group(db.Model) :
     __tablename__ = "practice_group"
     id = db.Column(db.Integer, primary_key = True)
@@ -271,6 +319,7 @@ class Student_Practice(db.Model) :
     student_id = db.Column(db.Integer, db.ForeignKey("student.user_id"))
     practice_id = db.Column(db.Integer, db.ForeignKey("practice.id"))
     director_practice_organization_id = db.Column(db.Integer, db.ForeignKey("director_practice_organization.user_id"))
+    passed = db.Column(db.Boolean, nullable=False)
     kind_of_contract = db.Column(db.String(100), nullable = False)
     paid = db.Column(db.Boolean, nullable = False)
     overcoming_difficulties = db.Column(db.Text, nullable = False)
@@ -283,6 +332,7 @@ class Student_Practice(db.Model) :
     practice = db.relationship("Practice", back_populates="student_practice")
     director_practice_organization = db.relationship("Director_Practice_Organization", back_populates="student_practice")
     student = db.relationship("Student", back_populates="student_practice")
+    task = db.relationship("Task", back_populates="task")
 
     def __init__(self, student_id: int, practice_id: int, director_practice_organization_id: int, kind_of_contract: str, paid: bool, overcoming_difficulties: str, production_tasks: str, demonstrated_qualities: str, work_volume: str, remarks: str):
         self.student_id = student_id
@@ -295,7 +345,69 @@ class Student_Practice(db.Model) :
         self.demonstrated_qualities = demonstrated_qualities
         self.work_volume = work_volume
         self.remarks = remarks
-    
+
+class Task(db.Model):
+    __tablename__ = "task"
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String, nullable=False)
+    date = db.Column(db.DateTime, nullable=False)
+    student_practice_id = db.Column(db.Integer, db.ForeignKey("student_practice.id"))
+
+    student_practice = db.relationship("Student_Practice", back_populates="student_practice")
+    def __init__(self, name, date, student_practice_id):
+        self.name = name
+        self.date = date
+        self.student_practice_id = student_practice_id
+
 
 with app.app_context():
     db.create_all()
+
+def load_specialisation_data(opops:dict, institutes:dict, specialisations:dict):
+    """ Эта функция заполняяет таблицу специализаций базы данных 
+
+    на вход передаются 3 массива словарей словар opops, institutes, specialisations
+    содержащие поля
+
+    opops = {
+        "name" - массив из фамилии, имени и отчества,
+    
+        "login" - логин для директора ОПОП,
+    
+        "password" - пароль для директора ОПОП,
+    
+        "role" - роль для директора ОПОП ,
+    
+        "post" - должность директора ОПОП
+    } 
+    
+    institutes = {
+        "name" - имя института
+    }
+    
+    specialisations = {
+        "opop" - строка состоящая из фамилии имени и отчества,
+    
+        "name" - название специальности,
+    
+        "code" - код специальности,
+    
+        "institute" - имя института
+    }
+    """
+    for institute in institutes:
+        inst = Institute(institute["name"])
+        Institute.add_institute(inst)
+
+    for opop in opops:
+        user = Users(login=opop["login"],password=opop["password"], firstname=opop["name"][1], lastname=opop["name"][0], surname=opop["name"][2],role=opop["role"])
+        user_id = Users.register(user)["id"]
+        
+        opop_id = Director_OPOP.add_director_opop(Director_OPOP(user_id=user_id, post=opop["post"][0]))["id"]
+        filtered_specs = list(filter(lambda x: x["opop"] == " ".join(opop["name"]), specialisations))
+        print(filtered_specs)
+        for filtered_spec in filtered_specs:
+            institute = Institute.query.filter_by(name=filtered_spec["institute"]).first()
+            spec = Specialization(institute_id=institute.id, director_opop_id=opop_id, name=filtered_spec["name"], specialization_code=filtered_spec["code"])
+            Specialization.add_specialisation(spec)
+        

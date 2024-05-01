@@ -10,3 +10,4 @@ login_manager.init_app(app)
 
 import routes
 import models
+import file_manager

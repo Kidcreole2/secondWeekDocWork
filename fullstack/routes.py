@@ -1,8 +1,8 @@
-from flask import request, render_template, redirect, url_for
+from flask import request, render_template, redirect, url_for, flash, get_flashed_messages
 from flask_login import logout_user, current_user, login_required
 from core import app, login_manager
 from models import Users,db
-
+from file_manager import allowed_file, save_file
 
 @login_manager.user_loader
 def loader_user(user_id):
@@ -34,6 +34,33 @@ def admin_index():
 @app.route("/admin_add", methods=["GET","POST"])
 # @login_required
 def admin_add():
+    pass
+
+@app.route("/upload_specs", methods=["GET", "POST"])
+@login_required
+def upload():
+    if request.method == "POST":
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+        file = request.files['file']
+        # If the user does not select a file, the browser submits an
+        # empty file without a filename.
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+        if file and allowed_file(file.filename):
+            save_file(file, "specs")
+            flash("Файл успешно загружен")
+            return redirect(request.url)
+        else:
+            flash("неверный тип файла")
+    messages = get_flashed_messages()
+    print(messages)
+    return render_template("test/file_upload.html",  messages=messages)
+
+@app.route('/register', methods=["GET","POST"])
+def register():
     if request.method == "POST":
         user = Users(login=request.form['login'], 
                      password=request.form['password'], 
