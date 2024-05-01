@@ -48,7 +48,7 @@ class Users(UserMixin, db.Model):
         if new_user is None:
             db.session.add(user)
             db.session.commit()
-            return { "id":Users.query.filter_by(login=user.login).first().id, "exists": False} 
+            return { "id":user.id, "exists": False} 
         else:
             return {"id": new_user.id, "exists": True}
         
@@ -125,11 +125,11 @@ class Director_OPOP(db.Model) :
 
     @staticmethod
     def add_director_opop(directior):
-        new_director = Director_OPOP.query.filter_by(user_id=directior.user_id)
+        new_director = Director_OPOP.query.filter_by(user_id=directior.user_id).first()
         if new_director == None:
             db.session.add(directior)
             db.session.commit()
-            return {"id": Director_OPOP.query.filter_by(user_id=directior.user_id).first().id, "exists": False}
+            return {"id": directior.id, "exists": False}
         else:
             return {"id": new_director.id, "exists": True}
 
@@ -178,7 +178,6 @@ class Director_Practice_Organization(db.Model) :
 class Specialization(db.Model) :
     __tablename__ = "specialization"
     id = db.Column(db.Integer, primary_key = True)
-    specialization_id = db.Column(db.Integer, primary_key = True)
     institute_id = db.Column(db.Integer, db.ForeignKey("institute.id"))
     director_opop_id = db.Column(db.Integer,  db.ForeignKey("director_opop.user_id"))
     name = db.Column(db.String(100), unique=True, nullable = False)
@@ -197,11 +196,11 @@ class Specialization(db.Model) :
 
     @staticmethod
     def add_specialisation(spec):
-        new_spec = Director_OPOP.query.filter_by(name=spec.name)
+        new_spec = Specialization.query.filter_by(name=spec.name).first()
         if new_spec == None:
             db.session.add(spec)
             db.session.commit()
-            return Specialization.query.filter_by(name=spec.name).first().id
+            return spec.id
         else:
             return new_spec.id
 
@@ -209,7 +208,7 @@ class Group(db.Model) :
     __tablename__ = "group"
     id = db.Column(db.Integer, primary_key = True)
     group_id = db.Column(db.Integer, primary_key = True)
-    specialization_id = db.Column(db.Integer, db.ForeignKey("specialization.specialization_id"))
+    specialization_id = db.Column(db.Integer, db.ForeignKey("specialization.id"))
     name = db.Column(db.String(10), nullable = False, unique = True)
     course = db.Column(db.String(15), nullable = False)
 
@@ -349,6 +348,51 @@ class Student_Practice(db.Model) :
 with app.app_context():
     db.create_all()
 
-def load_students_data(data):
+def load_specialisation_data(opops:dict, institutes:dict, specialisations:dict):
+    """ Эта функция заполняяет таблицу специализаций базы данных 
+
+    на вход передаются 3 массива словарей словар opops, institutes, specialisations
+    содержащие поля
+
+    opops = {
+        "name" - массив из фамилии, имени и отчества,
     
-    pass
+        "login" - логин для директора ОПОП,
+    
+        "password" - пароль для директора ОПОП,
+    
+        "role" - роль для директора ОПОП ,
+    
+        "post" - должность директора ОПОП
+    } 
+    
+    institutes = {
+        "name" - имя института
+    }
+    
+    specialisations = {
+        "opop" - строка состоящая из фамилии имени и отчества,
+    
+        "name" - название специальности,
+    
+        "code" - код специальности,
+    
+        "institute" - имя института
+    }
+    """
+    for institute in institutes:
+        inst = Institute(institute["name"])
+        Institute.add_institute(inst)
+
+    for opop in opops:
+        user = Users(login=opop["login"],password=opop["password"], firstname=opop["name"][1], lastname=opop["name"][0], surname=opop["name"][2],role=opop["role"])
+        user_id = Users.register(user)["id"]
+        
+        opop_id = Director_OPOP.add_director_opop(Director_OPOP(user_id=user_id, post=opop["post"][0]))["id"]
+        filtered_specs = list(filter(lambda x: x["opop"] == " ".join(opop["name"]), specialisations))
+        print(filtered_specs)
+        for filtered_spec in filtered_specs:
+            institute = Institute.query.filter_by(name=filtered_spec["institute"]).first()
+            spec = Specialization(institute_id=institute.id, director_opop_id=opop_id, name=filtered_spec["name"], specialization_code=filtered_spec["code"])
+            Specialization.add_specialisation(spec)
+        

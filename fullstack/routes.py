@@ -12,7 +12,7 @@ def loader_user(user_id):
     return Users.query.get(user_id) 
 
 @app.route("/upload_students", methods=["GET", "POST"])
-@login_required
+# @login_required
 def upload():
     if request.method == "POST":
         if 'file' not in request.files:
