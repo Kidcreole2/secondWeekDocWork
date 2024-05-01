@@ -1,7 +1,7 @@
 from flask import request, render_template, redirect, url_for, flash, get_flashed_messages
 from flask_login import logout_user, current_user, login_required
 from core import app, login_manager
-from models import Users,db
+from models import *
 from file_manager import allowed_file, save_file
 
 @login_manager.user_loader
@@ -19,10 +19,77 @@ def logout():
 def opop_index():
     return render_template("pages/opop/index.html")
 
-@app.route("/opop_add")
+@app.route("/opop_add_practice", methods=["GET","POST"])
 @login_required
-def opop_add():
-    return render_template("pages/opop/add.html")
+def opop_add_practice():
+    if request.method == "POST":
+        practice = Practice(
+            year=request.form['year'],
+            period_practice=request.form['periodPractice'],
+            name=request.form['namePractice'],
+            order=request.form['order'],
+            type_of_practice=request.form['typeOfPractice'],
+            kind_of_practice=request.form['kindOfPractice']
+        )
+        practice_id = Practice.add(practice)
+        specialization = request.form['specialization']
+        specialization_id = Specialization.query.filter_by(specialization=Specialization.name).first()
+        group = Group(
+            specialization_id=specialization_id,
+            name=request.form['nameGroup'],
+            course=request.form['course']
+        )
+        group_id = Group.add(group)
+        practice_group = Practice_Group(
+            practice_id=practice_id,
+            group_id=group_id
+        )
+        practice_group_id = Practice_Group.add(practice_group)
+    
+    messages = get_flashed_messages()
+    return render_template("pages/opop/add.html", messages=messages)
+
+@app.route("/opop_add_group", methods=["GET","POST"])
+@login_required
+def opop_add_practice():
+    if request.method == "POST":
+        specialization = request.form['specialization']
+        specialization = Specialization.query.filter_by(specialization=Specialization.name).first()
+        specialization_id = specialization.id
+        group = Group(
+            specialization_id=specialization_id,
+            name=request.form['nameGroup'],
+            course=request.form['course']
+        )
+    
+    messages = get_flashed_messages()
+    return render_template("pages/opop/add.html", messages=messages)
+
+@app.route("/opop_add_student", methods=["GET","POST"])
+@login_required
+def opop_add_student():
+    if request.method == "POST":
+        user_student = Users(
+            login=request.form['login'], 
+            password=request.form['password'], 
+            firstname=request.form['firstname'], 
+            lastname=request.form['lastname'], 
+            surname=request.form['surname'], 
+            role=request.form["role"]
+        )
+        user_student_id=Users.add(user_student)
+        group = request.form['group']
+        group = Group.query.filter_by(group=Group.name).first()
+        group_id = group.id
+        student = Student(
+            user_id=user_student_id,
+            group_id=group_id,
+            name_rp = request.form['nameRp']
+        )
+        student_id = Student.add(student)
+    
+    messages = get_flashed_messages()
+    return render_template("pages/opop/add.html", messages=messages)
 
 @app.route("/admin_index")
 @login_required
@@ -31,9 +98,39 @@ def admin_index():
             .order_by(Users.firstname)).scalars()
     return render_template("pages/admin/index.html", users = users)
 
-@app.route("/admin_add", methods=["GET","POST"])
+@app.route("/admin_add_user", methods=["GET","POST"])
+def admin_add_data():
+    if request.method == "POST":
+        institute = Institute(
+            name=request.form['nameInstitute']
+        )
+        institute_id = Institute.add(institute)
+        user_opop = Users(
+            login=request.form['login'], 
+            password=request.form['password'], 
+            firstname=request.form['firstname'], 
+            lastname=request.form['lastname'], 
+            surname=request.form['surname'], 
+            role=request.form["role"]
+        )
+        user_opop_id = Users.add(user_opop)
+        opop = Director_OPOP(
+            user_id=user_opop_id,
+            post=request.form['post']
+        )
+        opop_id = Director_OPOP.add(opop)
+        specialization = Specialization(
+            institute_id=institute_id,
+            director_opop_id=opop_id,
+            name=request.form['nameSpecialization']
+        )
+        specialization_id = Specialization.add(specialization)
+    messages = get_flashed_messages()
+    return render_template("pages/admin/add.html", messages=messages)
+
+@app.route("/admin_add_user", methods=["GET","POST"])
 # @login_required
-def admin_add():
+def admin_add_user():
     if request.method == "POST":
         if request.form['password'] == request.form['passwordConfirm'] :
             user = Users(login=request.form['login'], 
