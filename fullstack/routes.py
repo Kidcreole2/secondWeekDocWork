@@ -8,25 +8,11 @@ from models import Users
 def loader_user(user_id):
     return Users.query.get(user_id) 
 
-@app.route("/login", methods=["GET", "POST"])
-def login():
-    if request.method == "POST":
-        #TODO make password check
-        login = request.form["login"]
-        print(login)
-        password = request.form.get("password")
-        role = Users.auth_user(login, password)
-    
-        if role == "student":
-            return render_template("pages/student/index.html")
-        
-        return redirect(url_for("home"))
-
 @app.route("/logout")
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for("home"))
+    return redirect(url_for("login"))
 
 @app.route("/opop_index")
 @login_required
@@ -44,7 +30,7 @@ def admin_index():
     return render_template("pages/admin/index.html")
 
 @app.route("/admin_add", methods=["GET","POST"])
-@login_required
+# @login_required
 def admin_add():
     if request.method == "POST":
         user = Users(login=request.form['login'], 
@@ -92,9 +78,20 @@ def supervisorUgrasu_index():
 def supervisorUgrasu_add():
     return render_template("pages/supervisorUgrasu/add.html")
 
-@app.route("/")
+@app.route("/home")
+@login_required
 def home():
-    if current_user.is_authenticated:
-        return render_template("index.html")
-    else:
-        return render_template("login.html")
+    roles = current_user.role.split(',')
+    return render_template("index.html",roles=roles)
+
+@app.route("/", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        #TODO make password check
+        login = request.form["login"]
+        print(login)
+        password = request.form.get("password")
+        roles = Users.auth_user(login, password)
+        roles = roles.split(',')
+        return render_template("index.html",roles=roles)
+    return render_template("login.html")

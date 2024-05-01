@@ -9,19 +9,26 @@
         <link rel="stylesheet" href="">
     </head>
     <body>
+        {{current_user.role}}
         {% if current_user.is_authenticated %}
         <header>
             <div style="display: flex; justify-content: space-between;">
-            <h2 style="text-align: center;">Админка</h2>
+            <h2 style="text-align: center;">Home</h2>
             <div style="display: flex;  flex-direction: row-reverse;"> 
             <a href="/logout"><button type="button">Выйти</button></a>
-
+            {% for role in roles%}
+            {%if role == "opop"%}
             <a href="/opop_index"><button type="button">Go to opop</button></a>
+            {% elif role == "admin" %}
             <a href="/admin_index"><button type="button">Go to admin</button></a>
+            {% elif role == "supervisorUgrasu" %}
             <a href="/supervisorUgrasu_index"><button type="button">Go to supervisorUgrasu</button></a>
+            {% elif role == "supervisorCompany" %}
             <a href="/supervisorCompany_index"><button type="button">Go to supervisorCompany</button></a>
+            {% elif role == "supervisorPracticeOrg" %}
             <a href="/supervisorPracticeOrg_index"><button type="button">Go to supervisorPracticeOrg</button></a>
-            
+            {% endif %}
+            {% endfor %}
 
         {% else %}
         <h1>You are not logged in</h1>
