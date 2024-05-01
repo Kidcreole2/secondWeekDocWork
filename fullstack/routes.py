@@ -34,7 +34,20 @@ def admin_index():
 @app.route("/admin_add", methods=["GET","POST"])
 # @login_required
 def admin_add():
-    pass
+    if request.method == "POST":
+        user = Users(login=request.form['login'], 
+                     password=request.form['password'], 
+                     firstname=request.form['firstname'], 
+                     lastname=request.form['lastname'], 
+                     surname=request.form['surname'], 
+                     role=request.form["role"]
+                     )
+        reg_check = Users.register(user)
+        if reg_check:
+            return redirect(url_for("register"))
+        return redirect(url_for("home"))
+    
+    return render_template("pages/admin/add.html")
 
 @app.route("/upload_specs", methods=["GET", "POST"])
 @login_required
@@ -58,24 +71,6 @@ def upload():
     messages = get_flashed_messages()
     print(messages)
     return render_template("test/file_upload.html",  messages=messages)
-
-@app.route('/register', methods=["GET","POST"])
-def register():
-    if request.method == "POST":
-        user = Users(login=request.form['login'], 
-                     password=request.form['password'], 
-                     firstname=request.form['firstname'], 
-                     lastname=request.form['lastname'], 
-                     surname=request.form['surname'], 
-                     role=request.form["role"]
-                     )
-        reg_check = Users.register(user)
-        if reg_check:
-            return redirect(url_for("register"))
-        return redirect(url_for("home"))
-    
-    return render_template("pages/admin/add.html")
-
 
 @app.route("/supervisorCompany_index")
 @login_required
