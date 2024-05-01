@@ -353,7 +353,7 @@ class Task(db.Model):
     date = db.Column(db.DateTime, nullable=False)
     student_practice_id = db.Column(db.Integer, db.ForeignKey("student_practice.id"))
 
-    student_practice = db.relationship("Student_Practice", back_populates="student_practice")
+    student_practice = db.relationship("Task", back_populates="student_practice")
     def __init__(self, name, date, student_practice_id):
         self.name = name
         self.date = date
