@@ -1,7 +1,7 @@
 from flask import request, render_template, redirect, url_for
 from flask_login import logout_user, current_user, login_required
 from core import app, login_manager
-from models import Users
+from models import Users,db
 
 
 @login_manager.user_loader
@@ -27,7 +27,9 @@ def opop_add():
 @app.route("/admin_index")
 @login_required
 def admin_index():
-    return render_template("pages/admin/index.html")
+    users = db.session.execute(db.select(Users)
+            .order_by(Users.firstname)).scalars()
+    return render_template("pages/admin/index.html", users = users)
 
 @app.route("/admin_add", methods=["GET","POST"])
 # @login_required
@@ -81,7 +83,7 @@ def supervisorUgrasu_add():
 @app.route("/home")
 @login_required
 def home():
-    roles = current_user.role.split(',')
+    roles = current_user.role.split()
     return render_template("index.html",roles=roles)
 
 @app.route("/", methods=["GET", "POST"])
@@ -92,6 +94,6 @@ def login():
         print(login)
         password = request.form.get("password")
         roles = Users.auth_user(login, password)
-        roles = roles.split(',')
+        roles = roles.split()
         return render_template("index.html",roles=roles)
     return render_template("login.html")
