@@ -43,12 +43,12 @@ class Users(UserMixin, db.Model):
                 return "wrong_pass"
     
     @staticmethod
-    def register(user):
+    def add(user):
         new_user = Users.query.filter_by(login=user.login).first()
         if new_user is None:
             db.session.add(user)
             db.session.commit()
-            return { "id":user.id, "exists": False} 
+            return { "id":user.id, "exists": False}
         else:
             return {"id": new_user.id, "exists": True}
         

@@ -35,19 +35,22 @@ def admin_index():
 # @login_required
 def admin_add():
     if request.method == "POST":
-        user = Users(login=request.form['login'], 
-                     password=request.form['password'], 
-                     firstname=request.form['firstname'], 
-                     lastname=request.form['lastname'], 
-                     surname=request.form['surname'], 
-                     role=request.form["role"]
-                     )
-        reg_check = Users.register(user)
-        if reg_check:
-            return redirect(url_for("register"))
-        return redirect(url_for("home"))
-    
-    return render_template("pages/admin/add.html")
+        if request.form['password'] == request.form['passwordConfirm'] :
+            user = Users(login=request.form['login'], 
+                        password=request.form['password'], 
+                        firstname=request.form['firstname'], 
+                        lastname=request.form['lastname'], 
+                        surname=request.form['surname'], 
+                        role=request.form["role"]
+                        )
+            reg_check = Users.add(user)
+            if reg_check["exists"]:
+                return redirect(url_for("admin_add"))
+            return redirect(url_for("home"))
+        else:
+            flash("Пароли не совпадают")
+    messages = get_flashed_messages()
+    return render_template("pages/admin/add.html", messages=messages)
 
 @app.route("/upload_specs", methods=["GET", "POST"])
 @login_required

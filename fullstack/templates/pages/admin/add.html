@@ -50,6 +50,9 @@
           </div>
           <button formaction="" type="submit">Добавить пользователя</button>
         </form>
+        {% for message in messages %}
+        {{message}}
+        {% endfor %}
         <a href="/admin_index"><button type="button">Вернуться</button></a>   
 
 
