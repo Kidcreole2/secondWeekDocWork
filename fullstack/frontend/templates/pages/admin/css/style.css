@@ -1,19 +1,70 @@
-body{
-    margin: 0;
+html {
+	height: 100%;
 }
-header{
-    background-color: rgb(109, 55, 136);
 
-}
-a{
-    text-decoration: none;
+body{
+    width: 99%;
+	height: 100%;
+	padding: 0;
+	margin: 0;
+    background-color: #000;
+    scroll-behavior:smooth; 
+    
+    margin-left: 12px;
+    margin-right: 12px;
+    
 }
 
 h1{
-    color: #000;
+    color: #FFF;
 }  
-
-button{
-    font-size: medium;
-    border-radius: 12px;
+a {
+    
+    text-decoration:none; 
+    display: inline-block; 
+    color:#FFF;
 }
+a:after {
+    display: block; 
+    content: ""; 
+    height: 3px; 
+    width: 0%; 
+    background-color: #FFF; 
+    transition: width 0.4s ease-in-out; 
+}
+a:hover:after,
+a:focus:after {
+    width: 100%;
+}
+a:hover{
+    color:#FFF;
+} 
+.Support{
+    display: flex;
+    align-self: center;
+    color: #FFF;
+    justify-content: space-around
+}
+ul {
+    padding-left: 40px;
+    margin-top: 1em;
+    margin-bottom: 1em;
+ }
+
+ .wrapper {
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+} 
+
+.footer {
+	margin: -100px 0 0 0;
+	height: 100px;
+	position: relative;
+    width: 99%;
+}
+
+ 
+
+
+

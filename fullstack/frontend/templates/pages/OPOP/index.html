@@ -10,20 +10,69 @@
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     </head>
     <body>
-        {% if current_user.is_authenticated %}
-        <header>
-            <div style="display: flex; justify-content: space-between;">
-            <h1 style="text-align: center;">Руководитель ОПОП</h1>
-            <div style="display: flex;  flex-direction: row-reverse; align-items: center;"> 
-            <a href="/logout"><button class="w3-btn w3-green" type="button">Выйти</button></a>
-            <a href="/opop_reduction"><button class="w3-btn w3-green" type="button">Создать практику</button></a>
-        </div>
-        </div>  
-        </header>
-        {% else %}
+        <!-- {% if current_user.is_authenticated %} -->
+
+        <div>
+            <header style="width: 97%;">
+                <div style="display: flex; justify-content: space-between;">
+                <h1  style="text-align: center;  ">Document-opop</h1>
+                <div class="link" style="display: flex;  align-items: center;"> 
+                <a href="/create"><h4>Создать практику</h4></a>
+                <a href="/logout" style="margin-left: 20px;"><h4>Выйти</h4></a>
+            </div>
+            </div>
+            </header>
+    </div>
+
+
+        <!-- {% else %}
         <h1>You are not logged in</h1>
         <a href="/"><button class="w3-btn w3-green" type="button">Return</button></a> 
-        {% endif %}
+        {% endif %} -->
+
+
+        <div class="content">
+            <h3>Практики</h3>
+        
+        
+        
+        <footer class="footer">
+          <h2 style="color: #fff; margin-left: 8px;">Support</h2>
+          <div class="Support">
+              <div class="telegram" >
+              <h3 style="margin-left: 25px;">Telegram</h3>
+              <ul>
+              <li>@Паша</li>
+              <li>@TotallyFuck</li>
+              <li>@Kidcreole2</li>
+              <li>@Bbdk612</li>
+                  </ul>
+              </div>
+              <div class="vkontacte">
+              <h3 style="margin-left: 25px;">Vkontacte</h3>
+              <ul>
+              <li>vk.com/tsonch</li>
+              <li>vk.com/ladno612</li>
+              <li>vk.com/kidcreole</li>
+              <li>vk.com/TotallyFuck</li>
+              </ul>
+              </div>
+              <div class="phone">
+              <h3 style="margin-left: 25px;">Phone</h3>
+              <ul>
+              <li>+79088900000</li>
+              <li>+79088900001</li>
+              <li>+79088900010</li>
+              <li>+79088900011</li>
+              </ul>
+              </div>
+          </div>
+          </footer>
+        
+        </div>
+
+
+
         <script src="" async defer></script>
     </body>
 </html>
