@@ -179,7 +179,7 @@ class Specialization(db.Model) :
     __tablename__ = "specialization"
     id = db.Column(db.Integer, primary_key = True)
     institute_id = db.Column(db.Integer, db.ForeignKey("institute.id"))
-    director_opop_id = db.Column(db.Integer,  db.ForeignKey("director_opop.user_id"))
+    director_opop_id = db.Column(db.Integer, db.ForeignKey("director_opop.user_id"))
     name = db.Column(db.String(100), unique=True, nullable = False)
     specialization_code = db.Column(db.String(20), unique=True, nullable = False)
 
@@ -323,7 +323,6 @@ class Student_Practice(db.Model) :
     kind_of_contract = db.Column(db.String(100), nullable = False)
     paid = db.Column(db.Boolean, nullable = False)
     overcoming_difficulties = db.Column(db.Text, nullable = False)
-    production_tasks = db.Column(db.Text, nullable = False)
     demonstrated_qualities = db.Column(db.Text, nullable = False)
     work_volume = db.Column(db.Text, nullable = False)
     remarks = db.Column(db.Text, nullable = False)
@@ -410,4 +409,5 @@ def load_specialisation_data(opops:dict, institutes:dict, specialisations:dict):
             institute = Institute.query.filter_by(name=filtered_spec["institute"]).first()
             spec = Specialization(institute_id=institute.id, director_opop_id=opop_id, name=filtered_spec["name"], specialization_code=filtered_spec["code"])
             Specialization.add_specialisation(spec)
-        
+
+    
