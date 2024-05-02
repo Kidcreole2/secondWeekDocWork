@@ -94,21 +94,21 @@ class StudentDocument:
                     .first()
         
         practice_data = {
-            "practice_kind": self.__get_practice_kind(practice.kind_of_practice),
-            "practice_type": self.__get_practice_type(practice.type_of_practice),
-            "practice_start": {
+            "kind": self.__get_practice_kind(practice.kind_of_practice),
+            "type": self.__get_practice_type(practice.type_of_practice),
+            "start": {
                 "date":  practice.start_date.strftime("%d.%m.%Y"),
                 "day":   practice.start_date.day,
                 "month": months[practice.start_date.month],
                 "year":  practice.start_date.year
             },
-            "practice_end": {
+            "end": {
                 "date":  practice.end_date.strftime("%d.%m.%Y"),
                 "day":   practice.end_date.day,
                 "month": months[practice.end_date.month],
                 "year":  practice.end_date.year
             },
-            "practice_place": {
+            "place": {
                 "name": practice.place_name,
                 "address": practice.place_address
             },
