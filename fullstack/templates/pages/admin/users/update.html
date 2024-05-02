@@ -28,11 +28,36 @@
             <a href="/supervisorPracticeOrg_index"><button type="button">Go to supervisorPracticeOrg</button></a>
             {% endif %}
             {% endfor %}
-            </header>
-        <form>
+        </header>
             <div>
-                Update user
+                <a href="/admin_user_index"><button type="button">Return</button></a>
             </div>
+        <form action="#"  method="post">
+            <div class="form-name">
+                <input type="text" class="form-name" name="firstname" placeholder="Иван" value="{{ old_user.firstname }}" required>
+                <label for="firstname">Имя</label>
+              </div>
+              <div class="form-surname">
+                <input type="text" class="form-surname" name="lastname" placeholder="Иванович" value="{{ old_user.lastname }}" required>
+                <label for="lastname">Фамилия</label>
+              </div>
+              <div class="form-patronymic">
+                <input type="text" class="form-patronymic" name="surname" placeholder="Иванов" value="{{ old_user.surname }}" required>
+                <label for="surname">Отчество</label>
+              </div>
+              <div class="form-login">
+                <input type="text" class="form-login" name="login" placeholder="ИИИ" value="{{ old_user.login }}" required>
+                <label for="login">Логин</label>
+              </div>
+              <div class="form-role">
+                <input type="text" class="form-role" name="role" placeholder="Админ" value="{{ old_user.role }}" required>
+                <label for="role">Роль</label>
+              </div>
+              <div class="form-pass">
+                <input type="text" class="form-pass" name="password" placeholder="Пароль" value="{{ old_user.password }}" required>
+                <label for="password">Пароль</label>
+              </div>
+              <button formaction="" type="submit">Изменить пользователя</button>
         </form>
         {% else %}
         <h1>You are not logged in</h1>

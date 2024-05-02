@@ -28,10 +28,33 @@
             {% endfor %}
             </header>
             <div>
-                <a href="/opop_add"><button type="button">Create user</button></a>
+                <a href="/admin_index"><button type="button">Return</button></a>
             </div>
             <div>
-                List of users
+                <a href="/admin_user_create"><button type="button">Create user</button></a>
+            </div>
+            <div>
+                <table>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Surname</th>
+                    <th>Role</th>
+                    <th>Login</th>
+                    <th>Password</th>
+                </tr>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.firstname }}</td>
+                    <td>{{ user.lastname }}</td>
+                    <td>{{ user.surname }}</td>
+                    <td>{{ user.role }}</td>
+                    <td>{{ user.login }}</td>
+                    <td>{{ user.password }}</td>
+                    <td><a href="/admin_user_update/{{user.login}}"><button type="button">Update user</button></a></td>
+                </tr>
+                {% endfor %}
+            </table>
             </div>
         {% else %}
         <h1>You are not logged in</h1>

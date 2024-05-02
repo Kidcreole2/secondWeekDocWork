@@ -29,11 +29,25 @@
             {% endif %}
             {% endfor %}
             </header>
-            <div>
-                <a href="/opop_add"><button type="button">Create institute</button></a>
+            <div>                
+                <a href="/admin_index"><button type="button">Return</button></a>
             </div>
             <div>
-                List of institutes
+                <a href="/admin_institute_create"><button type="button">Create institute</button></a>
+                <a href="/admin_institute_updates"><button type="button">Update institute</button></a>
+            </div>
+            <div>
+                <table>
+                <tr>
+                    <th>Institute name</th>
+                </tr>
+                {% for institute in institutes %}
+                <tr>
+                    <td>{{ institute.name }}</td>
+                    <td><a href="/admin_institute_update/{{institute.id}}"><button type="button">Update institute</button></a></td>
+                </tr>
+                {% endfor %}
+            </table>
             </div>
         {% else %}
         <h1>You are not logged in</h1>

@@ -29,18 +29,20 @@
             {% endif %}
             {% endfor %}
             </header>
-            
+            <div>
+                <a href="/admin_institute_index"><button type="button">Return</button></a>
+            </div>
             <form action="/" method="post">
                 <div>
                   Update institute  
                 </div>
-                <a href="/admin_add"><button  type="button">Confirm</button></a>
+                <a href="/admin_institute_update"><button  type="button">Confirm</button></a>
             </form>
             <div>
                 <a href="/opop_add"><button type="button">Create specialization</button></a>
             </div>
             <div>
-                List of institutes
+                List of specializations
             </div>
         {% else %}
         <h1>You are not logged in</h1>

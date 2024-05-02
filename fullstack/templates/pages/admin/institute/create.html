@@ -29,11 +29,14 @@
             {% endif %}
             {% endfor %}
             </header>
+            <div>                
+                <a href="/admin_institute_index"><button type="button">Return</button></a>
+            </div>
             <form action="/" method="post">
               <div>
                 Create institute  
               </div>
-              <a href="/admin_add"><button  type="button">Confirm</button></a>
+              <a href="/admin_institute_create"><button  type="button">Confirm</button></a>
             </form>
         {% else %}
         <h1>You are not logged in</h1>
