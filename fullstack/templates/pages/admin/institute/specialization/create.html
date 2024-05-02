@@ -33,9 +33,18 @@
                 <a href="/admin_institute_update"><button type="button">Return</button></a>
             </div>
             <form action="/" method="post">
-              <div>
-                Create specialization  
-              </div>
+                <div>
+                    <input type="text" name="name"required>
+                    <label for="name">Имя</label>
+                </div>
+                <div>
+                    <input type="text" name="specialization_code"required>
+                    <label for="specialization_code">Имя</label>
+                </div>
+                <div>
+                    <input type="text" name="director_opop_id"required>
+                    <label for="name">Имя</label>
+                </div>
               <a href="/admin_specialization_create"><button  type="button">Confirm</button></a>
             </form>
         {% else %}
