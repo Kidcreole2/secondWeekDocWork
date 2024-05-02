@@ -1,6 +1,7 @@
 from flask_login import UserMixin, login_user
 from flask_sqlalchemy import SQLAlchemy
 from core import app
+import datetime
 
 db = SQLAlchemy(app)
 
@@ -55,23 +56,24 @@ class Users(UserMixin, db.Model):
 class Practice(db.Model) :
     __tablename__ = "practice"
     id = db.Column(db.Integer, primary_key = True)
-    year = db.Column(db.Integer, nullable = False)
-    period_practice = db.Column(db.String(20), nullable = False)
+    start_date = db.Column(db.Date, nullable = False)
+    end_date = db.Column(db.Date, nullable = False)
+    recomendations = db.Column(db.Text, nullable = False, default = "нет")
     name = db.Column(db.String(50), nullable = False)
     order = db.Column(db.String(100), nullable = False)
     type_of_practice = db.Column(db.String(100), nullable = False)
     kind_of_practice = db.Column(db.String(100), nullable = False)
 
     # связи
-    practice_place = db.relationship("Practice_Place", back_populates="practice")
-    director_usu_practice = db.relationship("Director_USU_Practice", back_populates="practice")
-    director_company_practice = db.relationship("Director_Company_Practice", back_populates="practice")
+    director_practice_usu = db.relationship("Director_Practice_USU", back_populates="practice")
+    director_practice_company = db.relationship("Director_Practice_Company", back_populates="practice")
     practice_group = db.relationship("Practice_Group", back_populates="practice")
     student_practice = db.relationship("Student_Practice", back_populates="practice")
 
-    def __init__(self, year: int, period_practice: str, name: str, order: str, type_of_practice: str, kind_of_practice: str):
-        self.year = year
-        self.period_practice = period_practice
+    def __init__(self, start_date: datetime.date, end_date: datetime.date, recomendations: str, name: str, order: str, type_of_practice: str, kind_of_practice: str):
+        self.start_date = start_date
+        self.end_date = end_date
+        self.recomendations = recomendations
         self.name = name
         self.order = order
         self.type_of_practice = type_of_practice
@@ -97,17 +99,6 @@ class Institute(db.Model) :
             return Institute.query.filter_by(name=institute.name).first().id
         else:
             return new_institute.id
-
-class Place(db.Model) :
-    __tablename__ = "place"
-    id = db.Column(db.Integer, primary_key = True)
-    name = db.Column(db.String(100), nullable = False)
-    address = db.Column(db.String(100), nullable=False)
-    # связи
-    practice_place = db.relationship("Practice_Place", back_populates="place")
-    
-    def __init__(self, name: str):
-        self.name = name
 
 class Director_OPOP(db.Model) :
     __tablename__ = "director_opop"
@@ -141,7 +132,7 @@ class Director_Practice_USU(db.Model) :
 
     # связи
     user = db.relationship("Users", back_populates="director_practice_usu")
-    director_usu_practice = db.relationship("Director_USU_Practice", back_populates="director_practice_usu")
+    practice = db.relationship("Practice", back_populates="director_practice_usu")
 
     def __init__(self, user_id: int, post: str):
         self.user_id = user_id
@@ -155,7 +146,7 @@ class Director_Practice_Company(db.Model) :
 
     # связи
     user = db.relationship("Users", back_populates="director_practice_company")
-    director_company_practice = db.relationship("Director_Company_Practice", back_populates="director_practice_company")
+    practice = db.relationship("Practice", back_populates="director_practice_company")
 
     def __init__(self, user_id: int, post: str):
         self.user_id = user_id
@@ -271,48 +262,6 @@ class Practice_Group(db.Model) :
         self.group_id = group_id
         self.practice_id = practice_id
 
-class Practice_Place(db.Model) :
-    __tablename__ = "practice_place"
-    id = db.Column(db.Integer, primary_key = True)
-    practice_id = db.Column(db.Integer, db.ForeignKey("practice.id"))
-    place_id = db.Column(db.Integer, db.ForeignKey("place.id"))
-    
-    # связи
-    place = db.relationship("Place", back_populates="practice_place")
-    practice = db.relationship("Practice", back_populates="practice_place")
-
-    def __init__(self, practice_id: int, place_id: int):
-        self.practice_id = practice_id
-        self.place_id = place_id
-
-class Director_USU_Practice(db.Model) :
-    __tablename__ = "director_usu_practice"
-    id = db.Column(db.Integer, primary_key = True)
-    director_practice_usu_id = db.Column(db.Integer, db.ForeignKey("director_practice_usu.user_id"))
-    practice_id = db.Column(db.Integer, db.ForeignKey("practice.id"))
-
-    # связи
-    practice = db.relationship("Practice", back_populates="director_usu_practice")
-    director_practice_usu = db.relationship("Director_Practice_USU", back_populates="director_usu_practice")
-
-    def __init__(self, director_practice_usu_id: int, practice_id: int):
-        self.director_practice_usu_id = director_practice_usu_id
-        self.practice_id = practice_id
-
-class Director_Company_Practice(db.Model) :
-    __tablename__ = "director_company_practice"
-    id = db.Column(db.Integer, primary_key = True)
-    director_practice_company_id = db.Column(db.Integer, db.ForeignKey("director_practice_company.user_id"))
-    practice_id = db.Column(db.Integer, db.ForeignKey("practice.id"))
-
-    # связи
-    practice = db.relationship("Practice", back_populates="director_company_practice")
-    director_practice_company = db.relationship("Director_Practice_Company", back_populates="director_company_practice")
-
-    def __init__(self, director_practice_company_id: int, practice_id: int):
-        self.director_practice_company_id = director_practice_company_id
-        self.practice_id = practice_id
-
 class Student_Practice(db.Model) :
     __tablename__ = "student_practice"
     id = db.Column(db.Integer, primary_key = True)
@@ -326,6 +275,10 @@ class Student_Practice(db.Model) :
     demonstrated_qualities = db.Column(db.Text, nullable = False)
     work_volume = db.Column(db.Text, nullable = False)
     remarks = db.Column(db.Text, nullable = False)
+    place_city = db.Column(db.String(50), nullable = False)
+    place_address = db.Column(db.String(100), nullable = False)
+    place_name = db.Column(db.String(100), nullable = False)
+    place_name_short = db.Column(db.String(50), nullable = False)
     
     # связи
     practice = db.relationship("Practice", back_populates="student_practice")
