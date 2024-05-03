@@ -1,68 +1,32 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>hub</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
-    </head>
-    <body>
-        {% if current_user.is_authenticated %}
-        <header>
-            <div style="display: flex; justify-content: space-between;">
-            <h2 style="text-align: center;">Home</h2>
-            <div style="display: flex;  flex-direction: row-reverse;"> 
-            <a href="/logout"><button type="button">Выйти</button></a>
-            {% for role in roles%}
-            {%if role == "opop"%}
-            <a href="/opop_index"><button type="button">Go to opop</button></a>
-            {% elif role == "admin" %}
-            <a href="/admin_index"><button type="button">Go to admin</button></a>
-            {% elif role == "supervisorUgrasu" %}
-            <a href="/supervisorUgrasu_index"><button type="button">Go to supervisorUgrasu</button></a>
-            {% elif role == "supervisorCompany" %}
-            <a href="/supervisorCompany_index"><button type="button">Go to supervisorCompany</button></a>
-            {% elif role == "supervisorPracticeOrg" %}
-            <a href="/supervisorPracticeOrg_index"><button type="button">Go to supervisorPracticeOrg</button></a>
-            {% endif %}
-            {% endfor %}
-            </header>
-            <form>
-                <div>
-                    <input type="text" name="name"required>
-                    <label for="name">Имя</label>
-                </div>
-                <div>
-                    <input type="text" name="start_date"required>
-                    <label for="start_date">Дата начала практики</label>
-                </div>
-                <div>
-                    <input type="text" name="end_date"required>
-                    <label for="end_date">Дата конца практики</label>
-                </div>
-                <div>
-                    <input type="text" name="type_of_practice"required>
-                    <label for="type_of_practice">Тип практики</label>
-                </div>
-                <div>
-                    <input type="text" name="kind_of_practice"required>
-                    <label for="kind_of_practice">Вид практики</label>
-                </div>
-                <div>
-                    <input type="text" name="order"required>
-                    <label for="order">Номер приказа и его дата</label>
-                </div>
-                <div>
-                    <input type="text" name="recomendations">
-                    <label for="recomendations">Рекомендации(не обязательно)</label>
-                </div>
-            </form>
-        {% else %}
-        <h1>You are not logged in</h1>
-        <a href="/"><button type="button">Return</button></a> 
-        {% endif %}
-        <script src="" async defer></script>
-    </body>
-</html>
+{% extends "base.html" %} {% block content %}
+<form>
+  <div>
+    <input type="text" name="name" required />
+    <label for="name">Имя</label>
+  </div>
+  <div>
+    <input type="text" name="start_date" required />
+    <label for="start_date">Дата начала практики</label>
+  </div>
+  <div>
+    <input type="text" name="end_date" required />
+    <label for="end_date">Дата конца практики</label>
+  </div>
+  <div>
+    <input type="text" name="type_of_practice" required />
+    <label for="type_of_practice">Тип практики</label>
+  </div>
+  <div>
+    <input type="text" name="kind_of_practice" required />
+    <label for="kind_of_practice">Вид практики</label>
+  </div>
+  <div>
+    <input type="text" name="order" required />
+    <label for="order">Номер приказа и его дата</label>
+  </div>
+  <div>
+    <input type="text" name="recomendations" />
+    <label for="recomendations">Рекомендации(не обязательно)</label>
+  </div>
+</form>
+{% endblock %}

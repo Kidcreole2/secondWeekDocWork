@@ -1,41 +1,5 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>hub</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
-    </head>
-    <body>
-        {% if current_user.is_authenticated %}
-        <header>
-            <div style="display: flex; justify-content: space-between;">
-            <h2 style="text-align: center;">Home</h2>
-            <div style="display: flex;  flex-direction: row-reverse;"> 
-            <a href="/logout"><button type="button">Выйти</button></a>
-            {% for role in roles%}
-            {%if role == "opop"%}
-            <a href="/opop_index"><button type="button">Go to opop</button></a>
-            {% elif role == "admin" %}
-            <a href="/admin_index"><button type="button">Go to admin</button></a>
-            {% elif role == "supervisorUgrasu" %}
-            <a href="/supervisorUgrasu_index"><button type="button">Go to supervisorUgrasu</button></a>
-            {% elif role == "supervisorCompany" %}
-            <a href="/supervisorCompany_index"><button type="button">Go to supervisorCompany</button></a>
-            {% elif role == "supervisorPracticeOrg" %}
-            <a href="/supervisorPracticeOrg_index"><button type="button">Go to supervisorPracticeOrg</button></a>
-            {% endif %}
-            {% endfor %}
-            </header>
-            <div>
-                <a href="/opop_add"><button type="button">go to student practice</button></a>
-            </div>
-        {% else %}
-        <h1>You are not logged in</h1>
-        <a href="/"><button type="button">Return</button></a> 
-        {% endif %}
-        <script src="" async defer></script>
-    </body>
-</html>
+{% extends "base.html" %} {% block content %}
+<div>
+  <a href="/opop_add"><button type="button">go to student practice</button></a>
+</div>
+{% endblock %}
