@@ -198,7 +198,6 @@ class Specialization(db.Model) :
 class Group(db.Model) :
     __tablename__ = "group"
     id = db.Column(db.Integer, primary_key = True)
-    group_id = db.Column(db.Integer, primary_key = True)
     specialization_id = db.Column(db.Integer, db.ForeignKey("specialization.id"))
     name = db.Column(db.String(10), nullable = False, unique = True)
     course = db.Column(db.String(15), nullable = False)
@@ -228,7 +227,7 @@ class Student(db.Model) :
     id = db.Column(db.Integer, primary_key = True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), unique=True)
     group_id = db.Column(db.Integer, db.ForeignKey("group.id"))
-
+    name_pr = db.Column(db.String(100), nullable=False)
     # связи
     user = db.relationship("Users", back_populates="student")
     group = db.relationship("Group", back_populates="student")
@@ -274,11 +273,12 @@ class Student_Practice(db.Model) :
     overcoming_difficulties = db.Column(db.Text, nullable = False)
     demonstrated_qualities = db.Column(db.Text, nullable = False)
     work_volume = db.Column(db.Text, nullable = False)
+    reason = db.Column(db.Text, nullable = True)
     remarks = db.Column(db.Text, nullable = False)
     place_city = db.Column(db.String(50), nullable = False)
     place_address = db.Column(db.String(100), nullable = False)
     place_name = db.Column(db.String(100), nullable = False)
-    place_name_short = db.Column(db.String(50), nullable = False)
+    place_name_short = db.Column(db.String(100), nullable = False)
     
     # связи
     practice = db.relationship("Practice", back_populates="student_practice")
