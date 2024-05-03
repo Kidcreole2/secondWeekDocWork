@@ -1,6 +1,6 @@
 {% extends "base.html" %} {% block content %}
 <div>
-  <a href="/opop_group_index"><button type="button">Return</button></a>
+  <a href="/opop_group_index">Назад</a>
 </div>
 <form>
   <div>
@@ -18,8 +18,36 @@
 </form>
 <div>
   <a href="/opop_student_create"
-    ><button type="button">Create student</button></a
+    >Создать студента</a
   >
 </div>
-<div>List of students</div>
+<div>Студенты</div>
+
+<table>
+  <tr>
+    <th>Имя</th>
+    <th>Фамилия</th>
+    <th>Отчество</th>
+    <th>Роль</th>
+    <th>Логин</th>
+    <th>Пароль</th>
+  </tr>
+  {% for user in users %}
+  <tr>
+    <td>{{ user.firstname }}</td>
+    <td>{{ user.lastname }}</td>
+    <td>{{ user.surname }}</td>
+    <td>{{ user.role }}</td>
+    <td>{{ user.login }}</td>
+    <td>{{ user.password }}</td>
+    <td>
+      <a href="/admin_user_update/{{user.login}}"
+        >Изменить пользователя</a
+      >
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+
+
 {% endblock %}

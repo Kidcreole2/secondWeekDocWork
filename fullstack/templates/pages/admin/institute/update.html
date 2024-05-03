@@ -1,16 +1,16 @@
 {% extends "base.html" %} {% block content %}
 <div>
-  <a href="/admin_institute_index"><button type="button">Return</button></a>
+  <a href="/admin_institute_index">Назад</a>
 </div>
 <form action="/" method="post">
   <div>
     <input type="text" name="name" placeholder="Иван" required />
     <label for="name">Имя</label>
   </div>
-  <a href="/admin_institute_update"><button type="button">Confirm</button></a>
+  <a href="/admin_institute_update">Создать</a>
 </form>
 <div>
-  <a href="/opop_add"><button type="button">Create specialization</button></a>
+  <a href="/opop_add">Создать направление</a>
 </div>
-<div>List of specializations</div>
+<div>Направления</div>
 {% endblock %}

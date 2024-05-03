@@ -1,21 +1,21 @@
 {% extends "base.html" %}
 {% block content %}
             <div>                
-                <a href="/admin_index"><button type="button">Return</button></a>
+                <a href="/admin_index">Назад</a>
             </div>
             <div>
-                <a href="/admin_institute_create"><button type="button">Create institute</button></a>
-                <a href="/admin_institute_updates"><button type="button">Update institute</button></a>
+                <a href="/admin_institute_create">Создать институт</a>
+                <a href="/admin_institute_updates">Изменить институт</a>
             </div>
             <div>
                 <table>
                 <tr>
-                    <th>Institute name</th>
+                    <th>Институты</th>
                 </tr>
                 {% for institute in institutes %}
                 <tr>
                     <td>{{ institute.name }}</td>
-                    <td><a href="/admin_institute_update/{{institute.id}}"><button type="button">Update institute</button></a></td>
+                    <td><a href="/admin_institute_update/{{institute.id}}">Изменить институт</a></td>
                 </tr>
                 {% endfor %}
 
