@@ -39,25 +39,25 @@ def admin_user_create():
                                 )
                     reg_check = Users.create(user)
                     match request.form(['user_type']):
-                        case "":
+                        case "directorOPOP":
                             director = Director_OPOP(
                                 user_id=reg_check,
                                 post=request.form('post')
                             )
                             Director_OPOP.create(director)
-                        case "":
+                        case "directorCompany":
                             director = Director_Practice_Company(
                                 user_id=reg_check,
                                 post=request.form('post')
                             )
                             Director_Practice_Company.create(director)
-                        case "":
+                        case "directonOrganization":
                             director = Director_Practice_Organization(
                                 user_id=reg_check,
                                 post=request.form('post')
                             )
                             Director_Practice_Organization.create(director)
-                        case "":
+                        case "directorUSU":
                             director = Director_Practice_USU(
                                 user_id=reg_check,
                                 post=request.form('post')
@@ -394,7 +394,7 @@ def student_practice_dpc_task_update(student_practice_id):
 
 @app.route("/student_practice_dpo_task_index/<student_practice_id>", methods=["GET","POST"])
 @login_required
-def student_practice_dpo_task_create(student_practice_id):
+def student_practice_dpo_task_index(student_practice_id):
     tasks= Task.query.filter_by(student_practice_id=student_practice_id).all()
     return render_template("pages/studentPractice/update.html", tasks=tasks)
 

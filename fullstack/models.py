@@ -321,8 +321,8 @@ class Director_Practice_Organization(db.Model) :
 class Specialization(db.Model) :
     __tablename__ = "specialization"
     id = db.Column(db.Integer, primary_key = True)
-    institute_id = db.Column(db.Integer, db.ForeignKey("institute.id"), nallable = True)
-    director_opop_id = db.Column(db.Integer, db.ForeignKey("director_opop.user_id"), nellable = True)
+    institute_id = db.Column(db.Integer, db.ForeignKey("institute.id"))
+    director_opop_id = db.Column(db.Integer, db.ForeignKey("director_opop.user_id"))
     name = db.Column(db.String(100), unique=True, nullable = False)
     specialization_code = db.Column(db.String(20), unique=True, nullable = False)
 
