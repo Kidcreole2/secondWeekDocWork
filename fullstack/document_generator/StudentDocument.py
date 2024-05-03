@@ -23,7 +23,7 @@ class StudentDocument:
             "name": " ".join(name),
             "name_rp": current_user.name_rp,
             "name_short": self.__get_full_name_with_initials(name),
-            "group_name": group.name,
+            "group": group.name,
             "course": group.course,
             "specialisation": spec.name,
             "institute": institute

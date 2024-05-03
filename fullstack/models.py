@@ -227,7 +227,7 @@ class Student(db.Model) :
     id = db.Column(db.Integer, primary_key = True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), unique=True)
     group_id = db.Column(db.Integer, db.ForeignKey("group.id"))
-
+    name_pr = db.Column(db.String(100), nullable=False)
     # связи
     user = db.relationship("Users", back_populates="student")
     group = db.relationship("Group", back_populates="student")
