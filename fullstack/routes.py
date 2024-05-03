@@ -37,7 +37,7 @@ def admin_user_create():
                         surname=request.form['surname'], 
                         role=request.form["role"]
                         )
-            reg_check = Users.add(user)
+            reg_check = Users.create(user)
             if reg_check["exists"]:
                 return redirect(url_for("admin_add"))
             return redirect(url_for("home"))
@@ -58,7 +58,7 @@ def admin_user_update(login):
                     surname=request.form['surname'], 
                     role=request.form["role"]
                     )
-        Users.update(old_user,new_user)
+        Users.update(login,new_user)
     return render_template("pages/admin/users/update.html",old_user=old_user)
 
 # --institute functions--
