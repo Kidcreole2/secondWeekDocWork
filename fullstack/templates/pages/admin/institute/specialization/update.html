@@ -15,7 +15,7 @@
             <h2 style="text-align: center;">Home</h2>
             <div style="display: flex;  flex-direction: row-reverse;"> 
             <a href="/logout"><button type="button">Выйти</button></a>
-            {% for role in roles%}
+            {% for role in roles %}
             {%if role == "opop"%}
             <a href="/opop_index"><button type="button">Go to opop</button></a>
             {% elif role == "admin" %}

@@ -30,9 +30,9 @@
             {% endfor %}
             </header>
             <div>                
-                <a href="/admin_institute_update"><button type="button">Return</button></a>
+                <a href="/admin_institute_index"><button type="button">Return</button></a>
             </div>
-            <form action="/" method="post">
+            <form action="#" method="post">
                 <div>
                     <input type="text" name="name"required>
                     <label for="name">Имя</label>
@@ -42,10 +42,14 @@
                     <label for="specialization_code">Имя</label>
                 </div>
                 <div>
-                    <input type="text" name="director_opop_id"required>
-                    <label for="name">Имя</label>
+                    {#Разобраться как вывести имя ОПОП#}
+                  <select name="director_opop_id" id="">
+                    {% for opop_director in opop_directors %}
+                        <option value="{{ opop_director.id }}">{{ opop_director_users.firstname }} {{ opop_director_users.lastname }}</option>
+                    {% endfor %}
+                  </select>
                 </div>
-              <a href="/admin_specialization_create"><button  type="button">Confirm</button></a>
+              <a><button type="submit">Confirm</button></a>
             </form>
         {% else %}
         <h1>You are not logged in</h1>

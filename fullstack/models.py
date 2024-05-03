@@ -137,10 +137,12 @@ class Institute(db.Model) :
     def create(institute):
         new_institute = Institute.query.filter_by(name=institute.name).first()
         if new_institute is None:
+            print("test")
             db.session.add(institute)
             db.session.commit()
             return Institute.query.filter_by(name=institute.name).first().id
         else:
+            print("test_1")
             return new_institute.id
 
     @staticmethod

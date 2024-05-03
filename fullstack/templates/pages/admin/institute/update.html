@@ -2,15 +2,15 @@
 <div>
   <a href="/admin_institute_index"><button type="button">Return</button></a>
 </div>
-<form action="/" method="post">
+<form action="#" method="post">
   <div>
-    <input type="text" name="name" placeholder="Иван" required />
+    <input type="text" name="name" placeholder="Иван" value="{{ old_institute.name }}" required />
     <label for="name">Имя</label>
   </div>
-  <a href="/admin_institute_update"><button type="button">Confirm</button></a>
+  <a><button type="submit">Confirm</button></a>
 </form>
 <div>
-  <a href="/opop_add"><button type="button">Create specialization</button></a>
+  <a href="/admin_specialization_create/{{old_institute.id}}"><button type="button">Create specialization</button></a>
 </div>
 <div>List of specializations</div>
 {% endblock %}

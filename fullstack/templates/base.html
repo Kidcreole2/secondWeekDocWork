@@ -19,23 +19,23 @@
         <div style="display: flex; flex-direction: row-reverse">
           <a href="/logout"><button type="button">Выйти</button></a>
 
-          {% for role in roles%} {%if role == "opop"%}
+          {#{% for role in roles%} {%if role == "opop"%}#}
           <a href="/opop_index"><button type="button">Go to opop</button></a>
-          {% elif role == "admin" %}
+          {#{% elif role == "admin" %}#}
           <a href="/admin_index"><button type="button">Go to admin</button></a>
-          {% elif role == "supervisorUgrasu" %}
+          {#{% elif role == "supervisorUgrasu" %}#}
           <a href="/supervisorUgrasu_index"
             ><button type="button">Go to supervisorUgrasu</button></a
           >
-          {% elif role == "supervisorCompany" %}
+          {#{% elif role == "supervisorCompany" %}#}
           <a href="/supervisorCompany_index"
             ><button type="button">Go to supervisorCompany</button></a
           >
-          {% elif role == "supervisorPracticeOrg" %}
+          {#{% elif role == "supervisorPracticeOrg" %}#}
           <a href="/supervisorPracticeOrg_index"
             ><button type="button">Go to supervisorPracticeOrg</button></a
           >
-          {% endif %} {% endfor %}
+          {#{% endif %} {% endfor %}#}
         </div>
 
       </div>
