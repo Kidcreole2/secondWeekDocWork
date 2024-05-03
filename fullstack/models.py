@@ -68,10 +68,10 @@ class Practice(db.Model) :
     id = db.Column(db.Integer, primary_key = True)
     start_date = db.Column(db.Date, nullable = False)
     end_date = db.Column(db.Date, nullable = False)
-    director_practice_usu_id = db.Column(db.Integer, db.ForeignKey("director_practice_usu.user_id"))
-    director_practice_company_id = db.Column(db.Integer, db.ForeignKey("director_practice_company.user_id"))
+    director_practice_usu_id = db.Column(db.Integer, db.ForeignKey("director_practice_usu.user_id"), nullable = True)
+    director_practice_company_id = db.Column(db.Integer, db.ForeignKey("director_practice_company.user_id"), nullable = True)
     recomendations = db.Column(db.Text, nullable = False, default = "нет")
-    name = db.Column(db.String(50), nullable = False)
+    name = db.Column(db.String(50), nullable = False, unique = True)
     order = db.Column(db.String(100), nullable = False)
     type_of_practice = db.Column(db.String(100), nullable = False)
     kind_of_practice = db.Column(db.String(100), nullable = False)
@@ -93,11 +93,11 @@ class Practice(db.Model) :
 
     @staticmethod
     def create(practice):
-        new_practice = Practice.query.filter_by(name = practice.id).first()
+        new_practice = Practice.query.filter_by(id=practice.id).first()
         if new_practice is None:
             db.session.add(practice)
             db.session.commit()
-            return Practice.query.filter_by(name=practice.name).first().id
+            return Practice.query.filter_by(id=practice.id).first().id
         else: 
             return new_practice.id
 
@@ -113,6 +113,13 @@ class Practice(db.Model) :
         old_practice.order = new_pratice.order
         old_practice.type_of_practice = new_pratice.type_of_practice
         old_practice.kind_of_practice = new_pratice.kind_of_practice
+        db.session.commit()
+
+    @staticmethod
+    def delete(id_practice):
+        Practice_Group.delete_practice(id_practice)
+        Student_Practice.delete_practice(id_practice)
+        Practice.query.filter_by(id = id_practice).delete()
         db.session.commit()
 
 class Institute(db.Model) :
@@ -142,6 +149,15 @@ class Institute(db.Model) :
         old_institute.name = new_institute.name
         db.session.commit()
 
+    @staticmethod
+    def delete(id_institute):
+        specializations = Specialization.query.filter_by(institute_id=id_institute).all()
+        for specialization in specializations:
+            specialization.institute_id = ""
+            Specialization.update(specialization)
+        Institute.query.filter_by(institute_id=id_institute).delete()
+        db.session.commit()
+
 class Director_OPOP(db.Model) :
     __tablename__ = "director_opop"
     id = db.Column(db.Integer, primary_key = True)
@@ -168,8 +184,18 @@ class Director_OPOP(db.Model) :
 
     @staticmethod
     def update(old_director, new_director):
-        old_director = Director_OPOP.query.filter_by(id=old_director.id).first()
+        old_director = Director_OPOP.query.filter_by(user_id=old_director.user_id).first()
         old_director.post = new_director.post
+        db.session.commit()
+
+    @staticmethod
+    def delete(id_director):
+        institutes = Institute.query.filter_by(director_opop_id=id_director).all()
+        for institute in institutes:
+            institute.director_opop_id = ""
+            Institute.update(institute)
+        Director_OPOP.query.filter_by(user_id=id_director).delete()
+        Users.query.filter_by(id=id_director).delete()
         db.session.commit()
 
 class Director_Practice_USU(db.Model) :
@@ -198,8 +224,18 @@ class Director_Practice_USU(db.Model) :
 
     @staticmethod
     def update(old_director, new_director):
-        old_director = Director_Practice_USU.query.filter_by(id=old_director.id).first()
+        old_director = Director_Practice_USU.query.filter_by(user_id=old_director.user_id).first()
         old_director.post = new_director.post
+        db.session.commit()
+
+    @staticmethod
+    def delete(id_director):
+        director_practices = Practice.query.filter_by(director_practice_usu_id=id_director).all()
+        for director_practice in director_practices:
+            director_practice.director_practice_usu_id = ""
+            Student_Practice.update(director_practice)
+        Director_Practice_USU.query.filter_by(user_id=id_director).delete()
+        Users.query.filter_by(id=id_director).delete()
         db.session.commit()
 
 class Director_Practice_Company(db.Model) :
@@ -228,8 +264,18 @@ class Director_Practice_Company(db.Model) :
 
     @staticmethod
     def update(old_director, new_director):
-        old_director = Director_Practice_Company.query.filter_by(id=old_director.id).first()
+        old_director = Director_Practice_Company.query.filter_by(user_id=old_director.user_id).first()
         old_director.post = new_director.post
+        db.session.commit()
+
+    @staticmethod
+    def delete(id_director):
+        director_practices = Practice.query.filter_by(director_practice_company_id=id_director).all()
+        for director_practice in director_practices:
+            director_practice.director_practice_company_id = ""
+            Student_Practice.update(director_practice)
+        Director_Practice_Company.query.filter_by(user_id=id_director).delete()
+        Users.query.filter_by(id=id_director).delete()
         db.session.commit()
 
 class Director_Practice_Organization(db.Model) :
@@ -258,15 +304,25 @@ class Director_Practice_Organization(db.Model) :
 
     @staticmethod
     def update(old_director, new_director):
-        old_director = Director_Practice_Organization.query.filter_by(id=old_director.id).first()
+        old_director = Director_Practice_Organization.query.filter_by(user_id=old_director.user_id).first()
         old_director.post = new_director.post
+        db.session.commit()
+
+    @staticmethod
+    def delete(id_director):
+        personal_practices = Student_Practice.query.filter_by(student_id=id_director).all()
+        for personal_practice in personal_practices:
+            personal_practice.director_practice_organization_id = ""
+            Student_Practice.update(personal_practice)
+        Director_Practice_Organization.query.filter_by(user_id=id_director).delete()
+        Users.query.filter_by(id=id_director).delete()
         db.session.commit()
 
 class Specialization(db.Model) :
     __tablename__ = "specialization"
     id = db.Column(db.Integer, primary_key = True)
-    institute_id = db.Column(db.Integer, db.ForeignKey("institute.id"))
-    director_opop_id = db.Column(db.Integer, db.ForeignKey("director_opop.user_id"))
+    institute_id = db.Column(db.Integer, db.ForeignKey("institute.id"), nallable = True)
+    director_opop_id = db.Column(db.Integer, db.ForeignKey("director_opop.user_id"), nellable = True)
     name = db.Column(db.String(100), unique=True, nullable = False)
     specialization_code = db.Column(db.String(20), unique=True, nullable = False)
 
@@ -298,6 +354,14 @@ class Specialization(db.Model) :
         old_specialization.director_opop_id = new_specialization.director.opop.id
         old_specialization.name - new_specialization.name
         old_specialization.specialization_code = new_specialization.specialization_code
+        db.session.commit()
+
+    @staticmethod
+    def delete(id_specialization):
+        groups = Group.query.filter_by(specialization_id=id_specialization).all()
+        for group in groups:
+            Group.delete(group.id)
+        Specialization.query.filter_by(id=id_specialization).delete
         db.session.commit()
 
 class Group(db.Model) :
@@ -335,6 +399,14 @@ class Group(db.Model) :
         old_group.course = new_group.course
         db.session.commit()
 
+    @staticmethod
+    def delete(id_group):
+        Practice_Group.delete_group(id_group)
+        student = Student.query.filter_by(group_id=id_group).user_id
+        Student.delete(student)
+        Group.query.filter_by(id=id_group).delete()
+        db.sesson.commit()
+
 class Student(db.Model) :
     __tablename__ = "student"
     id = db.Column(db.Integer, primary_key = True)
@@ -367,6 +439,13 @@ class Student(db.Model) :
         old_student.name_pr = new_student.name_pr
         db.session.commit()
 
+    @staticmethod
+    def delete(id_student):        
+        Student_Practice.query.filter_by(student_id=id_student).delete()
+        Student.query.filter_by(user_id=id_student).delete()
+        Users.query.filter_by(id=id_student).delete()
+        db.session.commit()
+
 class Practice_Group(db.Model) :
     __tablename__ = "practice_group"
     id = db.Column(db.Integer, primary_key = True)
@@ -381,12 +460,31 @@ class Practice_Group(db.Model) :
         self.group_id = group_id
         self.practice_id = practice_id
 
+    @staticmethod
+    def create(practice_group):
+            db.session.add(practice_group)
+            db.session.commit()
+
+    @staticmethod
+    def delete_group(id_group):
+        groups = Practice_Group.query.filter_by(group_id=id_group).all
+        for group in groups:
+            db.session.query.filter(group_id=group.id).delete()
+        db.session.commit()
+    
+    @staticmethod
+    def delete_practice(id_practice):
+        practices = Practice_Group.query.filter_by(practice_id=id_practice).all
+        for practice in practices:
+            db.session.query.filter(practice_id=practice.id).delete()
+        db.session.commit()
+
 class Student_Practice(db.Model) :
     __tablename__ = "student_practice"
     id = db.Column(db.Integer, primary_key = True)
     student_id = db.Column(db.Integer, db.ForeignKey("student.user_id"))
     practice_id = db.Column(db.Integer, db.ForeignKey("practice.id"))
-    director_practice_organization_id = db.Column(db.Integer, db.ForeignKey("director_practice_organization.user_id"))
+    director_practice_organization_id = db.Column(db.Integer, db.ForeignKey("director_practice_organization.user_id"), nullable = True)
     passed = db.Column(db.Boolean, nullable=False)
     kind_of_contract = db.Column(db.String(100), nullable = False)
     paid = db.Column(db.Boolean, nullable = False)
@@ -418,6 +516,31 @@ class Student_Practice(db.Model) :
         self.work_volume = work_volume
         self.remarks = remarks
 
+    @staticmethod
+    def create(student_practice):
+        db.session.add(student_practice)
+        db.session.commit()
+    
+    @staticmethod
+    def delete_practice(id_practice):
+        practices = Student_Practice.query.filter_by(practice_id=id_practice).all
+        for practice in practices:
+            tasks = Task.query.filter_by(student_practice_id = practice.id).all()
+            for task in tasks:
+                Task.delete(task.id)
+            db.session.query.filter(practice_id=practice.id).delete()
+        db.session.commit()
+
+    @staticmethod
+    def delete_student(id_student):
+        students = Student_Practice.query.filter_by(student_id=id_student).all
+        for student in students:
+            tasks = Task.query.filter_by(student_practice_id = student.id).all()
+            for task in tasks:
+                Task.delete(task.id)
+            db.session.query.filter(student_id=student.id).delete()
+        db.session.commit()
+
 class Task(db.Model):
     __tablename__ = "task"
     id = db.Column(db.Integer, primary_key=True)
@@ -433,11 +556,11 @@ class Task(db.Model):
 
     @staticmethod
     def create(task):
-        new_task = Task.query.filter_by(name=task.name).first()
+        new_task = Task.query.filter_by(id=task.id).first()
         if new_task is None:
             db.session.add(task)
             db.session.commit()
-            return Task.query.filter_by(name=task.name).first().id
+            return Task.query.filter_by(id=task.id).first().id
         else: 
             return new_task.id
         
@@ -447,6 +570,11 @@ class Task(db.Model):
         old_task.name = new_task.name
         old_task.date = new_task.date
         old_task.student_practice_id = new_task.student_practice_id
+        db.session.commit()
+
+    @staticmethod
+    def delete(task_id):
+        Task.query.filter_by(id=task_id).delete()
         db.session.commit()
 
 with app.app_context():
