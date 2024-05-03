@@ -1,6 +1,7 @@
 import docxtpl
 import pandas as pd
 from models import *
+import os
 from flask_login import current_user
 
 class GroupDocument:
@@ -8,6 +9,7 @@ class GroupDocument:
     def __init__(self, practice):
         self.__practice = practice
         self.__document = docxtpl.DocxTemplate("./templates/group_template.docx")
+        self.__base_path = "output/"
     
     def __get_full_name_with_initials(full_name):
         return f"{full_name[0]} {full_name[1][0]}. {full_name[2][0]}."
@@ -147,12 +149,16 @@ class GroupDocument:
         return failed_students_data
      
     def __collect_group_data(self, group):
-        course = group.course
+        spec = Specialization.query.filter_by(id=group.specialization_id)
         success = self.__collect_success_students_data(group)
         failed = self.__collect_failed_students_data(group)
         group_data = {
-            "course": course,
+            "course": group.course,
             "name": group.name,
+            "code": group.code,
+            "form": group.form,
+            "code": spec.code,
+            "spec_name": spec.name,
             "success_students_number": len(success),
             "success_students": success,
             "failed_students_number": len(failed),
@@ -182,6 +188,16 @@ class GroupDocument:
         return document_data
         
     def generateDocument(self):
-        table_contents = self.__get_table_data()
-        self.__document.render(table_contents)
-        self.__document.save("output/test.docx")
+        if not os.path.isdir(os.path.join(self.__base_path, f"{current_user.firstname}_{current_user.lastname}_{current_user.id}")):
+            path = os.path.join(self.__base_path, f"{current_user.firstname}_{current_user.lastname}_{current_user.id}") 
+            os.mkdir(path)  
+            table_contents = self.__collect_data()
+            for table in table_contents:
+                document_name = f"{table_contents["group"]["name"]}_{table["practice"]["start_date"]}.docx"
+                self.__document.render(table)
+                self.__document.save(f"{path}/{document_name}")
+        
+    def getDocuments(self):
+        self.generate_document()
+        path = os.path.join(self.__base_path, f"{current_user.firstname}_{current_user.lastname}_{current_user.id}") 
+        return os.listdir(path)
