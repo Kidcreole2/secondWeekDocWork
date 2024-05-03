@@ -2,15 +2,16 @@
 <div>
   <a href="/opop_group_index">Назад</a>
 </div>
-<form action="/" method="post">
+<form action="#" method="post">
   <div>
     <input type="text" name="name" required />
     <label for="name">Имя</label>
   </div>
-  <div>
-    <input type="text" name="specialization_id" required />
-    <label for="specialization_id">Имя</label>
-  </div>
+  <select name="specialization_id" id="">
+    {% for spezialization in spezializations %}
+        <option value="{{ spezialization.id }}">{{spezialization.name}}</option>
+    {% endfor %}
+  </select>
   <div>
     <input type="text" name="course" required />
     <label for="course">Имя</label>

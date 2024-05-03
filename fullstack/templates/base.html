@@ -19,23 +19,23 @@
         <div style="display: flex; flex-direction: row-reverse">
           <a href="/logout">Выйти</a>
 
-          {% for role in roles%} {%if role == "opop"%}
-          <a href="/opop_index">Перейти на ОПОП</a>
-          {% elif role == "admin" %}
-          <a href="/admin_index">Перейти на админа</a>
-          {% elif role == "supervisorUgrasu" %}
+          {#{% for role in roles%} {%if role == "opop"%}#}
+          <a href="/opop_index"><button type="button">Go to opop</button></a>
+          {#{% elif role == "admin" %}#}
+          <a href="/admin_index"><button type="button">Go to admin</button></a>
+          {#{% elif role == "supervisorUgrasu" %}#}
           <a href="/supervisorUgrasu_index"
             >Перейти на руководителя практики от югу</a
           >
-          {% elif role == "supervisorCompany" %}
+          {#{% elif role == "supervisorCompany" %}#}
           <a href="/supervisorCompany_index"
             >Перейти на руководителя компании</a
           >
-          {% elif role == "supervisorPracticeOrg" %}
+          {#{% elif role == "supervisorPracticeOrg" %}#}
           <a href="/supervisorPracticeOrg_index"
             >Перейти на директора компании</a
           >
-          {% endif %} {% endfor %}
+          {#{% endif %} {% endfor %}#}
         </div>
 
       </div>

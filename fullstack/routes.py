@@ -38,33 +38,33 @@ def admin_user_create():
                                 role=request.form["role"]
                                 )
                     reg_check = Users.create(user)
-                    match request.form(['user_type']):
+                    match request.form['userType']:
                         case "directorOPOP":
                             director = Director_OPOP(
-                                user_id=reg_check,
-                                post=request.form('post')
+                                user_id=reg_check["id"],
+                                post=request.form['post']
                             )
                             Director_OPOP.create(director)
                         case "directorCompany":
                             director = Director_Practice_Company(
-                                user_id=reg_check,
-                                post=request.form('post')
+                                user_id=reg_check["id"],
+                                post=request.form['post']
                             )
                             Director_Practice_Company.create(director)
                         case "directonOrganization":
                             director = Director_Practice_Organization(
-                                user_id=reg_check,
-                                post=request.form('post')
+                                user_id=reg_check["id"],
+                                post=request.form['post']
                             )
                             Director_Practice_Organization.create(director)
                         case "directorUSU":
                             director = Director_Practice_USU(
-                                user_id=reg_check,
-                                post=request.form('post')
+                                user_id=reg_check["id"],
+                                post=request.form['post']
                             )
                             Director_Practice_USU.create(director)
                     if reg_check["exists"]:
-                        return redirect(url_for("admin_add"))
+                        return redirect(url_for("admin_user_index"))
                     return redirect(url_for("home"))
         else:
             flash("Пароли не совпадают")
@@ -98,7 +98,9 @@ def admin_institute_index():
 @app.route("/admin_institute_create", methods=["GET","POST"])
 @login_required
 def admin_institute_create():
+    print("test_2")
     if request.method == "POST":
+        print("test_3")
         new_institute = Institute(
             name=request.form['name'],
         )
@@ -115,7 +117,7 @@ def admin_institute_update(institute_id):
             name=request.form['name'],
         )
         Institute.update(old_institute,new_institute)
-        return redirect(url_for("admin_index"))
+        return redirect(url_for("admin_institute_index"))
     specializations = Specialization.query.order_by(Specialization.name).all()
     return render_template("pages/admin/institute/update.html",old_institute=old_institute, specializations=specializations)
 
@@ -124,6 +126,7 @@ def admin_institute_update(institute_id):
 @app.route("/admin_specialization_create/<institute_id>", methods=["GET","POST"])
 @login_required
 def admin_specialization_create(institute_id):
+    opop_director_users = []
     if request.method == "POST":
         new_specialization = Specialization(
             name=request.form['name'],
@@ -133,7 +136,11 @@ def admin_specialization_create(institute_id):
         )
         Specialization.create(new_specialization)
         return redirect(url_for("admin_institute_index"))
-    return render_template("pages/admin/institute/specialization/create.html")
+    opop_directors = Director_OPOP.query.order_by(Director_OPOP.id).all()
+    for opop_director in opop_directors:
+        opop_director_user = Users.query.filter_by(id=opop_director.user_id).first()
+        opop_director_users = opop_director_users.append(opop_director_user)
+    return render_template("pages/admin/institute/specialization/create.html",opop_directors=opop_directors,opop_director_users=opop_director_users)
 
 @app.route("/admin_specialization_update/<institute_id>/<specialization_id>", methods=["GET","POST"])
 @login_required
@@ -173,6 +180,8 @@ def opop_group_index():
 @app.route("/opop_group_create", methods=["GET","POST"])
 @login_required
 def opop_group_create():
+    opop_director = Director_OPOP.query.filter_by(user_id=current_user.id).first()
+    spezializations = Specialization.query.filter_by(id=opop_director.id).all()
     if request.method == "POST":
         new_group = Group(
             name=request.form['name'],
@@ -181,7 +190,7 @@ def opop_group_create():
         )
         Group.create(new_group)
         return redirect(url_for("opop_group_index"))
-    return render_template("pages/opop/group/create.html")
+    return render_template("pages/opop/group/create.html", spezializations=spezializations)
 
 @app.route("/opop_group_update/<group_id>", methods=["GET","POST"])
 @login_required
@@ -265,7 +274,7 @@ def opop_practice_create():
             type_of_practice=request.form['type_of_practice'],
             kind_of_practice=request.form['kind_of_practice'],
             order=request.form['order'],
-            recomendations=request.form['recomendations_1']
+            recomendations=request.form['recomendations']
         )
         data = request.form.to_dict()
         data_keys = data.keys()

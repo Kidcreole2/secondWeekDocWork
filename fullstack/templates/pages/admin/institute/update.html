@@ -2,9 +2,9 @@
 <div>
   <a href="/admin_institute_index">Назад</a>
 </div>
-<form action="/" method="post">
+<form action="#" method="post">
   <div>
-    <input type="text" name="name" placeholder="Иван" required />
+    <input type="text" name="name" placeholder="Иван" value="{{ old_institute.name }}" required />
     <label for="name">Имя</label>
   </div>
   <a href="/admin_institute_update">Создать</a>
