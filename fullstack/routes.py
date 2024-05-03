@@ -30,17 +30,42 @@ def admin_user_index():
 def admin_user_create():
     if request.method == "POST":
         if request.form['password'] == request.form['passwordConfirm'] :
-            user = Users(login=request.form['login'], 
-                        password=request.form['password'], 
-                        firstname=request.form['firstname'], 
-                        lastname=request.form['lastname'], 
-                        surname=request.form['surname'], 
-                        role=request.form["role"]
-                        )
-            reg_check = Users.create(user)
-            if reg_check["exists"]:
-                return redirect(url_for("admin_add"))
-            return redirect(url_for("home"))
+                    user = Users(login=request.form['login'], 
+                                password=request.form['password'], 
+                                firstname=request.form['firstname'], 
+                                lastname=request.form['lastname'], 
+                                surname=request.form['surname'], 
+                                role=request.form["role"]
+                                )
+                    reg_check = Users.create(user)
+                    match request.form(['user_type']):
+                        case "":
+                            director = Director_OPOP(
+                                user_id=reg_check,
+                                post=request.form('post')
+                            )
+                            Director_OPOP.create(director)
+                        case "":
+                            director = Director_Practice_Company(
+                                user_id=reg_check,
+                                post=request.form('post')
+                            )
+                            Director_Practice_Company.create(director)
+                        case "":
+                            director = Director_Practice_Organization(
+                                user_id=reg_check,
+                                post=request.form('post')
+                            )
+                            Director_Practice_Organization.create(director)
+                        case "":
+                            director = Director_Practice_USU(
+                                user_id=reg_check,
+                                post=request.form('post')
+                            )
+                            Director_Practice_USU.create(director)
+                    if reg_check["exists"]:
+                        return redirect(url_for("admin_add"))
+                    return redirect(url_for("home"))
         else:
             flash("Пароли не совпадают")
     messages = get_flashed_messages()
@@ -140,6 +165,7 @@ def opop_index():
 @app.route("/opop_group_index")
 @login_required
 def opop_group_index():
+    # TODO Сделать фильтр по ОПОП руководителю
     groups = Group.query.order_by(Group.name).all()
     return render_template("pages/opop/group/index.html", groups=groups)
 
@@ -174,26 +200,46 @@ def opop_group_update(group_id):
 
 # --student functions--
 
-@app.route("/opop_student_create", methods=["GET","POST"])
+@app.route("/opop_student_create/<group_id>", methods=["GET","POST"])
 @login_required
-def opop_student_create():
+def opop_student_create(group_id):
     if request.method == "POST":
+        new_student_user = Users(
+            login=request.form['login'], 
+            password=request.form['password'], 
+            firstname=request.form['firstname'], 
+            lastname=request.form['lastname'], 
+            surname=request.form['surname'], 
+            role=request.form["role"]
+        )   
+        user_id = Users.create(new_student_user)
         new_student = Student(
-            group_id=request.form['group_id'],
-            user_id=request.form['user_id']
+            group_id=group_id,
+            user_id=user_id
         )
         Student.create(new_student)
         return redirect(url_for("opop_group_update"))
     return render_template("pages/opop/group/student/create.html")
 
-@app.route("/opop_student_update/student_id", methods=["GET","POST"])
+@app.route("/opop_student_update/<group_name>/<student_id>", methods=["GET","POST"])
 @login_required
-def opop_student_update(student_id):
+def opop_student_update(group_name,student_user_id):
     if request.method == "POST":
-        old_student = Student.query.filter_by(id=student_id).first()
+        new_group = Group.query.filter_by(name=group_name).first()
+        old_student_user = Users.query.filter_by(id=student_user_id).first()
+        old_student = Student.query.filter_by(user_id=student_user_id).first()
+        new_student_user = Users(
+            login=request.form['login'], 
+            password=request.form['password'], 
+            firstname=request.form['firstname'], 
+            lastname=request.form['lastname'], 
+            surname=request.form['surname'], 
+            role=request.form["role"]
+        )
+        Users.update(old_student_user,new_student_user)
         new_student = Student(
-            group_id=request.form['group_id'],
-            user_id=request.form['user_id']
+            group_id=new_group.id,
+            user_id=student_user_id
         )
         Student.update(old_student,new_student)
         return redirect(url_for("opop_group_update"))
@@ -219,9 +265,19 @@ def opop_practice_create():
             type_of_practice=request.form['type_of_practice'],
             kind_of_practice=request.form['kind_of_practice'],
             order=request.form['order'],
-            recomendations=request.form['recomendations']
+            recomendations=request.form['recomendations_1']
         )
-        Practice.create(new_practice)
+        data = request.form.to_dict()
+        data_keys = data.keys()
+        for checkbox in data_keys:
+            if "check_" in checkbox and request.form[checkbox]:
+                practice_id = Practice.create(new_practice)
+                group_id = int(checkbox.split("_")[1])
+                practice_group = Practice_Group(
+                    practice_id=practice_id,
+                    group_id=group_id
+                )
+                Practice_Group.create(practice_group)
         return redirect(url_for("opop_practice_index"))
     return render_template("pages/opop/practice/create.html")
 
@@ -239,44 +295,134 @@ def opop_practice_update(practice_id):
             order=request.form['order'],
             recomendations=request.form['recomendations']
         )
-        Student.update(old_practice,new_practice)
+        Practice.update(old_practice,new_practice)
+        practices_groups = Practice_Group.query.filter_by(id=practice_id).all()
+        for practice_group in practices_groups:
+            Practice_Group.delete_practice(practice_group)
+        data = request.form.to_dict()
+        data_keys = data.keys()
+        for checkbox in data_keys:
+            if "check_" in checkbox and request.form[checkbox]:
+                practice_id = Practice.create(new_practice)
+                group_id = int(checkbox.split("_")[1])
+                new_practice_group = Practice_Group(
+                    practice_id=practice_id,
+                    group_id=group_id
+                )
+                Practice_Group.create(new_practice_group)
         return redirect(url_for("opop_practice_index"))
     return render_template("pages/opop/practice/update.html")
 
-@app.route("/opop_practice_start")
-@login_required
-def opop_practice_start():
-    return render_template("pages/opop/practice/start.html")
+# @app.route("/opop_practice_start/<practice_id>")
+# @login_required
+# def opop_practice_start(practice_id):
+#     if request.method == "POST":
+#         data = request.form.to_dict()
+#         data_keys = data.keys()
+#         for checkbox in data_keys:
+#             if "check_" in checkbox and request.form[checkbox]:
+#                 paid = True
+#             else:
+#                 paid = False
+#             if "select_type_" in checkbox:
+                
+#             if "select_director_" in checkbox:
+                
+#             student_practice = Student_Practice(
+#                 director_practice_organization_id=
+                
+#             )
+#         return redirect(url_for("opop_practice_index"))
+#     return render_template("pages/opop/practice/start.html")
 
 # ==student practice functions folder==
 
 @app.route("/studentPractice_student")
 @login_required
 def studentPractice_student():
-    return render_template("pages/studentPractice/student.html")
+    student = Student.query.filter_by(user_id=current_user.id).first()
+    student_practice = Student_Practice.query.filter_by(id=student.id).all()
+    return render_template("pages/studentPractice/student.html", student_practice=student_practice)
 
 @app.route("/studentPractice_supervisor")
 @login_required
 def studentPractice_supervisor():
-    students = Student.query.order_by(Student.name).all()
-    return render_template("pages/studentPractice/supervisor.html", students=students)
+    roles = current_user.roles.split()
+    if "director" in roles:
+        director_practice_organization = Director_Practice_Organization.query.filter_by(user_id=current_user.id).first()
+        student_practice_dpo = Student_Practice.query.filter_by(director_practice_organization_id=director_practice_organization.id).all()
+    if "director" in roles:
+        director_practice_usu = Director_Practice_USU.query.filter_by(user_id=current_user.id).first()
+        student_practice_dpu = Practice.query.filter_by(director_practice_usu_id=director_practice_usu.id).all()
+    if "director" in roles:
+        director_practice_company = Director_Practice_Company.query.filter_by(user_id=current_user.id).first()
+        student_practice_dpc = Practice.query.filter_by(director_practice_company_id=director_practice_company.id).all()
+    student_practice = set(student_practice_dpo,student_practice_dpu,student_practice_dpc)
+    return render_template("pages/studentPractice/supervisor.html", student_practice=student_practice)
 
-@app.route("/studentPractice_update/<student_id>", methods=["GET","POST"])
+@app.route("/student_practice_dpu_task_update/<student_practice_id>", methods=["GET","POST"])
 @login_required
-def studentPractice_update(student_id):
-    # if request.method == "POST":
-    #     old_studentPractice = Practice.query.filter_by(id=practice_id).first()
-    #     new_practice = Practice(
-    #         name=request.form['name'],
-    #         start_date=request.form['start_date'],
-    #         end_date=request.form['end_date'],
-    #         type_of_practice=request.form['type_of_practice'],
-    #         kind_of_practice=request.form['kind_of_practice'],
-    #         order=request.form['order'],
-    #         recomendations=request.form['recomendations']
-    #     )
-    #     Student.update(old_practice,new_practice)
-    #     return redirect(url_for("opop_practice_index"))
+def studentPractice_update(student_practice_id):
+    if request.method == "POST":
+        old_student_practice = Student_Practice.query.filter_by(id=student_practice_id).first()
+        new_student_practice = Student_Practice(
+            place_city=request.form['place_city'],
+            place_address=request.form['place_address'],
+            place_name=request.form['place_name'],
+            place_name_short=request.form['place_name_short'],
+        )
+        Student.update(old_student_practice,new_student_practice)
+        return redirect(url_for(f"opop_practice_index/{student_practice_id}"))
+    return render_template("pages/studentPractice/update.html")
+
+@app.route("/student_practice_dpc_task_update/<student_practice_id>", methods=["GET","POST"])
+@login_required
+def student_practice_dpc_task_update(student_practice_id):
+    if request.method == "POST":
+        old_student_practice = Student_Practice.query.filter_by(id=student_practice_id).first()
+        new_student_practice = Student_Practice(
+            passed=request.form['passed'],
+            overcoming_difficulties=request.form['overcoming_difficulties'],
+            demonstrated_qualities=request.form['demonstrated_qualities'],
+            work_volume=request.form['work_volume'],
+            reason=request.form['reason'],
+            remarks=request.form['remarks']
+        )
+        Student.update(old_student_practice,new_student_practice)
+        return redirect(url_for(f"opop_practice_index/{student_practice_id}"))
+    return render_template("pages/studentPractice/update.html")
+
+@app.route("/student_practice_dpo_task_index/<student_practice_id>", methods=["GET","POST"])
+@login_required
+def student_practice_dpo_task_create(student_practice_id):
+    tasks= Task.query.filter_by(student_practice_id=student_practice_id).all()
+    return render_template("pages/studentPractice/update.html", tasks=tasks)
+
+@app.route("/student_practice_dpo_task_create/<student_practice_id>", methods=["GET","POST"])
+@login_required
+def student_practice_dpo_task_create(student_practice_id):
+    if request.method == "POST":
+        new_Task = Task(
+        name=request.form['name'],
+        date=request.form['date'],
+        student_practice_id=student_practice_id
+        )
+        Student.create(new_Task)
+        return redirect(url_for(f"opop_practice_index/{student_practice_id}"))
+    return render_template("pages/studentPractice/update.html")
+
+@app.route("/student_practice_dpo_task_update/<student_practice_id>/<task_id>", methods=["GET","POST"])
+@login_required
+def student_practice_dpo_task_update(student_practice_id,task_id):
+    if request.method == "POST":
+        old_task = Task.query.filter_by(id=task_id).first()
+        new_Task = Task(
+        name=request.form['name'],
+        date=request.form['date'],
+        student_practice_id=student_practice_id
+        )
+        Student.update(old_task, new_Task)
+        return redirect(url_for(f"opop_practice_index/{student_practice_id}"))
     return render_template("pages/studentPractice/update.html")
 
 # ==utilite functions folder==
