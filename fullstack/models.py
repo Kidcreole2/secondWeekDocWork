@@ -1,8 +1,8 @@
 from flask_login import UserMixin, login_user
 from flask_sqlalchemy import SQLAlchemy
 from core import app
-import datetime
-
+import datetime, string, random
+#TODO создание админа
 db = SQLAlchemy(app)
 
 class Users(UserMixin, db.Model):
@@ -62,14 +62,35 @@ class Users(UserMixin, db.Model):
         old_user.lastname = new_user.lastname
         old_user.surname = new_user.surname
         db.session.commit()
+
+    @staticmethod
+    def password_generation():
+        characters = string.ascii_letters + string.digits
+        password = ""   
+        for index in range(10):
+            password = password + random.choice(characters)
+        return password
+    
+    @staticmethod
+    def login_generation():
+        letters = string.ascii_uppercase
+        digits = string.digits
+        login = ""
+        for index in range(10):
+            if index > 3:
+                login = login + random.choice(digits)
+            else:
+                login = login + random.choice(letters)
+        return login
+
                 
 class Practice(db.Model) :
     __tablename__ = "practice"
     id = db.Column(db.Integer, primary_key = True)
     start_date = db.Column(db.Date, nullable = False)
     end_date = db.Column(db.Date, nullable = False)
-    director_practice_usu_id = db.Column(db.Integer, db.ForeignKey("director_practice_usu.user_id"), nullable = True)
-    director_practice_company_id = db.Column(db.Integer, db.ForeignKey("director_practice_company.user_id"), nullable = True)
+    director_practice_usu_id = db.Column(db.Integer, db.ForeignKey("director_practice_usu.user_id"))    
+    director_practice_company_id = db.Column(db.Integer, db.ForeignKey("director_practice_company.user_id"))
     recomendations = db.Column(db.Text, nullable = False, default = "нет")
     name = db.Column(db.String(50), nullable = False, unique = True)
     order = db.Column(db.String(100), nullable = False)
@@ -321,8 +342,8 @@ class Director_Practice_Organization(db.Model) :
 class Specialization(db.Model) :
     __tablename__ = "specialization"
     id = db.Column(db.Integer, primary_key = True)
-    institute_id = db.Column(db.Integer, db.ForeignKey("institute.id"), nallable = True)
-    director_opop_id = db.Column(db.Integer, db.ForeignKey("director_opop.user_id"), nellable = True)
+    institute_id = db.Column(db.Integer, db.ForeignKey("institute.id"))
+    director_opop_id = db.Column(db.Integer, db.ForeignKey("director_opop.user_id"))
     name = db.Column(db.String(100), unique=True, nullable = False)
     specialization_code = db.Column(db.String(20), unique=True, nullable = False)
 
@@ -370,16 +391,18 @@ class Group(db.Model) :
     specialization_id = db.Column(db.Integer, db.ForeignKey("specialization.id"))
     name = db.Column(db.String(10), nullable = False, unique = True)
     course = db.Column(db.String(15), nullable = False)
+    form = db.Colomn(db.String(15), nullable = False)
 
     # связи
     specialization = db.relationship("Specialization", back_populates="group")
     student = db.relationship("Student", back_populates="group")
     practice_group = db.relationship("Practice_Group", back_populates="group")
 
-    def __init__(self, specialization_id: int, name: str, course: str):
+    def __init__(self, specialization_id: int, name: str, course: str, form: str):
         self.specialization_id = specialization_id
         self.name = name
         self.course = course
+        self.form = form
 
     @staticmethod
     def create(group):
@@ -412,15 +435,18 @@ class Student(db.Model) :
     id = db.Column(db.Integer, primary_key = True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), unique=True)
     group_id = db.Column(db.Integer, db.ForeignKey("group.id"))
-    name_pr = db.Column(db.String(100), nullable=False)
+    name_rp = db.Column(db.String(100), nullable=False)
+    name_dp = db.Column(db.String(100), nullable=False)
     # связи
     user = db.relationship("Users", back_populates="student")
     group = db.relationship("Group", back_populates="student")
     student_practice = db.relationship("Student_Practice", back_populates="student")
 
-    def __init__(self, user_id: int, group_id: int):
+    def __init__(self, user_id: int, group_id: int, name_rp: str, name_dp: str):
         self.user_id = user_id
         self.group_id = group_id
+        self.name_rp = name_rp
+        self.name_dp = name_dp
 
     @staticmethod
     def create(student):
@@ -484,7 +510,7 @@ class Student_Practice(db.Model) :
     id = db.Column(db.Integer, primary_key = True)
     student_id = db.Column(db.Integer, db.ForeignKey("student.user_id"))
     practice_id = db.Column(db.Integer, db.ForeignKey("practice.id"))
-    director_practice_organization_id = db.Column(db.Integer, db.ForeignKey("director_practice_organization.user_id"), nullable = True)
+    director_practice_organization_id = db.Column(db.Integer, db.ForeignKey("director_practice_organization.user_id"))
     passed = db.Column(db.Boolean, nullable=False)
     kind_of_contract = db.Column(db.String(100), nullable = False)
     paid = db.Column(db.Boolean, nullable = False)
