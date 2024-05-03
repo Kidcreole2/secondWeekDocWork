@@ -91,6 +91,30 @@ class Practice(db.Model) :
         self.type_of_practice = type_of_practice
         self.kind_of_practice = kind_of_practice
 
+    @staticmethod
+    def create(practice):
+        new_practice = Practice.query.filter_by(name = practice.id).first()
+        if new_practice is None:
+            db.session.add(practice)
+            db.session.commit()
+            return Practice.query.filter_by(name=practice.name).first().id
+        else: 
+            return new_practice.id
+
+    @staticmethod
+    def update(old_practice, new_pratice):
+        old_practice = Practice.query.filter_by(id=old_practice.id).first()
+        old_practice.start_date = new_pratice.start_date
+        old_practice.end_date = new_pratice.end_date
+        old_practice.director_practice_usu_id = new_pratice.director_practice_usu_id
+        old_practice.director_practice_company_id = new_pratice.director_practice_company_id
+        old_practice.recomendations = new_pratice.recomendations
+        old_practice.name = new_pratice.name
+        old_practice.order = new_pratice.order
+        old_practice.type_of_practice = new_pratice.type_of_practice
+        old_practice.kind_of_practice = new_pratice.kind_of_practice
+        db.session.commit()
+
 class Institute(db.Model) :
     __tablename__ = "institute"
     id = db.Column(db.Integer, primary_key = True)
@@ -103,7 +127,7 @@ class Institute(db.Model) :
         self.name = name
 
     @staticmethod
-    def add_institute(institute):
+    def create(institute):
         new_institute = Institute.query.filter_by(name=institute.name).first()
         if new_institute is None:
             db.session.add(institute)
@@ -111,6 +135,12 @@ class Institute(db.Model) :
             return Institute.query.filter_by(name=institute.name).first().id
         else:
             return new_institute.id
+
+    @staticmethod
+    def update(old_institute, new_institute):
+        old_institute = Institute.query.filter_by(id=old_institute.id).first()
+        old_institute.name = new_institute.name
+        db.session.commit()
 
 class Director_OPOP(db.Model) :
     __tablename__ = "director_opop"
@@ -127,14 +157,20 @@ class Director_OPOP(db.Model) :
         self.post = post
 
     @staticmethod
-    def add_director_opop(directior):
-        new_director = Director_OPOP.query.filter_by(user_id=directior.user_id).first()
+    def create(director):
+        new_director = Director_OPOP.query.filter_by(user_id=director.user_id).first()
         if new_director == None:
-            db.session.add(directior)
+            db.session.add(director)
             db.session.commit()
-            return {"id": directior.id, "exists": False}
+            return {"id": director.id, "exists": False}
         else:
             return {"id": new_director.id, "exists": True}
+
+    @staticmethod
+    def update(old_director, new_director):
+        old_director = Director_OPOP.query.filter_by(id=old_director.id).first()
+        old_director.post = new_director.post
+        db.session.commit()
 
 class Director_Practice_USU(db.Model) :
     __tablename__ = "director_practice_usu"
@@ -150,6 +186,22 @@ class Director_Practice_USU(db.Model) :
         self.user_id = user_id
         self.post = post
 
+    @staticmethod
+    def create(director):
+        new_director = Director_Practice_USU.query.filter_by(user_id=director.user_id).first()
+        if new_director == None:
+            db.session.add(director)
+            db.session.commit()
+            return {"id": director.id, "exists": False}
+        else:
+            return {"id": new_director.id, "exists": True}
+
+    @staticmethod
+    def update(old_director, new_director):
+        old_director = Director_Practice_USU.query.filter_by(id=old_director.id).first()
+        old_director.post = new_director.post
+        db.session.commit()
+
 class Director_Practice_Company(db.Model) :
     __tablename__ = "director_practice_company"
     id = db.Column(db.Integer, primary_key = True)
@@ -164,6 +216,22 @@ class Director_Practice_Company(db.Model) :
         self.user_id = user_id
         self.post = post
 
+    @staticmethod
+    def create(director):
+        new_director = Director_Practice_Company.query.filter_by(user_id=director.user_id).first()
+        if new_director == None:
+            db.session.add(director)
+            db.session.commit()
+            return {"id": director.id, "exists": False}
+        else:
+            return {"id": new_director.id, "exists": True}
+
+    @staticmethod
+    def update(old_director, new_director):
+        old_director = Director_Practice_Company.query.filter_by(id=old_director.id).first()
+        old_director.post = new_director.post
+        db.session.commit()
+
 class Director_Practice_Organization(db.Model) :
     __tablename__ = "director_practice_organization"
     id = db.Column(db.Integer, primary_key = True)
@@ -177,6 +245,22 @@ class Director_Practice_Organization(db.Model) :
     def __init__(self, user_id: int, post: str):
         self.user_id = user_id
         self.post = post
+
+    @staticmethod
+    def create(director):
+        new_director = Director_Practice_Organization.query.filter_by(user_id=director.user_id).first()
+        if new_director == None:
+            db.session.add(director)
+            db.session.commit()
+            return {"id": director.id, "exists": False}
+        else:
+            return {"id": new_director.id, "exists": True}
+
+    @staticmethod
+    def update(old_director, new_director):
+        old_director = Director_Practice_Organization.query.filter_by(id=old_director.id).first()
+        old_director.post = new_director.post
+        db.session.commit()
 
 class Specialization(db.Model) :
     __tablename__ = "specialization"
@@ -198,7 +282,7 @@ class Specialization(db.Model) :
         self.specialization_code = specialization_code
 
     @staticmethod
-    def add_specialisation(spec):
+    def create(spec):
         new_spec = Specialization.query.filter_by(name=spec.name).first()
         if new_spec == None:
             db.session.add(spec)
@@ -206,6 +290,15 @@ class Specialization(db.Model) :
             return spec.id
         else:
             return new_spec.id
+
+    @staticmethod
+    def update(old_specialization, new_specialization):
+        old_specialization = Specialization.query.filter_by(id=old_specialization.id).first()
+        old_specialization.institute_id = new_specialization.institute_id
+        old_specialization.director_opop_id = new_specialization.director.opop.id
+        old_specialization.name - new_specialization.name
+        old_specialization.specialization_code = new_specialization.specialization_code
+        db.session.commit()
 
 class Group(db.Model) :
     __tablename__ = "group"
@@ -225,7 +318,7 @@ class Group(db.Model) :
         self.course = course
 
     @staticmethod
-    def add_group(group):
+    def create(group):
         new_group = Group.query.filter_by(name=group.name).first()
         if new_group is None:
             db.session.add(group)
@@ -233,6 +326,14 @@ class Group(db.Model) :
             return Group.query.filter_by(name=group.name).first().id
         else:
             return new_group.id
+
+    @staticmethod
+    def update(old_group, new_group):
+        old_group = Group.query.filter_by(id=old_group.id).first()
+        old_group.specialization_id = new_group.specialization_id
+        old_group.name = new_group.name
+        old_group.course = new_group.course
+        db.session.commit()
 
 class Student(db.Model) :
     __tablename__ = "student"
@@ -250,7 +351,7 @@ class Student(db.Model) :
         self.group_id = group_id
 
     @staticmethod
-    def add_student(student):
+    def create(student):
         new_student = Student.query.filter(user_id=student.user_id).first()
         if new_student == None:
             db.session.add(student)
@@ -258,6 +359,13 @@ class Student(db.Model) :
             return Student.query.filter_by(user_id=student.user_id).first().id
         else:
             return new_student.id
+
+    @staticmethod
+    def update(old_student, new_student):
+        old_student = Student.query.filter_by(id=old_student.id).first()
+        old_student.group_id = new_student.group_id
+        old_student.name_pr = new_student.name_pr
+        db.session.commit()
 
 class Practice_Group(db.Model) :
     __tablename__ = "practice_group"
@@ -323,6 +431,23 @@ class Task(db.Model):
         self.date = date
         self.student_practice_id = student_practice_id
 
+    @staticmethod
+    def create(task):
+        new_task = Task.query.filter_by(name=task.name).first()
+        if new_task is None:
+            db.session.add(task)
+            db.session.commit()
+            return Task.query.filter_by(name=task.name).first().id
+        else: 
+            return new_task.id
+        
+    @staticmethod
+    def update(old_task, new_task):
+        old_task = Task.query.filter_by(id=old_task.id).first()
+        old_task.name = new_task.name
+        old_task.date = new_task.date
+        old_task.student_practice_id = new_task.student_practice_id
+        db.session.commit()
 
 with app.app_context():
     db.create_all()
