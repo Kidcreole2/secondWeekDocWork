@@ -44,7 +44,7 @@ class Users(UserMixin, db.Model):
                 return "wrong_pass"
     
     @staticmethod
-    def add(user):
+    def create(user):
         new_user = Users.query.filter_by(login=user.login).first()
         if new_user is None:
             db.session.add(user)
@@ -53,6 +53,16 @@ class Users(UserMixin, db.Model):
         else:
             return {"id": new_user.id, "exists": True}
         
+    @staticmethod 
+    def update(old_user_login, new_user): 
+        old_user = Users.query.filter_by(login=old_user_login).first()
+        old_user.login = new_user.login
+        old_user.password = new_user.password
+        old_user.firstname = new_user.firstname
+        old_user.lastname = new_user.lastname
+        old_user.surname = new_user.surname
+        db.session.commit()
+                
 class Practice(db.Model) :
     __tablename__ = "practice"
     id = db.Column(db.Integer, primary_key = True)
