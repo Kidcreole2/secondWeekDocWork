@@ -1,17 +1,25 @@
 import docxtpl
+import os
 from flask_login import current_user
 from models import *
+import pymorphy2
 
 class StudentDocument:
     
-    def __init__(self, name):
+    def __init__(self):
         self.__document = docxtpl.DocxTemplate("./templates/student_template.docx")
+        self.__base_path = "output/"
     
-
-
-    def __get_full_name_with_initials(full_name:list):
+    def __get_full_name_with_initials(full_name:list)->str :
         return f"{full_name[0]} {full_name[1][0]}. {full_name[2][0]}."
 
+    def __get_case_fullname(fullname:list, case:str)->str:
+        morph = pymorphy2.MorphAnalyzer()
+        lastname = morph.parse(fullname[0])[0].inflect({case}).word
+        firstname = morph.parse(fullname[1])[0].inflect({case}).word
+        surname = morph.parse(fullname[2])[0].inflect({case}).word
+        return f"{lastname[0].upper()+lastname[1:]} {firstname[0].upper() + firstname[1:]} {surname[0] + surname[1:]}"
+    
     def __collect_student_data(self):
         name = [current_user.lastname, current_user.firstname, current_user.surname]
         group_id = Student.query.filter_by(user_id=current_user.id).first().group_id
@@ -21,7 +29,8 @@ class StudentDocument:
         
         student_data = {
             "name": " ".join(name),
-            "name_rp": current_user.name_rp,
+            "name_dp": self.__get_case_fullname(name, "datv"),
+            "name_rp": self.__get_case_fullname(name, "gent"),
             "name_short": self.__get_full_name_with_initials(name),
             "group": group.name,
             "course": group.course,
@@ -141,7 +150,8 @@ class StudentDocument:
             "remarks": student_practice.remarks,
             "rating": student_practice.rating,
             "year": practice.start_date.year
-        }        
+        }
+        return practice_data
 
     def __get_practice_kind(practice_kind):
         match practice_kind:
@@ -193,8 +203,17 @@ class StudentDocument:
         return datas
     
     def generateDocument(self):
-        table_contents = self.__getTableData()
-        self.__document.render(table_contents)
-        self.__document.save("output/test.docx")
-
-    
+        if not os.path.isdir(os.path.join(self.__base_path, f"{current_user.firstname}_{current_user.lastname}_{current_user.id}")):
+            path = os.path.join(self.__base_path, f"{current_user.firstname}_{current_user.lastname}_{current_user.id}") 
+            os.mkdir(path)  
+            table_contents = self.__collect_data()
+            document_names = []
+            for table in table_contents:
+                document_name = f"{current_user.firstname}_{current_user.lastname}_{table["practice"]["start"]["date"]}.docx"
+                self.__document.render(table)
+                self.__document.save(f"{path}/{document_name}")
+        
+    def getDocuments(self):
+        self.generate_document()
+        path = os.path.join(self.__base_path, f"{current_user.firstname}_{current_user.lastname}_{current_user.id}") 
+        return os.listdir(path)
