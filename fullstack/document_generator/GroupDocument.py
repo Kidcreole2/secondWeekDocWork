@@ -61,7 +61,7 @@ class GroupDocument:
                 return d
     
     def __collect_practice_data(self):
-        usu_director = Director_Practice_USU.query.filter_by(id=self.__practice.director_practice_id).first()
+        usu_director = Director_Practice_USU.query.filter_by(id=self.__practice.director_practice_usu_id).first()
         usu_director_user = Users.query.filter_by(id=usu_director.user_id).first()
         institute_id = Specialization.query.filter_by(director_opop_id=current_user.id).first().institute_id
         institute_name = Institute.query.filter_by(id=institute_id).first().name
