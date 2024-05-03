@@ -58,6 +58,8 @@ class Practice(db.Model) :
     id = db.Column(db.Integer, primary_key = True)
     start_date = db.Column(db.Date, nullable = False)
     end_date = db.Column(db.Date, nullable = False)
+    director_practice_usu_id = db.Column(db.Integer, db.ForeignKey("director_practice_usu.users.id"))
+    director_practice_company_id = db.Column(db.Integer, db.ForeignKey("director_practice_company.users.id"))
     recomendations = db.Column(db.Text, nullable = False, default = "нет")
     name = db.Column(db.String(50), nullable = False)
     order = db.Column(db.String(100), nullable = False)
