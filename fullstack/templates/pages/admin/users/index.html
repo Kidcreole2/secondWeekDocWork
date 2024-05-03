@@ -1,19 +1,19 @@
 {% extends "base.html" %} {% block content %}
 <div>
-  <a href="/admin_index"><button type="button">Return</button></a>
+  <a href="/admin_index">Назад</a>
 </div>
 <div>
-  <a href="/admin_user_create"><button type="button">Create user</button></a>
+  <a href="/admin_user_create">Создать пользователя</a>
 </div>
 <div>
   <table>
     <tr>
-      <th>First Name</th>
-      <th>Last Name</th>
-      <th>Surname</th>
-      <th>Role</th>
-      <th>Login</th>
-      <th>Password</th>
+      <th>Имя</th>
+      <th>Фамилия</th>
+      <th>Отчество</th>
+      <th>Роль</th>
+      <th>Логин</th>
+      <th>Пароль</th>
     </tr>
     {% for user in users %}
     <tr>
@@ -24,9 +24,7 @@
       <td>{{ user.login }}</td>
       <td>{{ user.password }}</td>
       <td>
-        <a href="/admin_user_update/{{user.login}}"
-          ><button type="button">Update user</button></a
-        >
+        <a href="/admin_user_update/{{user.login}}">Изменить пользователя</a>
       </td>
     </tr>
     {% endfor %}

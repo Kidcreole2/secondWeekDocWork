@@ -12,25 +12,25 @@
         {% if current_user.is_authenticated %}
         <header>
             <div style="display: flex; justify-content: space-between;">
-            <h2 style="text-align: center;">Home</h2>
+            <h2 style="text-align: center;">Главная</h2>
             <div style="display: flex;  flex-direction: row-reverse;"> 
-            <a href="/logout"><button type="button">Выйти</button></a>
+            <a href="/logout">Выйти</a>
             {% for role in roles%}
             {%if role == "opop"%}
-            <a href="/opop_index"><button type="button">Go to opop</button></a>
+            <a href="/opop_index">Перейти к ОПОП</a>
             {% elif role == "admin" %}
-            <a href="/admin_index"><button type="button">Go to admin</button></a>
+            <a href="/admin_index">Перейти к админу</a>
             {% elif role == "supervisorUgrasu" %}
-            <a href="/supervisorUgrasu_index"><button type="button">Go to supervisorUgrasu</button></a>
+            <a href="/supervisorUgrasu_index">Перейти к руководителю практики ЮГУ</a>
             {% elif role == "supervisorCompany" %}
-            <a href="/supervisorCompany_index"><button type="button">Go to supervisorCompany</button></a>
+            <a href="/supervisorCompany_index">Перейти к руководителю предприятия</a>
             {% elif role == "supervisorPracticeOrg" %}
-            <a href="/supervisorPracticeOrg_index"><button type="button">Go to supervisorPracticeOrg</button></a>
+            <a href="/supervisorPracticeOrg_index">Перейти к руководителю организации</a>
             {% endif %}
             {% endfor %}
             </header>
             <div>                
-                <a href="/admin_institute_update"><button type="button">Return</button></a>
+                <a href="/admin_institute_update">Назад</a>
             </div>
             <form action="/" method="post">
                 <div>
@@ -45,11 +45,11 @@
                     <input type="text" name="director_opop_id"required>
                     <label for="name">Имя</label>
                 </div>
-              <a href="/admin_specialization_create"><button  type="button">Confirm</button></a>
+              <a href="/admin_specialization_create">Создать</a>
             </form>
         {% else %}
-        <h1>You are not logged in</h1>
-        <a href="/"><button type="button">Return</button></a> 
+        <h1>Вы не вошли</h1>
+        <a href="/">Назад</a> 
         {% endif %}
         <script src="" async defer></script>
     </body>
