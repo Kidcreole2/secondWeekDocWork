@@ -1,4 +1,5 @@
 {% extends "base.html" %} {% block content %}
+<a href="/opop_practice_start/{{ practice_id }}" class="btn">Start</a>
 <form action="#" method="post">
   <div>
     <input type="text" name="name" required />
@@ -13,11 +14,20 @@
     <label for="end_date">Дата конца практики</label>
   </div>
   <div>
-    <input type="text" name="type_of_practice" required />
+    <select name="type_of_practice">
+      <option value="ознакомительная">Ознакомительная</option>
+      <option value="научно-исследовательская">Научно-исследовательская</option>
+      <option value="производственная">Производственная</option>
+      <option value="технологическая">Технологическая</option>
+      <option value="преддипломная">Преддипломная</option>
+    </select>
     <label for="type_of_practice">Тип практики</label>
   </div>
   <div>
-    <input type="text" name="kind_of_practice" required />
+    <select name="kind_of_practice" required >
+      <option value="учебная">Учебная</option>
+      <option value="производственная">Производственная</option>
+    </select>
     <label for="kind_of_practice">Вид практики</label>
   </div>
   <div>

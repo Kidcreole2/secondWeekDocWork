@@ -509,18 +509,18 @@ class Student_Practice(db.Model) :
     student_id = db.Column(db.Integer, db.ForeignKey("student.user_id"))
     practice_id = db.Column(db.Integer, db.ForeignKey("practice.id"))
     director_practice_organization_id = db.Column(db.Integer, db.ForeignKey("director_practice_organization.user_id"))
-    passed = db.Column(db.Boolean, nullable=False)
-    kind_of_contract = db.Column(db.String(100), nullable = False)
-    paid = db.Column(db.Boolean, nullable = False)
-    overcoming_difficulties = db.Column(db.Text, nullable = False)
-    demonstrated_qualities = db.Column(db.Text, nullable = False)
-    work_volume = db.Column(db.Text, nullable = False)
-    reason = db.Column(db.Text, nullable = True)
-    remarks = db.Column(db.Text, nullable = False)
-    place_city = db.Column(db.String(50), nullable = False)
-    place_address = db.Column(db.String(100), nullable = False)
-    place_name = db.Column(db.String(100), nullable = False)
-    place_name_short = db.Column(db.String(100), nullable = False)
+    passed = db.Column(db.Boolean)
+    kind_of_contract = db.Column(db.String(100))
+    paid = db.Column(db.Boolean)
+    overcoming_difficulties = db.Column(db.Text)
+    demonstrated_qualities = db.Column(db.Text)
+    work_volume = db.Column(db.Text)
+    reason = db.Column(db.Text)
+    remarks = db.Column(db.Text)
+    place_city = db.Column(db.String(50))
+    place_address = db.Column(db.String(100))
+    place_name = db.Column(db.String(100))
+    place_name_short = db.Column(db.String(100))
     
     # связи
     practice = db.relationship("Practice", back_populates="student_practice")
@@ -528,17 +528,12 @@ class Student_Practice(db.Model) :
     student = db.relationship("Student", back_populates="student_practice")
     task = db.relationship("Task", back_populates="student_practice")
 
-    def __init__(self, student_id: int, practice_id: int, director_practice_organization_id: int, kind_of_contract: str, paid: bool, overcoming_difficulties: str, production_tasks: str, demonstrated_qualities: str, work_volume: str, remarks: str):
+    def __init__(self, student_id: int, practice_id: int, director_practice_organization_id: int, kind_of_contract: str, paid: bool):
         self.student_id = student_id
         self.practice_id = practice_id
         self.director_practice_organization_id = director_practice_organization_id
         self.kind_of_contract = kind_of_contract
         self.paid = paid
-        self.overcoming_difficulties = overcoming_difficulties
-        self.production_tasks = production_tasks
-        self.demonstrated_qualities = demonstrated_qualities
-        self.work_volume = work_volume
-        self.remarks = remarks
 
     @staticmethod
     def create(student_practice):

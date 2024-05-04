@@ -1,4 +1,4 @@
-from flask import request, render_template, redirect, url_for, flash, get_flashed_messages
+from flask import request, render_template, redirect, url_for, flash, get_flashed_messages, jsonify
 from flask_login import logout_user, current_user, login_required
 from core import app, login_manager
 from datetime import datetime as date
@@ -321,26 +321,31 @@ def opop_practice_update(practice_id):
                     group_id=group_id
                 )
                 Practice_Group.create(new_practice_group)
-        return redirect(url_for("opop_practice_index"))
-    return render_template("pages/opop/practice/update.html")
+        return redirect(url_for(request.url))
+    return render_template("pages/opop/practice/update.html", practice_id=practice_id)
 
-@app.route("/opop_practice_start")
+
+
+@app.route("/opop_practice_start/<practice_id>", methods=["GET","POST"])
 @login_required
-def opop_practice_start():
+def opop_practice_start(practice_id):
     if request.method == "POST":
-        students = request.form()
-        for student in students:
-            new_student_practice = Student_Practice(
-                student_id=student["id"],
-                practice_id=student["practice_id"],
-                director_practice_organization_id=student["director_of_practice_organization"],
-                paid=student["paid"],
-                kind_of_contract= student["king_of_practice"]
-            )
-            Student_Practice.create(new_student_practice)
-        return
-        # return jsonify()
-    return render_template("pages/opop/practice/start.html")
+        groups = Practice_Group.query.filter_by(practice_id=practice_id).all()
+        for group in groups:
+            students = Student.query.filter_by(group_id=group.id).all()
+            for student in students:
+                practice = Student_Practice(student_id=student.user_id, 
+                                            practice_id=practice_id, 
+                                            director_practice_organization_id=request.form["director_of_practice_organization"], 
+                                            kind_of_contract=request.form["kind_of_contract"], 
+                                            paid=bool(request.form["paid"]))
+                Student_Practice.create(practice)
+        return redirect(url_for("opop_practice_index"))
+    directors = Director_Practice_Company.query.all()
+    
+    
+    return render_template("pages/opop/practice/start.html", directors=directors)
+
 
 # ==student practice functions folder==
 
@@ -348,8 +353,10 @@ def opop_practice_start():
 @login_required
 def studentPractice_student():
     student = Student.query.filter_by(user_id=current_user.id).first()
-    student_practice = Student_Practice.query.filter_by(id=student.id).all()
-    return render_template("pages/studentPractice/student.html", student_practice=student_practice)
+    print(student)
+    student_practice = Student_Practice.query.filter_by(student_id=student.user_id  ).all()
+    print(student)
+    return render_template("pages/studentPactice/student.html", student_practices=student_practice)
 
 @app.route("/studentPractice_supervisor")
 @login_required
@@ -380,7 +387,7 @@ def studentPractice_update(student_practice_id):
         )
         Student.update(old_student_practice,new_student_practice)
         return redirect(url_for(f"opop_practice_index/{student_practice_id}"))
-    return render_template("pages/studentPractice/update.html")
+    return render_template("pages/studentPactice/update.html")
 
 @app.route("/student_practice_dpc_task_update/<student_practice_id>", methods=["GET","POST"])
 @login_required
@@ -397,13 +404,13 @@ def student_practice_dpc_task_update(student_practice_id):
         )
         Student.update(old_student_practice,new_student_practice)
         return redirect(url_for(f"opop_practice_index/{student_practice_id}"))
-    return render_template("pages/studentPractice/update.html")
+    return render_template("pages/studentPactice/update.html")
 
 @app.route("/student_practice_dpo_task_index/<student_practice_id>", methods=["GET","POST"])
 @login_required
 def student_practice_dpo_task_index(student_practice_id):
     tasks= Task.query.filter_by(student_practice_id=student_practice_id).all()
-    return render_template("pages/studentPractice/update.html", tasks=tasks)
+    return render_template("pages/studentPactice/tasks/index.html", tasks=tasks)
 
 @app.route("/student_practice_dpo_task_create/<student_practice_id>", methods=["GET","POST"])
 @login_required
@@ -416,7 +423,7 @@ def student_practice_dpo_task_create(student_practice_id):
         )
         Student.create(new_Task)
         return redirect(url_for(f"opop_practice_index/{student_practice_id}"))
-    return render_template("pages/studentPractice/update.html")
+    return render_template("pages/studentPactice/update.html")
 
 @app.route("/student_practice_dpo_task_update/<student_practice_id>/<task_id>", methods=["GET","POST"])
 @login_required
@@ -430,7 +437,7 @@ def student_practice_dpo_task_update(student_practice_id,task_id):
         )
         Student.update(old_task, new_Task)
         return redirect(url_for(f"opop_practice_index/{student_practice_id}"))
-    return render_template("pages/studentPractice/update.html")
+    return render_template("pages/studentPactice/update.html")
 
 # ==utilite functions folder==
 
