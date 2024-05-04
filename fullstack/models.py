@@ -393,7 +393,7 @@ class Group(db.Model) :
     specialization_id = db.Column(db.Integer, db.ForeignKey("specialization.id"))
     name = db.Column(db.String(10), nullable = False, unique = True)
     course = db.Column(db.String(15), nullable = False)
-    form = db.Colomn(db.String(15), nullable = False)
+    form = db.Column(db.String(15), nullable = False)
 
     # связи
     specialization = db.relationship("Specialization", back_populates="group")
