@@ -1,5 +1,5 @@
 {% extends "base.html" %} {% block content %}
-<form>
+<form action="#" method="post">
   <div>
     <input type="text" name="name" required />
     <label for="name">Имя</label>
@@ -28,5 +28,6 @@
     <input type="text" name="recomendations" />
     <label for="recomendations">Рекомендации(не обязательно)</label>
   </div>
+  <button class="btn" type="submit">Обновить</button>
 </form>
 {% endblock %}

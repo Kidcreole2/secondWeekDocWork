@@ -39,16 +39,12 @@
           <a href="/admin_index">Перейти к панели администратора</a>
         </li>
         <li>
-          {#{% elif role == "supervisorUgrasu" %}#}
-          <a href="/supervisorUgrasu_index">Перейти к панели руководителя практики от югу</a>
+          {#{% elif role == "supervisorUgrasu" || role == "supervisorCompany"|| role == "supervisorPracticeOrg" %}#}
+          <a href="/studentPractice_supervisor">Перейти к панели руководителя</a>
         </li>
         <li>
-          {#{% elif role == "supervisorCompany" %}#}
-          <a href="/supervisorCompany_index">Перейти к панели руководителя практики от компании</a>
-        </li>
-        <li>
-          {#{% elif role == "supervisorPracticeOrg" %}#}
-          <a href="/supervisorPracticeOrg_index">Перейти к панели руководителя практики от предприятия</a>
+          {#{%if role == "student"%}#}
+          <a href="/studentPractice_student">Перейти к панели студента</a>
         </li>
         {#{% endif %} {% endfor %}#}
       </ul>

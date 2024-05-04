@@ -11,13 +11,16 @@
   <thead class="group-table__head">
     <tr class="group-table__names">
       <th class="group-table__content">Номер группы</th>
-      <th class="group-table__content">Название Напрваления</th>
+      <th class="group-table__content">Курс</th>
     </tr>
   </thead>
   <tbody class="group-table__body">
+    {% for group in groups %}
     <tr class="group-table__data">
-<!-- вывести -->
+      <td>{{group.name}}</td>
+      <td>{{group.course}}</td>
     </tr>
+    {% endfor %}
   </tbody>
 </table>
 {% endblock %}
