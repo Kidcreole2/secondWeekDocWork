@@ -1,0 +1,26 @@
+{% extends "base.html" %} {% block content %}
+<div class="admin-back">
+    <a href="/home">Назад</a>
+</div>
+<div>
+    <a href="/">Создать задачу</a>
+</div>
+<h2 class="task-table__name">Задачи</h2>
+<table class="task-table">
+    <thead class="task-table__head">
+        <tr class="task-table__names">
+            <th class="task-table__content">Название задания</th>
+            <th class="task-table__content">Дата</th>
+        </tr>
+    </thead>
+    <tbody class="task-table__body">
+        {% for task in tasks %}
+        <tr class="task-table__data">
+            <td class="task-table__content">{{task.name}}</td>
+            <td class="task-table__content">{{task.date}}</td>
+            <td class="task-table__content"><a href="/studentPractice_task_update/{{student_practice_id}}/task.id">Обновить</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
