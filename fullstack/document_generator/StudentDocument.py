@@ -209,7 +209,8 @@ class StudentDocument:
             table_contents = self.__collect_data()
             document_names = []
             for table in table_contents:
-                document_name = f"{current_user.firstname}_{current_user.lastname}_{table["practice"]["start"]["date"]}.docx"
+                date = table["practice"]["start"]["date"]
+                document_name = f"{current_user.firstname}_{current_user.lastname}_{date}.docx"
                 self.__document.render(table)
                 self.__document.save(f"{path}/{document_name}")
         

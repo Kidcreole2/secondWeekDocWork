@@ -96,7 +96,6 @@ class Practice(db.Model) :
     order = db.Column(db.String(100), nullable = False)
     type_of_practice = db.Column(db.String(100), nullable = False)
     kind_of_practice = db.Column(db.String(100), nullable = False)
-    started = db.Column(db.Bool, nullable = False)
 
     # связи
     director_practice_usu = db.relationship("Director_Practice_USU", back_populates="practice")
@@ -104,7 +103,7 @@ class Practice(db.Model) :
     practice_group = db.relationship("Practice_Group", back_populates="practice")
     student_practice = db.relationship("Student_Practice", back_populates="practice")
 
-    def __init__(self, start_date: datetime.date, end_date: datetime.date, recomendations: str, name: str, order: str, type_of_practice: str, kind_of_practice: str, started: bool):
+    def __init__(self, start_date: datetime.date, end_date: datetime.date, recomendations: str, name: str, order: str, type_of_practice: str, kind_of_practice: str):
         self.start_date = start_date
         self.end_date = end_date
         self.recomendations = recomendations
@@ -112,7 +111,6 @@ class Practice(db.Model) :
         self.order = order
         self.type_of_practice = type_of_practice
         self.kind_of_practice = kind_of_practice
-        self.started = started
 
     @staticmethod
     def create(practice):
@@ -136,7 +134,6 @@ class Practice(db.Model) :
         old_practice.order = new_pratice.order
         old_practice.type_of_practice = new_pratice.type_of_practice
         old_practice.kind_of_practice = new_pratice.kind_of_practice
-        old_practice.started = new_pratice.started
         db.session.commit()
 
     @staticmethod

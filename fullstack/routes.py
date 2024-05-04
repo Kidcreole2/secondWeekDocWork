@@ -1,9 +1,11 @@
-from flask import request, render_template, redirect, url_for, flash, get_flashed_messages, jsonify
+from flask import request, render_template, send_from_directory, redirect, url_for, flash, current_app, get_flashed_messages
 from flask_login import logout_user, current_user, login_required
 from core import app, login_manager
 from datetime import datetime as date
 from models import *
 from file_manager import allowed_file, save_file
+from document_generator import StudentDocument
+import os
 
 @login_manager.user_loader
 def loader_user(user_id):
@@ -387,7 +389,7 @@ def studentPractice_update(student_practice_id):
         )
         Student.update(old_student_practice,new_student_practice)
         return redirect(url_for(f"opop_practice_index/{student_practice_id}"))
-    return render_template("pages/studentPactice/update.html")
+    return render_template("pages/studentPactice/update_diary.html")
 
 @app.route("/student_practice_dpc_task_update/<student_practice_id>", methods=["GET","POST"])
 @login_required
@@ -404,7 +406,7 @@ def student_practice_dpc_task_update(student_practice_id):
         )
         Student.update(old_student_practice,new_student_practice)
         return redirect(url_for(f"opop_practice_index/{student_practice_id}"))
-    return render_template("pages/studentPactice/update.html")
+    return render_template("pages/studentPactice/update_characteristics.html")
 
 @app.route("/student_practice_dpo_task_index/<student_practice_id>", methods=["GET","POST"])
 @login_required
@@ -418,12 +420,12 @@ def student_practice_dpo_task_create(student_practice_id):
     if request.method == "POST":
         new_Task = Task(
         name=request.form['name'],
-        date=request.form['date'],
+        date=date.strptime(request.form['date'], "%Y-%m-%d"),
         student_practice_id=student_practice_id
         )
-        Student.create(new_Task)
-        return redirect(url_for(f"opop_practice_index/{student_practice_id}"))
-    return render_template("pages/studentPactice/update.html")
+        Task.create(new_Task)
+        return render_template("pages/studentPactice/tasks/index.html",student_practice_id=student_practice_id)
+    return render_template("pages/studentPactice/tasks/create.html")
 
 @app.route("/student_practice_dpo_task_update/<student_practice_id>/<task_id>", methods=["GET","POST"])
 @login_required
@@ -432,14 +434,26 @@ def student_practice_dpo_task_update(student_practice_id,task_id):
         old_task = Task.query.filter_by(id=task_id).first()
         new_Task = Task(
         name=request.form['name'],
-        date=request.form['date'],
+        date=date.strptime(request.form['date'], "%Y-%m-%d"),
         student_practice_id=student_practice_id
         )
-        Student.update(old_task, new_Task)
+        Task.update(old_task, new_Task)
         return redirect(url_for(f"opop_practice_index/{student_practice_id}"))
-    return render_template("pages/studentPactice/update.html")
+    return render_template("pages/studentPactice/tasks/update.html")
 
 # ==utilite functions folder==
+
+# @app.route('/uploads/<path:filename>', methods=['GET', 'POST'])
+# def download(filename):
+#     uploads = os.path.join(current_app.root_path, 'outputs')
+#     return send_from_directory(uploads, filename)
+
+# @app.route('/uploads/', methods=['GET', 'POST'])
+# def download():
+#     uploads = os.path.join(current_app.root_path, 'outputs')
+#     student_doc = StudentDocument()
+#     student_docs = student_doc.getDocuments()
+#     return send_from_directory(uploads, student_docs)
 
 @app.route("/upload_specs", methods=["GET", "POST"])
 @login_required

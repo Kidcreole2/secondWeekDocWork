@@ -3,7 +3,7 @@
     <a href="/home">Назад</a>
 </div>
 <div>
-    <a href="/">Создать задачу</a>
+    <a href="/student_practice_dpo_task_create/{{ student_practice_id }}">Создать задачу</a>
 </div>
 <h2 class="task-table__name">Задачи</h2>
 <table class="task-table">
@@ -18,7 +18,7 @@
         <tr class="task-table__data">
             <td class="task-table__content">{{task.name}}</td>
             <td class="task-table__content">{{task.date}}</td>
-            <td class="task-table__content"><a href="/studentPractice_task_update/{{student_practice_id}}/task.id">Обновить</a></td>
+            <td class="task-table__content"><a href="/studentPractice_task_update/{{student_practice_id}}/{{task.id}}">Обновить</a></td>
         </tr>
         {% endfor %}
     </tbody>
