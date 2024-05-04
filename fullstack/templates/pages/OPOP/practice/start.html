@@ -1,14 +1,29 @@
-{% extends "base.html" %} {% block content %}
-<form>
+{% extends "base.html" %} {% block content %} {% for student in students %}
+<form id="{{ student.user_id }}" class="start-pactice">
   <div>Начать практику</div>
-    <div>
-
-    </div>
-    <div>
-
-    </div>
-    <div>
-      
-    </div>
+  <input type="hidden" name="practice_id" value="{{ pactice_id }}" />
+  <input type="hidden" name="student_id" value="{{ student.user_id }}" />
+  <div>
+    <input type="checkbox" name="paid" />
+  </div>
+  <div>
+    <select name="kind_of_contract">
+      <option value="not" selected>-</option>
+      <option value="short">Краткосрочный</option>
+      <option value="long">Долгосрочный</option>
+    </select>
+  </div>
+  <div>
+    <select name="director_of_practice_organization" id="pr_org">
+      {% for director in directors %}
+      <option value="{{ director.id }}">
+        {{ director.lastname }}{{ director.firstname }}{{ director.surname }}
+      </option>
+      {% endfor %}
+    </select>
+  </div>
+  <button type="submit">Отправить</button>
 </form>
+{% endfor %}
+<script src="{{ url_for('static', 'js/start_practice.js') }}"></script>
 {% endblock %}
