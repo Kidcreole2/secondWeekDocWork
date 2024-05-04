@@ -322,27 +322,22 @@ def opop_practice_update(practice_id):
         return redirect(url_for("opop_practice_index"))
     return render_template("pages/opop/practice/update.html")
 
-# @app.route("/opop_practice_start/<practice_id>")
-# @login_required
-# def opop_practice_start(practice_id):
-#     if request.method == "POST":
-#         data = request.form.to_dict()
-#         data_keys = data.keys()
-#         for checkbox in data_keys:
-#             if "check_" in checkbox and request.form[checkbox]:
-#                 paid = True
-#             else:
-#                 paid = False
-#             if "select_type_" in checkbox:
-                
-#             if "select_director_" in checkbox:
-                
-#             student_practice = Student_Practice(
-#                 director_practice_organization_id=
-                
-#             )
-#         return redirect(url_for("opop_practice_index"))
-#     return render_template("pages/opop/practice/start.html")
+@app.route("/opop_practice_start")
+@login_required
+def opop_practice_start():
+    if request.method == "POST":
+        students = request.form()
+        for student in students:
+            new_student_practice = Student_Practice(
+                student_id=student["id"],
+                practice_id=student["practice_id"],
+                director_practice_organization_id=student["director_of_practice_organization"],
+                paid=student["paid"],
+                kind_of_contract= student["king_of_practice"]
+            )
+            Student_Practice.create(new_student_practice)
+        return jsonify()
+    return render_template("pages/opop/practice/start.html")
 
 # ==student practice functions folder==
 
