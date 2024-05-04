@@ -422,6 +422,7 @@ class Group(db.Model) :
         old_group.specialization_id = new_group.specialization_id
         old_group.name = new_group.name
         old_group.course = new_group.course
+        old_group.form = new_group.form
         db.session.commit()
 
     @staticmethod

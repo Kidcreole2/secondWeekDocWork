@@ -20,12 +20,13 @@
     <tr class="specialization-table__names">
       <th class="specialization-table__content">Название</th>
       <th class="specialization-table__content">Код направления</th>
-      <th class="specialization-table__content">Руководитель ОПОП</th>
     </tr>
   </thead>
   <tbody class="specialization-table__body">
     <tr class="specialization-table__data">
-      <!-- вывод направлений -->
+      <td class="specialization-table__content">{{specialization.name}}</td>
+      <td class="specialization-table__content">{{specialization.specialization_code}}</td>
+      <td class="specialization-table__content"><a href="admin_specialization_update/{{institute.id}}">Обновить</a></td>
     </tr>
   </tbody>
 </table>

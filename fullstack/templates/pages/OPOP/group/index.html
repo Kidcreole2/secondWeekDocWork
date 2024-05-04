@@ -16,8 +16,9 @@
   <tbody class="group-table__body">
     {% for group in groups %}
     <tr class="group-table__data">
-      <td>{{group.name}}</td>
-      <td>{{group.course}}</td>
+      <td class="group-table__content">{{group.name}}</td>
+      <td class="group-table__content">{{group.course}}</td>
+      <td class="group-table__content"><a href="opop_group_update/{{group.id}}">Обновить</a></td>
     </tr>
     {% endfor %}
   </tbody>
