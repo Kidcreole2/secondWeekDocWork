@@ -1,0 +1,64 @@
+* {
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+}
+
+main {
+  background-color: #d7d7d7a;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+main .container {
+  max-width: 700px;
+  background-color: white;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+main input[type=checkbox] {
+  appearance: none;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  outline: none;
+  background-color: black;
+  border: 5px dotted black;
+}
+main input[type=checkbox]:checked {
+  background-color: black;
+  border: 5px solid black;
+}
+main input[type=text] {
+  color: #6a6a6a;
+  background-color: transparent;
+  border: 0px;
+  outline: none;
+  padding: 10px 20px;
+  border-bottom: 5px solid #6a6a6a;
+}
+main input[type=text]:active {
+  border-color: black;
+  background-color: #d7d7d7a;
+}
+main .btn {
+  background-color: #d7d7d7a;
+  padding: 10px 20px;
+  border-radius: 5px;
+}
+main .btn:hover {
+  background-color: black;
+}
+main .btn:active {
+  background-color: #d7d7d7a;
+}
+main select {
+  outline: none;
+  background-color: white;
+  padding: 10px 20px;
+  border: 5px solid #6a6a6a;
+}
+main select:hover {
+  border-color: black;
+}
+
+/*# sourceMappingURL=main.css.map */
