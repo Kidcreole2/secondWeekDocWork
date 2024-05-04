@@ -377,8 +377,8 @@ class Specialization(db.Model) :
     def update(old_specialization, new_specialization):
         old_specialization = Specialization.query.filter_by(id=old_specialization.id).first()
         old_specialization.institute_id = new_specialization.institute_id
-        old_specialization.director_opop_id = new_specialization.director.opop.id
-        old_specialization.name - new_specialization.name
+        old_specialization.director_opop_id = new_specialization.director_opop_id
+        old_specialization.name = new_specialization.name
         old_specialization.specialization_code = new_specialization.specialization_code
         db.session.commit()
 
@@ -425,6 +425,7 @@ class Group(db.Model) :
         old_group.specialization_id = new_group.specialization_id
         old_group.name = new_group.name
         old_group.course = new_group.course
+        old_group.form = new_group.form
         db.session.commit()
 
     @staticmethod
@@ -440,22 +441,18 @@ class Student(db.Model) :
     id = db.Column(db.Integer, primary_key = True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), unique=True)
     group_id = db.Column(db.Integer, db.ForeignKey("group.id"))
-    name_rp = db.Column(db.String(100), nullable=False)
-    name_dp = db.Column(db.String(100), nullable=False)
     # связи
     user = db.relationship("Users", back_populates="student")
     group = db.relationship("Group", back_populates="student")
     student_practice = db.relationship("Student_Practice", back_populates="student")
 
-    def __init__(self, user_id: int, group_id: int, name_rp: str, name_dp: str):
+    def __init__(self, user_id: int, group_id: int):
         self.user_id = user_id
         self.group_id = group_id
-        self.name_rp = name_rp
-        self.name_dp = name_dp
 
     @staticmethod
     def create(student):
-        new_student = Student.query.filter(user_id=student.user_id).first()
+        new_student = Student.query.filter_by(user_id=student.user_id).first()
         if new_student == None:
             db.session.add(student)
             db.session.commit()
@@ -467,7 +464,6 @@ class Student(db.Model) :
     def update(old_student, new_student):
         old_student = Student.query.filter_by(id=old_student.id).first()
         old_student.group_id = new_student.group_id
-        old_student.name_pr = new_student.name_pr
         db.session.commit()
 
     @staticmethod
@@ -505,7 +501,7 @@ class Practice_Group(db.Model) :
     
     @staticmethod
     def delete_practice(id_practice):
-        practices = Practice_Group.query.filter_by(practice_id=id_practice).all
+        practices = Practice_Group.query.filter_by(practice_id=id_practice).all()
         for practice in practices:
             db.session.query.filter(practice_id=practice.id).delete()
         db.session.commit()
@@ -516,18 +512,18 @@ class Student_Practice(db.Model) :
     student_id = db.Column(db.Integer, db.ForeignKey("student.user_id"))
     practice_id = db.Column(db.Integer, db.ForeignKey("practice.id"))
     director_practice_organization_id = db.Column(db.Integer, db.ForeignKey("director_practice_organization.user_id"))
-    passed = db.Column(db.Boolean, nullable=False)
-    kind_of_contract = db.Column(db.String(100), nullable = False)
-    paid = db.Column(db.Boolean, nullable = False)
-    overcoming_difficulties = db.Column(db.Text, nullable = False)
-    demonstrated_qualities = db.Column(db.Text, nullable = False)
-    work_volume = db.Column(db.Text, nullable = False)
-    reason = db.Column(db.Text, nullable = True)
-    remarks = db.Column(db.Text, nullable = False)
-    place_city = db.Column(db.String(50), nullable = False)
-    place_address = db.Column(db.String(100), nullable = False)
-    place_name = db.Column(db.String(100), nullable = False)
-    place_name_short = db.Column(db.String(100), nullable = False)
+    passed = db.Column(db.Boolean)
+    kind_of_contract = db.Column(db.String(100))
+    paid = db.Column(db.Boolean)
+    overcoming_difficulties = db.Column(db.Text)
+    demonstrated_qualities = db.Column(db.Text)
+    work_volume = db.Column(db.Text)
+    reason = db.Column(db.Text)
+    remarks = db.Column(db.Text)
+    place_city = db.Column(db.String(50))
+    place_address = db.Column(db.String(100))
+    place_name = db.Column(db.String(100))
+    place_name_short = db.Column(db.String(100))
     
     # связи
     practice = db.relationship("Practice", back_populates="student_practice")
@@ -535,17 +531,12 @@ class Student_Practice(db.Model) :
     student = db.relationship("Student", back_populates="student_practice")
     task = db.relationship("Task", back_populates="student_practice")
 
-    def __init__(self, student_id: int, practice_id: int, director_practice_organization_id: int, kind_of_contract: str, paid: bool, overcoming_difficulties: str, production_tasks: str, demonstrated_qualities: str, work_volume: str, remarks: str):
+    def __init__(self, student_id: int, practice_id: int, director_practice_organization_id: int, kind_of_contract: str, paid: bool):
         self.student_id = student_id
         self.practice_id = practice_id
         self.director_practice_organization_id = director_practice_organization_id
         self.kind_of_contract = kind_of_contract
         self.paid = paid
-        self.overcoming_difficulties = overcoming_difficulties
-        self.production_tasks = production_tasks
-        self.demonstrated_qualities = demonstrated_qualities
-        self.work_volume = work_volume
-        self.remarks = remarks
 
     @staticmethod
     def create(student_practice):

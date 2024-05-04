@@ -1,23 +1,26 @@
 {% extends "base.html" %} {% block content %}
 <div class="admin-back">
-  <a href="/opop_group_index">Назад</a>
+  <a href="/opop_index">Назад</a>
 </div>
 <div>
-  <a href="/opop_group_create">Создать группу</a>
-  <a href="/opop_group_update">Изменить группу</a>
+  <a href="/opop_group_create">Создать группу</a> 
 </div>
 <h2 class="group-table__name">Группы</h2>
 <table class="group-table">
   <thead class="group-table__head">
     <tr class="group-table__names">
       <th class="group-table__content">Номер группы</th>
-      <th class="group-table__content">Название Напрваления</th>
+      <th class="group-table__content">Курс</th>
     </tr>
   </thead>
   <tbody class="group-table__body">
+    {% for group in groups %}
     <tr class="group-table__data">
-<!-- вывести -->
+      <td class="group-table__content">{{group.name}}</td>
+      <td class="group-table__content">{{group.course}}</td>
+      <td class="group-table__content"><a href="opop_group_update/{{group.id}}">Обновить</a></td>
     </tr>
+    {% endfor %}
   </tbody>
 </table>
 {% endblock %}

@@ -5,13 +5,13 @@
 <form action="#" method="post">
   <div>
     <label for="name">Название</label>
-    <input type="text" name="name" placeholder="Иван" value="{{ old_institute.name }}" required />
+    <input type="text" name="name" placeholder="Иван" value="{{ institute.name }}" required />
   </div>
-  <a href="/admin_institute_update">Создать</a>
+  <button type="submit">Обновить</button>
 </form>
 
 <div>
-  <a href="/opop_add">Создать направление</a>
+  <a href="/admin_specialization_create/{{institute.id}}">Создать направление</a>
 </div>
 
 <h2 class="specialization-table__name">Направления</h2>
@@ -20,13 +20,16 @@
     <tr class="specialization-table__names">
       <th class="specialization-table__content">Название</th>
       <th class="specialization-table__content">Код направления</th>
-      <th class="specialization-table__content">Руководитель ОПОП</th>
     </tr>
   </thead>
   <tbody class="specialization-table__body">
+    {% for specialization in specializations %} 
     <tr class="specialization-table__data">
-      <!-- вывод направлений -->
+      <td class="specialization-table__content">{{specialization.name}}</td>
+      <td class="specialization-table__content">{{specialization.specialization_code}}</td>
+      <td class="specialization-table__content"><a href="/admin_specialization_update/{{institute.id}}/{{specialization.id}}">Обновить</a></td>
     </tr>
+    {% endfor %}
   </tbody>
 </table>
 {% endblock %}

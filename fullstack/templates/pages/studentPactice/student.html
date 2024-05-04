@@ -1,5 +1,25 @@
 {% extends "base.html" %} {% block content %}
 <div>
-  <a href="/opop_add">Перейти к практикам студентов</a>
+  <a href="/home">Назад</a>
 </div>
+
+<table class="practice-table">
+  <thead class="practice-table__head">
+    <tr class="practice-table__names">
+      <th class="practice-table__content">Название</th>
+    </tr>
+  </thead>
+  <tbody class="practice-table__body">
+    {% for student_practice in student_practices %}
+    <tr>
+      {{student_practice.practice.id}}
+    </tr>
+    <tr class="practice-table__data">
+      <td class="practice-table__content"><a href="/student_practice_dpu_task_update/{{student_practice.id}}">Заполнить Дневник Практики </a></td>
+      <td class="practice-table__content"><a href="/student_practice_dpc_task_update/{{student_practice.id}}">Заполнить Характеристику</a></td>
+      <td class="practice-table__content"><a href="/student_practice_dpo_task_index/{{student_practice.id}}">Заполнить Индивидуальное задание</a></td>
+    </tr>
+    {% endfor %}    
+  </tbody>
+</table>
 {% endblock %}

@@ -1,18 +1,21 @@
 {% extends "base.html" %} {% block content %}
 <div>
-  <a href="/opop_add">Создать</a>
+  <a href="/opop_practice_create">Создать</a>
 </div>
 <h2 class="practice-table__name">Практики</h2>
 <table class="practice-table">
   <thead class="practice-table__head">
     <tr class="practice-table__names">
-      <th class="practice-table__content"></th>
+      <th class="practice-table__content">Название</th>
     </tr>
   </thead>
   <tbody class="practice-table__body">
+    {% for practice in practices %}
     <tr class="practice-table__data">
 
+      <td class="practice-table__content"><a href="/opop_practice_update/{{practice.id}}">{{practice.name}}</a></td>
     </tr>
+    {% endfor %}    
   </tbody>
 </table>
 {% endblock %}
