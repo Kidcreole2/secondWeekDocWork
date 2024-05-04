@@ -6,11 +6,11 @@
   </div>
   <div>
     <label for="start_date">Дата начала практики</label>
-    <input type="text" name="start_date" required />
+    <input type="date" name="start_date" required />
   </div>
   <div>
     <label for="end_date">Дата конца практики</label>
-    <input type="text" name="end_date" required />
+    <input type="date" name="end_date" required />
   </div>
   <div>
     <label for="type_of_practice">Тип практики</label>
@@ -20,6 +20,12 @@
     <label for="kind_of_practice">Вид практики</label>
     <input type="text" name="kind_of_practice" required />
   </div>
+  {% for group in groups %}
+  <div>
+    <label for="check_{{group.id}}">{{group.name}}</label>
+    <input type="checkbox" name="check_{{group.id}}">
+  </div>
+  {% endfor %}
   <div>
     <label for="order">Номер приказа и его дата</label>
     <input type="text" name="order" required />

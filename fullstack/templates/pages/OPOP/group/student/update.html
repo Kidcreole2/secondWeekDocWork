@@ -1,5 +1,5 @@
 {% extends "base.html" %} {% block content %}
-<form>
+<form action="#", method="post">
   <div>Изменить студента</div>
   <div>
     <label for="firstname">Имя</label>
@@ -13,5 +13,6 @@
     <label for="surname">Отчество</label>
     <input type="text" name="surname">
   </div>
+  <button type="submit">Обновить</button>
 </form>
 {% endblock %}

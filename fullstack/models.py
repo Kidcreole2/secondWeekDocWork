@@ -374,8 +374,8 @@ class Specialization(db.Model) :
     def update(old_specialization, new_specialization):
         old_specialization = Specialization.query.filter_by(id=old_specialization.id).first()
         old_specialization.institute_id = new_specialization.institute_id
-        old_specialization.director_opop_id = new_specialization.director.opop.id
-        old_specialization.name - new_specialization.name
+        old_specialization.director_opop_id = new_specialization.director_opop_id
+        old_specialization.name = new_specialization.name
         old_specialization.specialization_code = new_specialization.specialization_code
         db.session.commit()
 
@@ -438,22 +438,18 @@ class Student(db.Model) :
     id = db.Column(db.Integer, primary_key = True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), unique=True)
     group_id = db.Column(db.Integer, db.ForeignKey("group.id"))
-    name_rp = db.Column(db.String(100), nullable=False)
-    name_dp = db.Column(db.String(100), nullable=False)
     # связи
     user = db.relationship("Users", back_populates="student")
     group = db.relationship("Group", back_populates="student")
     student_practice = db.relationship("Student_Practice", back_populates="student")
 
-    def __init__(self, user_id: int, group_id: int, name_rp: str, name_dp: str):
+    def __init__(self, user_id: int, group_id: int):
         self.user_id = user_id
         self.group_id = group_id
-        self.name_rp = name_rp
-        self.name_dp = name_dp
 
     @staticmethod
     def create(student):
-        new_student = Student.query.filter(user_id=student.user_id).first()
+        new_student = Student.query.filter_by(user_id=student.user_id).first()
         if new_student == None:
             db.session.add(student)
             db.session.commit()
@@ -465,7 +461,6 @@ class Student(db.Model) :
     def update(old_student, new_student):
         old_student = Student.query.filter_by(id=old_student.id).first()
         old_student.group_id = new_student.group_id
-        old_student.name_pr = new_student.name_pr
         db.session.commit()
 
     @staticmethod
@@ -503,7 +498,7 @@ class Practice_Group(db.Model) :
     
     @staticmethod
     def delete_practice(id_practice):
-        practices = Practice_Group.query.filter_by(practice_id=id_practice).all
+        practices = Practice_Group.query.filter_by(practice_id=id_practice).all()
         for practice in practices:
             db.session.query.filter(practice_id=practice.id).delete()
         db.session.commit()

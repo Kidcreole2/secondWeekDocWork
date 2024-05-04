@@ -18,32 +18,22 @@
   <button type="submit">Обновить</button>
 </form>
 <div>
-  <a href="/opop_student_create">Создать студента</a>
+  <a href="/opop_student_create/{{group.id}}">Создать студента</a>
 </div>
 
 <h2 class="student-table__name">Студенты</h2>
 <table id="student-table">
   <thead class="student-table__head">
     <tr class="student-table__names">
-      <th class="student-table__content">Имя</th>
-      <th class="student-table__content">Фамилия</th>
-      <th class="student-table__content">Отчество</th>
-      <th class="student-table__content">Роль</th>
-      <th class="student-table__content">Логин</th>
-      <th class="student-table__content">Пароль</th>
+      <th class="student-table__content">id</th>
     </tr>
   </thead>
   <tbody class="student-table__body">
-    {% for user in users %}
+    {% for student_user in student_users %}
     <tr class="student-table__data">
-      <td class="student-table__content">{{ user.firstname }}</td>
-      <td class="student-table__content">{{ user.lastname }}</td>
-      <td class="student-table__content">{{ user.surname }}</td>
-      <td class="student-table__content">{{ user.role }}</td>
-      <td class="student-table__content">{{ user.login }}</td>
-      <td class="student-table__content">{{ user.password }}</td>
+      <td class="student-table__content">{{ student_user.id }}</td>
       <td class="student-table__content">
-        <a href="/admin_user_update/{{user.login}}">Изменить пользователя</a>
+        <a href="/opop_student_update/{{student_user.id}}">Изменить пользователя</a>
       </td>
     </tr>
     {% endfor %}

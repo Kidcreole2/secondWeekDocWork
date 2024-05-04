@@ -12,7 +12,8 @@
   <tbody class="practice-table__body">
     {% for practice in practices %}
     <tr class="practice-table__data">
-      <td class="practice-table__content">{{practice.name}}</td>
+
+      <td class="practice-table__content"><a href="/opop_practice_update/{{practice.id}}">{{practice.name}}</a></td>
     </tr>
     {% endfor %}    
   </tbody>

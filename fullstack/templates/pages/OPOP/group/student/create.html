@@ -1,5 +1,5 @@
 {% extends "base.html" %} {% block content %}
-<form action="/" method="post">
+<form action="#" method="post">
   <div>Создать студента</div>
   <div>
     <label for="firstname">Имя</label>
@@ -13,6 +13,6 @@
     <label for="surname">Отчество</label>
     <input type="text" name="surname">
   </div>
-  <a href="/admin_add">Создать</a>
+  <button type="submit">Создать</button>
 </form>
 {% endblock %}

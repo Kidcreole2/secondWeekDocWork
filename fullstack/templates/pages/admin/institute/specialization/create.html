@@ -16,7 +16,7 @@
     {#Разобраться как вывести имя ОПОП#}
     <select name="director_opop_id" id="">
       {% for opop_director in opop_directors %}
-      <option value="{{ opop_director.id }}">{{ opop_director_users.firstname }} {{ opop_director_users.lastname }}
+      <option value="{{ opop_director.id }}">{{ opop_director.id }}
       </option>
       {% endfor %}
     </select>
