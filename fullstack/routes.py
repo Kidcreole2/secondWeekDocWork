@@ -1,4 +1,4 @@
-from flask import request, render_template, redirect, url_for, flash, get_flashed_messages
+from flask import request, render_template, redirect, url_for, flash, get_flashed_messages, jsonify
 from flask_login import logout_user, current_user, login_required
 from core import app, login_manager
 from models import *
@@ -38,34 +38,36 @@ def admin_user_create():
                                 role=request.form["role"]
                                 )
                     reg_check = Users.create(user)
-                    match request.form['userType']:
-                        case "directorOPOP":
-                            director = Director_OPOP(
-                                user_id=reg_check["id"],
-                                post=request.form['post']
-                            )
-                            Director_OPOP.create(director)
-                        case "directorCompany":
-                            director = Director_Practice_Company(
-                                user_id=reg_check["id"],
-                                post=request.form['post']
-                            )
-                            Director_Practice_Company.create(director)
-                        case "directonOrganization":
-                            director = Director_Practice_Organization(
-                                user_id=reg_check["id"],
-                                post=request.form['post']
-                            )
-                            Director_Practice_Organization.create(director)
-                        case "directorUSU":
-                            director = Director_Practice_USU(
-                                user_id=reg_check["id"],
-                                post=request.form['post']
-                            )
-                            Director_Practice_USU.create(director)
-                    if reg_check["exists"]:
-                        return redirect(url_for("admin_user_index"))
-                    return redirect(url_for("home"))
+                    roles = request.form["role"]
+                    for role in roles.split():
+                        match request.form['userType']:
+                            case "directorOPOP":
+                                director = Director_OPOP(
+                                    user_id=reg_check["id"],
+                                    post=request.form['post']
+                                )
+                                Director_OPOP.create(director)
+                            case "directorCompany":
+                                director = Director_Practice_Company(
+                                    user_id=reg_check["id"],
+                                    post=request.form['post']
+                                )
+                                Director_Practice_Company.create(director)
+                            case "directonOrganization":
+                                director = Director_Practice_Organization(
+                                    user_id=reg_check["id"],
+                                    post=request.form['post']
+                                )
+                                Director_Practice_Organization.create(director)
+                            case "directorUSU":
+                                director = Director_Practice_USU(
+                                    user_id=reg_check["id"],
+                                    post=request.form['post']
+                                )
+                                Director_Practice_USU.create(director)
+                        if reg_check["exists"]:
+                            return redirect(url_for("admin_user_index"))
+                        return redirect(url_for("home"))
         else:
             flash("Пароли не совпадают")
     messages = get_flashed_messages()
@@ -322,28 +324,18 @@ def opop_practice_update(practice_id):
         return redirect(url_for("opop_practice_index"))
     return render_template("pages/opop/practice/update.html")
 
-# @app.route("/opop_practice_start/<practice_id>")
-# @login_required
-# def opop_practice_start(practice_id):
-#     if request.method == "POST":
-#         data = request.form.to_dict()
-#         data_keys = data.keys()
-#         for checkbox in data_keys:
-#             if "check_" in checkbox and request.form[checkbox]:
-#                 paid = True
-#             else:
-#                 paid = False
-#             if "select_type_" in checkbox:
-                
-#             if "select_director_" in checkbox:
-                
-#             student_practice = Student_Practice(
-#                 director_practice_organization_id=
-                
-#             )
-#         return redirect(url_for("opop_practice_index"))
-#     return render_template("pages/opop/practice/start.html")
-
+@app.route("/opop_practice_start/<practice_id>")
+@login_required
+def opop_practice_start(practice_id):
+    if request.method == "POST":
+        # student_practice = Student_Practice(
+        #     director_practice_organization_id=
+        #     paid=
+        #     kind_of_contract=
+        # )
+        return jsonify({"success": True})
+    return render_template("pages/opop/practice/start.html")
+        
 # ==student practice functions folder==
 
 @app.route("/studentPractice_student")
@@ -462,6 +454,37 @@ def upload():
 
 # ==Basic functions==
 
+@app.route("/delete_user/<roles>/<id>")
+@login_required
+def delete(roles,id):
+    for role in roles.split():
+        match role:
+            case"":
+                Director_OPOP.delete(id)
+            case"":
+                Director_Practice_Company.delete(id)
+            case"":
+                Director_Practice_Organization.delete(id)
+            case"":
+                Director_Practice_USU.delete(id)
+            case"":
+                Student.delete(id)
+                
+@app.route("/delete_practice/<id>")
+@login_required
+def delete(roles,id):
+    for role in roles.split():
+        match role:
+            case"":
+                Director_OPOP.delete(id)
+            case"":
+                Director_Practice_Company.delete(id)
+            case"":
+                Director_Practice_Organization.delete(id)
+            case"":
+                Director_Practice_USU.delete(id)
+            case"":
+                Student.delete(id)
 
 @app.route("/logout")
 @login_required
