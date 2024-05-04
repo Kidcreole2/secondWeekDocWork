@@ -1,73 +1,31 @@
 {% extends "base.html" %} {% block content %}
-<div>
+<div class="admin-back">
   <a href="/admin_user_index">Назад</a>
 </div>
 <form action="#" method="post">
   <div class="form-name">
-    <input
-      type="text"
-      class="form-name"
-      name="firstname"
-      placeholder="Иван"
-      value="{{ old_user.firstname }}"
-      required
-    />
     <label for="firstname">Имя</label>
+    <input type="text" class="form-name" name="firstname" placeholder="Иван" value="{{ old_user.firstname }}" required />
   </div>
   <div class="form-surname">
-    <input
-      type="text"
-      class="form-surname"
-      name="lastname"
-      placeholder="Иванович"
-      value="{{ old_user.lastname }}"
-      required
-    />
     <label for="lastname">Фамилия</label>
+    <input type="text" class="form-surname" name="lastname" placeholder="Иванович" value="{{ old_user.lastname }}" required />
   </div>
   <div class="form-patronymic">
-    <input
-      type="text"
-      class="form-patronymic"
-      name="surname"
-      placeholder="Иванов"
-      value="{{ old_user.surname }}"
-      required
-    />
     <label for="surname">Отчество</label>
+    <input type="text" class="form-patronymic" name="surname" placeholder="Иванов" value="{{ old_user.surname }}" required />
   </div>
   <div class="form-login">
-    <input
-      type="text"
-      class="form-login"
-      name="login"
-      placeholder="ИИИ"
-      value="{{ old_user.login }}"
-      required
-    />
     <label for="login">Логин</label>
+    <input type="text" class="form-login" name="login" placeholder="ИИИ" value="{{ old_user.login }}" required />
   </div>
   <div class="form-role">
-    <input
-      type="text"
-      class="form-role"
-      name="role"
-      placeholder="Админ"
-      value="{{ old_user.role }}"
-      required
-    />
     <label for="role">Роль</label>
+    <input type="text" class="form-role" name="role" placeholder="Админ" value="{{ old_user.role }}" required />
   </div>
   <div class="form-pass">
-    <input
-      type="text"
-      class="form-pass"
-      name="password"
-      placeholder="Пароль"
-      value="{{ old_user.password }}"
-      required
-    />
     <label for="password">Пароль</label>
+    <input type="text" class="form-pass" name="password" placeholder="Пароль" value="{{ old_user.password }}" required />
   </div>
   <button formaction="" type="submit">Изменить пользователя</button>
 </form>

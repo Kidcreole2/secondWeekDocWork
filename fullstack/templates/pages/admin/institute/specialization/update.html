@@ -1,21 +1,21 @@
 {% extends "base.html" %}
 {% block content %}
-            <div>                
-                <a href="/admin_institute_update">Назад</a>
-            </div>
-            <form action="/" method="post">
-                <div>
-                    <input type="text" name="name"required>
-                    <label for="name">Имя</label>
-                </div>
-                <div>
-                    <input type="text" name="specialization_code"required>
-                    <label for="specialization_code">Имя</label>
-                </div>
-                <div>
-                    <input type="text" name="director_opop_id"required>
-                    <label for="name">Имя</label>
-                </div>
-                <a href="/admin_specialization_update">Создать</a>
-              </form>
-        {% endblock %}
+<div class="admnin-back">
+    <a href="/admin_institute_update">Назад</a>
+</div>
+<form action="/" method="post">
+    <div>
+        <label for="name">Название</label>
+        <input type="text" name="name" required>
+    </div>
+    <div>
+        <label for="specialization_code">Код направления</label>
+        <input type="text" name="specialization_code" required>
+    </div>
+    <div>
+        <label for="name">Имя</label>
+        <input type="text" name="director_opop_id" required>
+    </div>
+    <a href="/admin_specialization_update">Создать</a>
+</form>
+{% endblock %}

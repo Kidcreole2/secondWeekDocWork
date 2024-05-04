@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
-    <div>
-      <a href="/admin_institute_index">Назад</a>
-    </div>
-    <form action="#" method="post">
-      <div>
-        <input type="text" name="name" placeholder="Иван" required />
-        <label for="name">Имя</label>
-      </div>
-      <a href="/admin_institute_create">Создать</a>
-    </form>
+<div class="admnin-back">
+  <a href="/admin_institute_index">Назад</a>
+</div>
+<form action="#" method="post">
+  <div>
+    <label for="name">Название</label>
+    <input type="text" name="name" placeholder="Иван" required />
+  </div>
+  <a href="/admin_institute_create">Создать</a>
+</form>
 {% endblock %}

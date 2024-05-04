@@ -1,33 +1,35 @@
 {% extends "base.html" %} {% block content %}
-<div>
+<div class="admnin-back">
   <a href="/admin_index">Назад</a>
 </div>
-<div>
+<div class="admin-create">
   <a href="/admin_user_create">Создать пользователя</a>
 </div>
-<div>
-  <table>
-    <tr>
-      <th>Имя</th>
-      <th>Фамилия</th>
-      <th>Отчество</th>
-      <th>Роль</th>
-      <th>Логин</th>
-      <th>Пароль</th>
+<table id="student-table">
+  <thead class="student-table__head">
+    <tr class="student-table__names">
+      <th class="student-table__content">Имя</th>
+      <th class="student-table__content">Фамилия</th>
+      <th class="student-table__content">Отчество</th>
+      <th class="student-table__content">Роль</th>
+      <th class="student-table__content">Логин</th>
+      <th class="student-table__content">Пароль</th>
     </tr>
+  </thead>
+  <tbody class="student-table__body">
     {% for user in users %}
-    <tr>
-      <td>{{ user.firstname }}</td>
-      <td>{{ user.lastname }}</td>
-      <td>{{ user.surname }}</td>
-      <td>{{ user.role }}</td>
-      <td>{{ user.login }}</td>
-      <td>{{ user.password }}</td>
-      <td>
+    <tr class="student-table__data">
+      <td class="student-table__content">{{ user.firstname }}</td>
+      <td class="student-table__content">{{ user.lastname }}</td>
+      <td class="student-table__content">{{ user.surname }}</td>
+      <td class="student-table__content">{{ user.role }}</td>
+      <td class="student-table__content">{{ user.login }}</td>
+      <td class="student-table__content">{{ user.password }}</td>
+      <td class="student-table__content">
         <a href="/admin_user_update/{{user.login}}">Изменить пользователя</a>
       </td>
     </tr>
     {% endfor %}
-  </table>
-</div>
+  </tbody>
+</table>
 {% endblock %}

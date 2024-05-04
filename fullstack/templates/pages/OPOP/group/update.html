@@ -1,53 +1,52 @@
 {% extends "base.html" %} {% block content %}
-<div>
+<div class="admin-back">
   <a href="/opop_group_index">Назад</a>
 </div>
 <form>
   <div>
+    <label for="name">Название</label>
     <input type="text" name="name" required />
-    <label for="name">Имя</label>
   </div>
   <div>
-    <input type="text" name="specialization_id" required />
     <label for="specialization_id">Имя</label>
+    <input type="text" name="specialization_id" required />
   </div>
   <div>
+    <label for="course">Курс</label>
     <input type="text" name="course" required />
-    <label for="course">Имя</label>
   </div>
 </form>
 <div>
-  <a href="/opop_student_create"
-    >Создать студента</a
-  >
+  <a href="/opop_student_create">Создать студента</a>
 </div>
-<div>Студенты</div>
 
-<table>
-  <tr>
-    <th>Имя</th>
-    <th>Фамилия</th>
-    <th>Отчество</th>
-    <th>Роль</th>
-    <th>Логин</th>
-    <th>Пароль</th>
-  </tr>
-  {% for user in users %}
-  <tr>
-    <td>{{ user.firstname }}</td>
-    <td>{{ user.lastname }}</td>
-    <td>{{ user.surname }}</td>
-    <td>{{ user.role }}</td>
-    <td>{{ user.login }}</td>
-    <td>{{ user.password }}</td>
-    <td>
-      <a href="/admin_user_update/{{user.login}}"
-        >Изменить пользователя</a
-      >
-    </td>
-  </tr>
-  {% endfor %}
+<h2 class="student-table__name">Студенты</h2>
+<table id="student-table">
+  <thead class="student-table__head">
+    <tr class="student-table__names">
+      <th class="student-table__content">Имя</th>
+      <th class="student-table__content">Фамилия</th>
+      <th class="student-table__content">Отчество</th>
+      <th class="student-table__content">Роль</th>
+      <th class="student-table__content">Логин</th>
+      <th class="student-table__content">Пароль</th>
+    </tr>
+  </thead>
+  <tbody class="student-table__body">
+    {% for user in users %}
+    <tr class="student-table__data">
+      <td class="student-table__content">{{ user.firstname }}</td>
+      <td class="student-table__content">{{ user.lastname }}</td>
+      <td class="student-table__content">{{ user.surname }}</td>
+      <td class="student-table__content">{{ user.role }}</td>
+      <td class="student-table__content">{{ user.login }}</td>
+      <td class="student-table__content">{{ user.password }}</td>
+      <td class="student-table__content">
+        <a href="/admin_user_update/{{user.login}}">Изменить пользователя</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
 </table>
-
 
 {% endblock %}

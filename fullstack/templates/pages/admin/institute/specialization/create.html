@@ -1,25 +1,26 @@
 {% extends "base.html" %}
 {% block content %}
-            <div>                
-                <a href="/admin_institute_index"><button type="button">Return</button></a>
-            </div>
-            <form action="#" method="post">
-                <div>
-                    <input type="text" name="name"required>
-                    <label for="name">Имя</label>
-                </div>
-                <div>
-                    <input type="text" name="specialization_code"required>
-                    <label for="specialization_code">Имя</label>
-                </div>
-                <div>
-                    {#Разобраться как вывести имя ОПОП#}
-                  <select name="director_opop_id" id="">
-                    {% for opop_director in opop_directors %}
-                        <option value="{{ opop_director.id }}">{{ opop_director_users.firstname }} {{ opop_director_users.lastname }}</option>
-                    {% endfor %}
-                  </select>
-                </div>
-              <a><button type="submit">Confirm</button></a>
-            </form>
-    {% endblock %} 
+<div class="admnin-back">
+  <a href="/admin_institute_index"><button type="button">Назад</button></a>
+</div>
+<form action="#" method="post">
+  <div>
+    <label for="name">Название</label>
+    <input type="text" name="name" required>
+  </div>
+  <div>
+    <label for="specialization_code">Код направления</label>
+    <input type="text" name="specialization_code" required>
+  </div>
+  <div>
+    {#Разобраться как вывести имя ОПОП#}
+    <select name="director_opop_id" id="">
+      {% for opop_director in opop_directors %}
+      <option value="{{ opop_director.id }}">{{ opop_director_users.firstname }} {{ opop_director_users.lastname }}
+      </option>
+      {% endfor %}
+    </select>
+  </div>
+  <a><button type="submit">Создать</button></a>
+</form>
+{% endblock %}

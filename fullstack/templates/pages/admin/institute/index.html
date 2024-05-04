@@ -1,24 +1,25 @@
 {% extends "base.html" %}
 {% block content %}
-            <div>                
-                <a href="/admin_index">Назад</a>
-            </div>
-            <div>
-                <a href="/admin_institute_create">Создать институт</a>
-                <a href="/admin_institute_updates">Изменить институт</a>
-            </div>
-            <div>
-                <table>
-                <tr>
-                    <th>Институты</th>
-                </tr>
-                {% for institute in institutes %}
-                <tr>
-                    <td>{{ institute.name }}</td>
-                    <td><a href="/admin_institute_update/{{institute.id}}">Изменить институт</a></td>
-                </tr>
-                {% endfor %}
-
-            </table>
-            </div>
-{% endblock %} 
+<div class="admnin-back">
+    <a href="/admin_index">Назад</a>
+</div>
+<div class="admin-create">
+    <a  href="/admin_institute_create">Создать институт</a>
+    <a href="/admin_institute_updates">Изменить институт</a>
+</div>
+<table id="institute-table">
+    <thead class="institute-table__head">
+        <tr class="institute-table__name">
+            <th class="institute-table__content">Институты</th>
+        </tr>
+    </thead>
+    <tbody class="institute-table__body">
+        {% for institute in institutes %}
+        <tr class="institute-table__data">
+            <td class="institute-table__content">{{ institute.name }}</td>
+            <td class="institute-table__content"><a href="/admin_institute_update/{{institute.id}}">Изменить институт</a></td>
+        </tr>
+        {% endfor %}    
+    </tbody>
+</table>
+{% endblock %}
