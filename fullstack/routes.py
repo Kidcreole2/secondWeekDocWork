@@ -410,7 +410,7 @@ def student_practice_dpc_task_update(student_practice_id):
 @login_required
 def student_practice_dpo_task_index(student_practice_id):
     tasks= Task.query.filter_by(student_practice_id=student_practice_id).all()
-    return render_template("pages/studentPactice/tasks/index.html", tasks=tasks)
+    return render_template("pages/studentPactice/tasks/index.html", tasks=tasks, student_practice_id = student_practice_id)
 
 @app.route("/student_practice_dpo_task_create/<student_practice_id>", methods=["GET","POST"])
 @login_required

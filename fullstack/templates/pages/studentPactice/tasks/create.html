@@ -1,48 +1,16 @@
 {% extends "base.html" %} {% block content %}
+<div class="admin-back">
+    <a href="/student_practice_dpo_task_index">Назад</a>
+</div>
 <form action="#" method="post">
-  <div>
-    <label for="name">Имя</label>
-    <input type="text" name="name" required />
-  </div>
-  <div>
-    <label for="start_date">Дата начала практики</label>
-    <input type="date" name="start_date" required />
-  </div>
-  <div>
-    <label for="end_date">Дата конца практики</label>
-    <input type="date" name="end_date" required />
-  </div>
-  <div>
-    <label for="type_of_practice">Тип практики</label>
-    <select name="type_of_practice">
-      <option value="ознакомительная">Ознакомительная</option>
-      <option value="научно-исследовательская">Научно-исследовательская</option>
-      <option value="производственная">Производственная</option>
-      <option value="технологическая">Технологическая</option>
-      <option value="преддипломная">Преддипломная</option>
-    </select>
-  </div>
-  <div>
-    <select name="kind_of_practice" required >
-      <option value="учебная">Учебная</option>
-      <option value="производственная">Производственная</option>
-    </select>
-    <label for="kind_of_practice">Вид практики</label>
-  </div>
-  {% for group in groups %}
-  <div>
-    <label for="check_{{group.id}}">{{group.name}}</label>
-    <input type="checkbox" name="check_{{group.id}}">
-  </div>
-  {% endfor %}
-  <div>
-    <label for="order">Номер приказа и его дата</label>
-    <input type="text" name="order" required />
-  </div>
-  <div>
-    <label for="recomendations">Рекомендации(не обязательно)</label>
-    <input type="text" name="recomendations" />
-  </div>
-  <button class="btn" type="submit">Создать</button>
+    <div>
+        <label for="name">Название</label>
+        <input type="text" name="name">
+    </div>
+    <div>
+        <label for="date">Дата</label>
+        <input type="date" name="date">
+    </div>
+    <button type="submit">Создать</button>
 </form>
 {% endblock %}
