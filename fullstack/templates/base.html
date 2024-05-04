@@ -29,28 +29,28 @@
         <li>
           <a href="/logout">Выйти</a>
         </li>
-        {% for role in roles%}
+        {#{% for role in roles%}#}
         <li>
-          {%if role == "opop"%}
+          {#{%if role == "opop"%}#}
           <a href="/opop_index">Перейти к панели руководителя ОПОП</a>
         </li>
         <li>
-          {% elif role == "admin" %}
+          {#{% elif role == "admin" %}#}
           <a href="/admin_index">Перейти к панели администратора</a>
         </li>
         <li>
-          {% elif role == "supervisorUgrasu" %}
+          {#{% elif role == "supervisorUgrasu" %}#}
           <a href="/supervisorUgrasu_index">Перейти к панели руководителя практики от югу</a>
         </li>
         <li>
-          {% elif role == "supervisorCompany" %}
+          {#{% elif role == "supervisorCompany" %}#}
           <a href="/supervisorCompany_index">Перейти к панели руководителя практики от компании</a>
         </li>
         <li>
-          {% elif role == "supervisorPracticeOrg" %}
+          {#{% elif role == "supervisorPracticeOrg" %}#}
           <a href="/supervisorPracticeOrg_index">Перейти к панели руководителя практики от предприятия</a>
         </li>
-        {% endif %} {% endfor %}
+        {#{% endif %} {% endfor %}#}
       </ul>
 
     </div>
