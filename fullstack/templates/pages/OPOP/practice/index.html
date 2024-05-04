@@ -6,13 +6,15 @@
 <table class="practice-table">
   <thead class="practice-table__head">
     <tr class="practice-table__names">
-      <th class="practice-table__content"></th>
+      <th class="practice-table__content">Название</th>
     </tr>
   </thead>
   <tbody class="practice-table__body">
+    {% for practice in practices %}
     <tr class="practice-table__data">
-
+      <td class="practice-table__content">{{practice.name}}</td>
     </tr>
+    {% endfor %}    
   </tbody>
 </table>
 {% endblock %}
