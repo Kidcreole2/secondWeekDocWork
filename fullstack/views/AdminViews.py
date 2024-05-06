@@ -1,4 +1,4 @@
-from flask import request, redirect, render_template
+from flask import request, redirect, render_template, jsonify
 from flask_login import login_required
 from models import *
 
@@ -8,6 +8,17 @@ def init_admin_views():
     def create_admin():
         print("admin")
         Users.create(Users(login="admin", password="admin", firstname="Admin", lastname="Adminov", surname="Adminovich", role="admin"))
+    
+    @app.route("/admin/user/login_check", methods=["POST"])
+    @login_required
+    def login_check():
+        user_by_id = Users.query.filter_by(id=request.form["id"]).first().id
+        user_by_login = Users.query.filter_by(login=request.form["login"]).first()
+        
+        if (user_by_login is None) or (user_by_id == user_by_login.id):
+            return jsonify({"success": "everything ok"}), 200
+        else:
+            return jsonify({"success": "u're stupid donkey", "error": "Пользователь с таким логином существует"}), 400
     
     @app.route("/admin")
     @login_required
@@ -19,60 +30,75 @@ def init_admin_views():
     @app.route("/admin/<entity>/create", methods=["GET", "POST"])
     @login_required
     def admin_entity_create(entity):
-        if request.method == "POST":
-            match entity:
-                case "user":
+        match entity:
+            case "user":
+                if request.method == "POST":
                     name = request.form["fio"].split(" ")
                     form = request.form.to_dict()
                     role = " ".join([key for key in form.keys() if form[key] == "on"])
-                    
+                
                     print(role)
-                    user = Users(lastname=name[0], firstname=name[1], surname=name[2], \
+                    user = Users(lastname=name[0], firstname=name[1], surname=name[2] if len(name) == 3 else " ", \
                         login=request.form["login"], password=request.form["password"],\
                             role=role)
                     Users.create(user)
-                    
-                case "institute":
-                    # create_institute()
-                    print("institute")
-
-            return redirect("/admin")
-
-        match entity:
-            case "user":
+                    return redirect('/admin')
+        
                 return render_template("pages/admin/user/create.html")
-            case "institute":    
+            
+            case "institute":
+                if request.method == "POST":
+                    name = request.form['name']
+                    inst = Institute(name=name)
+                    Institute.create(institute=inst)
+                    return redirect("/admin")
+                
                 return render_template("pages/admin/institute/create.html")
+
 
     @app.route("/admin/<entity>/<action>/<entity_id>", methods=["POST", "GET"])
     @login_required
     def admin_entity_action(entity, action, entity_id):
-        if request.method == "POST":
             match entity:
                 case "user":
                     match action:
                         case "delete" :
-                            print("deleted")
-                            # Users.delete(entity_id)
+                            Users.delete(user_id=entity_id)
+                        
                         case "edit":
-                            print("edit")
-                            # edit_user()
+                            old_user = Users.query.filter_by(id=entity_id).first()
+                            
+                            if request.method == "POST":
+                                name = request.form["fio"]
+                                form = request.form.to_dict()
+                                role = " ".join([ key for key in form.keys() if form[key] == "on" ])
+                                
+                                new_user = Users(
+                                    login=request.form["login"],
+                                    lastname=name[0],
+                                    firstname=name[1],
+                                    surname= name[2] if len(name) == 3 else " ",
+                                    role=role
+                                    )
+                                
+                                Users.update(old_user_id=entity_id, new_user=new_user)
+                                return redirect('/admin')
+                            
+                            return render_template("pages/admin/user/update.html", old_user=old_user)
+                
                 case "institute":
                     match action:
                         case "delete" :
-                            print("deleted")
-                            # Institute.delete(entity_id)
+                            Institute.delete(entity_id)
+                        
                         case "edit":
-                            print("edit")
-                            # edit_institute()
-    
-        match entity:
-            case "user":
-                match action:
-                    case "edit":
-                        user = Users.query.filter_by(id=entity_id).first()
-                        return render_template("pages/admin/user/edit.html", old_user=user)
-            case "institute":
-                match action:
-                    case "edit":
-                        return render_template("pages/admin/institute/edit.html")
+                            old_institute = Institute.query.filter_by(id=entity_id).first()
+                            
+                            if request.method == "POST":
+                                print("edit")
+                                name = request.form["name"]
+                                new_institute = Institute(name=name)
+                                Institute.update(old_institute=old_institute, new_institute=new_institute)
+                               
+                            current_specs = Specialization.query.filter_by(institute_id=old_institute.id).all()
+                            return render_template("pages/admin/institute/edit.html", old_institute=old_institute, current_specializations=current_specs)

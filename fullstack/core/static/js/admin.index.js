@@ -41,4 +41,8 @@ $(document).ready(() => {
       },
     });
   });
+
+  $(".users-head-tools__button.add").on("click", () => {
+    window.location.replace("/admin/user/create");
+  });
 });

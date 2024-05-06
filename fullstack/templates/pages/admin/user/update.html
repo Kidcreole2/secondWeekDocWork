@@ -2,14 +2,15 @@
 <div class="admin-back">
   <a href="/admin_user_index">Назад</a>
 </div>
-<form action="" method="post">
+<form action="" method="post" id="change">
+  <input type="hidden" name="user_id" value="{{ old_user.id }}">
   <div class="form-name">
     <label for="firstname">Ф. И. О.</label>
     <input type="text" 
       class="form-name" 
       name="fio" 
       placeholder="Иван" 
-      value="{{ old_user.lastname }} {{ old_user.firstname }} {{ old_name.surname }}" 
+      value="{{ old_user.lastname }} {{ old_user.firstname }} {{ old_user.surname }}" 
       required />
   </div>
   
@@ -57,6 +58,10 @@
       placeholder="Пароль" 
       value="{{ old_user.password }}" required />
   </div>
-  <button formaction="" class="btn" type="submit">Изменить пользователя</button>
+  <button id="user-change" class="btn" type="button">Изменить пользователя</button>
 </form>
+{% endblock %}
+
+{% block script %}
+  <script src="{{ url_for('static', filename='js/admin.user-update.js') }}"></script>
 {% endblock %}

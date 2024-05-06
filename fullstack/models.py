@@ -54,8 +54,8 @@ class Users(UserMixin, db.Model):
             return {"id": new_user.id, "exists": True}
         
     @staticmethod 
-    def update(old_user_login, new_user): 
-        old_user = Users.query.filter_by(login=old_user_login).first()
+    def update(old_user_id, new_user): 
+        old_user = Users.query.filter_by(id=old_user_id).first()
         old_user.login = new_user.login
         old_user.password = new_user.password
         old_user.firstname = new_user.firstname

@@ -1,9 +1,8 @@
-from flask import request, render_template, redirect, url_for, flash, get_flashed_messages, jsonify
-from flask_login import logout_user, current_user, login_required
-from core import app, login_manager
+from flask import request, render_template, redirect, url_for 
+from flask_login import current_user
+from core import app 
 from datetime import datetime as date
 from models import *
-from file_manager import allowed_file, save_file
 
 def init_opop_views():
     
@@ -28,9 +27,10 @@ def init_opop_views():
     # @login_required
     def opop_entity_create(entity):
         match entity:
-            case"group":
+            case "group":
                 opop_director = Director_OPOP.query.filter_by(user_id=current_user.id).first()
                 spezializations = Specialization.query.filter_by(opop_director_id=opop_director.id).all()
+                
                 if request.method == "POST":
                     new_group = Group(
                     name=request.form['name'],
@@ -39,9 +39,11 @@ def init_opop_views():
                     form=request.form['form']
                     )
                     Group.create(new_group)
-                    return redirect(url_for("opop_index"))
+                    return redirect("/opop")
+                
                 return render_template("pages/opop/group/create.html", spezializations=spezializations)
-            case"practice":
+            
+            case "practice":
                 if request.method == "POST":
                     new_practice = Practice(
                         name=request.form['name'],
@@ -57,6 +59,7 @@ def init_opop_views():
                     practice_id = Practice.create(new_practice)
                     data = request.form.to_dict()
                     data_keys = data.keys()
+                    
                     for checkbox in data_keys:
                         if "check_" in checkbox and request.form[checkbox]:
                             group_id = int(checkbox.split("_")[1])
@@ -65,7 +68,9 @@ def init_opop_views():
                                 group_id=group_id
                             )
                             Practice_Group.create(practice_group)
-                    return redirect(url_for("opop_index"))
+                    
+                    return redirect("/opop")
+        
                 groups = Group.query.order_by(Group.name).all()
                 directors_practice_usu = Director_Practice_USU.query.all()
                 directors_practice_company = Director_Practice_Company.query.all()

@@ -17,7 +17,10 @@ class StudentDocument:
         morph = pymorphy2.MorphAnalyzer()
         lastname = morph.parse(fullname[0])[0].inflect({case}).word
         firstname = morph.parse(fullname[1])[0].inflect({case}).word
-        surname = morph.parse(fullname[2])[0].inflect({case}).word
+        if fullname[2] != " ":
+            surname = morph.parse(fullname[2])[0].inflect({case}).word
+        else:
+            surname = "  "
         return f"{lastname[0].upper()+lastname[1:]} {firstname[0].upper() + firstname[1:]} {surname[0] + surname[1:]}"
     
     def __collect_student_data(self):
