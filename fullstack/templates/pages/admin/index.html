@@ -4,19 +4,19 @@
   <a href="/admin_institute_index">Перейти к институтам</a>
 </div>
 
-<div class="users">
-  <div class="users-head">
-    <h3 class="users-head__h3"></h3>
+<div class="users list-block">
+  <div class="users-head list-head">
+    <h3 class="users-head__h3">Пользователи</h3>
     <div class="users-head-tools">
       <button class="users-head-tools__button add">Add</button>
       <button class="users-head-tools__button toggle">&#x2B9F;</button>
     </div>
   </div>
-  <ul class="users-list">
+  <ul class="users-list list">
     {% for user in users %}
     <li class="users-list-item" id="{{ user.id }}">
-      <a href="/admin/users/edit/{{ user.id }}" class="users-list-item__a">
-        {{ user.lastname }} {{ user.firstname }} {{ user.surname }}
+      <a href="/admin/user/edit/{{ user.id }}" class="users-list-item__a">
+        {{ user.lastname }} {{ user.firstname }}
       </a>
       <div class="users-list-item-tools">
         <button id="{{ user.id }}" class="users-list-tools__button delete">Delete</button>

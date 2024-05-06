@@ -41,8 +41,11 @@ def init_admin_views():
                     user = Users(lastname=name[0], firstname=name[1], surname=name[2] if len(name) == 3 else " ", \
                         login=request.form["login"], password=request.form["password"],\
                             role=role)
-                    Users.create(user)
-                    return redirect('/admin')
+                    data = Users.create(user)
+                    if data["role"] == "":
+                        return jsonify({"message": data["message"]})
+                    
+                    return jsonify({"message": "Пользователь был успешно создан"})
         
                 return render_template("pages/admin/user/create.html")
             
@@ -69,12 +72,12 @@ def init_admin_views():
                             old_user = Users.query.filter_by(id=entity_id).first()
                             
                             if request.method == "POST":
-                                name = request.form["fio"]
-                                form = request.form.to_dict()
-                                role = " ".join([ key for key in form.keys() if form[key] == "on" ])
+                                name = request.form["fio"].split()
+                                role = request.form["role"]
                                 
                                 new_user = Users(
                                     login=request.form["login"],
+                                    password=request.form["password"],
                                     lastname=name[0],
                                     firstname=name[1],
                                     surname= name[2] if len(name) == 3 else " ",
@@ -82,7 +85,7 @@ def init_admin_views():
                                     )
                                 
                                 Users.update(old_user_id=entity_id, new_user=new_user)
-                                return redirect('/admin')
+                                return jsonify({ "message": "Данные успешно обновлены" })
                             
                             return render_template("pages/admin/user/update.html", old_user=old_user)
                 

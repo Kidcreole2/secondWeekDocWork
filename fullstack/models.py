@@ -36,12 +36,9 @@ class Users(UserMixin, db.Model):
         print(user)
         if user is not None and user.password == password:
             login_user(user)
-            return user.role
+            return {"role": user.role, "message": ""}
         else:
-            if user is None:
-                return "wrong_login"
-            else:
-                return "wrong_pass"
+            return {"message": "Пользователь с таким логином уже существует придумайте другой", "role": ""}
     
     @staticmethod
     def create(user):

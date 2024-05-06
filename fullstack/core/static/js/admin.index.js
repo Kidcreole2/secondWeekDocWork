@@ -1,11 +1,11 @@
 $(document).ready(() => {
   $(".users-head-tools__button+.toggle").on("click", () => {
-    $(".users-list").toggle();
+    $(".users-list").toggle(200);
     $(this).toggleClass("hided");
   });
 
   $(".institutes-head-tools__button+.toggle").on("click", () => {
-    $(".institutes-list").toggle();
+    $(".institutes-list").toggle(200);
     $(this).toggleClass("hided");
   });
 

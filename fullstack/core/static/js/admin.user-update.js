@@ -9,21 +9,32 @@ $(document).ready(() => {
       dataType: "html",
       data: {
         id: id,
-        login: login
-      }, 
+        login: login,
+      },
       success: () => {
-        console.log($('form#change').serialize())
+        roles = [];
+        $(".form-role__input:checked").each((i, input) => {
+          roles.push(`${$(input).attr("name")}`);
+        });
+        console.log(roles);
+
         $.ajax({
-            method: "POST",
-            dataType: "html",
-            data: $("form#change").serialize(),
-            success: (data) => {
-                console.log(data)
-            }
-        })
+          method: "POST",
+          dataType: "html",
+          data: {
+            fio: $('input[name="fio"]').val(),
+            role: roles.join(" "),
+            login: $('input[name="login"]').val(),
+            password: $("input[name=password]").val(),
+          },
+          success: (data) => {
+            alert(JSON.parse(data).message)
+            window.location.replace('/admin')
+          },
+        });
       },
       error: (xhr, status, error) => {
-        var err = JSON.parse(xhr.responseText) ;
+        var err = JSON.parse(xhr.responseText);
         alert(err.error);
       },
     });
