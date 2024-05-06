@@ -64,6 +64,11 @@ class Users(UserMixin, db.Model):
         db.session.commit()
 
     @staticmethod
+    def delete(user_id):
+        Users.query.filter_by(id=user_id).delete()
+        db.session.commit()
+
+    @staticmethod
     def password_generation():
         characters = string.ascii_letters + string.digits
         password = ""   
@@ -96,7 +101,7 @@ class Practice(db.Model) :
     order = db.Column(db.String(100), nullable = False)
     type_of_practice = db.Column(db.String(100), nullable = False)
     kind_of_practice = db.Column(db.String(100), nullable = False)
-    started = db.Column(db.Bool, nullable = False)
+    started = db.Column(db.Boolean, nullable = False)
 
     # связи
     director_practice_usu = db.relationship("Director_Practice_USU", back_populates="practice")
@@ -650,4 +655,4 @@ def load_specialisation_data(opops:dict, institutes:dict, specialisations:dict):
             spec = Specialization(institute_id=institute.id, director_opop_id=opop_id, name=filtered_spec["name"], specialization_code=filtered_spec["code"])
             Specialization.add_specialisation(spec)
 
-    
+ 
