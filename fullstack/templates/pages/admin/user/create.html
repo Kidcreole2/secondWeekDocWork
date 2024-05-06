@@ -10,30 +10,54 @@
     <label for="fio">Ф. И. О.</label>
     <input type="text" class="form-patronymic" name="fio" placeholder="Иванов" required />
   </div>
-  <div class="form-login">
-    <label for="student">Студент</label>
-    <label for="director">Директор</label><label for="admin">Администратор</label>
-    <input type="checkbox" name="student" id="student"><input type="checkbox" name="director" id="director"><input type="checkbox" name="admin" id="admin">
+
+  <div class="form-role">
+    <div class="form-role-student">
+      <label class="form-role__label" for="student">Студент</label>
+      <input class="form-role__input" type="checkbox" name="student" id="student">
+    </div>
+
+    <div class="form-role-director-opop">
+      <label for="director">Руководитель ОПОП</label>
+      <input type="checkbox" name="director-opop" id="director">
+    </div>
+
+    <div class="form-role-director-organization">
+      <label for="director">Руководитель организации</label>
+      <input type="checkbox" name="director-organization" id="director">
+    </div>
+
+    <div class="form-role-director-company">
+      <label for="director">Руководитель предприятия</label>
+      <input type="checkbox" name="director-company" id="director">
+    </div>
+ 
+    <div class="form-role-admin">
+      <label for="admin">Администратор</label>
+      <input type="checkbox" name="admin" id="admin">
+    </div>
   </div>
+  
   <div class="form-login">
     <label for="post">Должность</label>
     <input type="text" class="form-login" name="post" placeholder="ИИИ" required />
   </div>
+ 
   <div class="form-login">
     <label for="login">Логин</label>
     <input type="text" class="form-login" name="login" placeholder="ИИИ" required />
   </div>
-  <div class="form-role">
-    <!--Тут чекбоксы  -->
-  </div>
+
   <div class="form-pass">
     <label for="password">Пароль</label>
     <input type="password" class="form-pass" name="password" placeholder="Пароль" required />
   </div>
+
   <div class="form-two-pass">
     <label for="passwordConfirm">Повторите пароль</label>
     <input type="password" class="form-two-pass" name="passwordConfirm" placeholder="Пароль" required />
   </div>
+
   <div>
     <select name="userType" id="">
       <option value="directorOPOP">Руковдитель ОПОП</option>
@@ -42,6 +66,7 @@
       <option value="directorUSU">Руководитель практики от ЮГУ</option>
     </select>
   </div>
+
   <button formaction="" class="btn" type="submit">Добавить пользователя</button>
 </form>
 {% for message in messages %} {{message}} {% endfor %}

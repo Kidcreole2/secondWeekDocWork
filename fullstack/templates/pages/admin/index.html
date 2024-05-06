@@ -3,4 +3,52 @@
   <a href="/admin_user_index">перейти к пользователям</a>
   <a href="/admin_institute_index">Перейти к институтам</a>
 </div>
+
+<div class="users">
+  <div class="users-head">
+    <h3 class="users-head__h3"></h3>
+    <div class="users-head-tools">
+      <button class="users-head-tools__button add">Add</button>
+      <button class="users-head-tools__button toggle">&#x2B9F;</button>
+    </div>
+  </div>
+  <ul class="users-list">
+    {% for user in users %}
+    <li class="users-list-item" id="{{ user.id }}">
+      <a href="/admin/users/edit/{{ user.id }}" class="users-list-item__a">
+        {{ user.lastname }} {{ user.firstname }} {{ user.surname }}
+      </a>
+      <div class="users-list-item-tools">
+        <button id="{{ user.id }}" class="users-list-tools__button delete">Delete</button>
+      </div>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+
+<div class="institutes">
+  <div class="institutes-head">
+    <h3 class="institutes-head__h3"></h3>
+    <div class="institutes-head-tools">
+      <button class="institutes-head-tools__button add">Add</button>
+      <button class="insitutes-head-tools__button toggle showed"></button>
+    </div>
+  </div>
+  <ul class="users-list">
+    {% for institute in institutes %}
+    <li class="institutes-list-item">
+      <a href="/admin/users/edit/{{ institute.id }}" class="institutes-list-item__a">
+        {{ institute.name }} 
+      </a>
+      <div class="institutes-list-item-tools">
+        <button id="{{ institute.id }}" class="institutes-list-item-tools__a delete">Delete</button>
+      </div>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+
+{% endblock %}
+{% block script %}
+  <script src="{{ url_for('static', filename='js/admin.index.js') }}"></script>
 {% endblock %}
