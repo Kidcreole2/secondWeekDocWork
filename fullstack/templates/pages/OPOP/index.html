@@ -1,8 +1,47 @@
 {% extends "base.html" %} {% block content %}
-<div>
-  <a href="/opop_group_index">Перейти к группам</a>
+<div class="admin-back">
+  <a href="/opop_index">Назад</a>
 </div>
+
 <div>
-  <a href="/opop_practice_index">Перейти к практикам</a>
+  <a href="/opop_practice_create">Создать</a>
 </div>
+<h2 class="practice-table__name">Практики</h2>
+<table class="practice-table">
+  <thead class="practice-table__head">
+    <tr class="practice-table__names">
+      <th class="practice-table__content">Название</th>
+    </tr>
+  </thead>
+  <tbody class="practice-table__body">
+    {% for practice in practices %}
+    <tr class="practice-table__data">
+
+      <td class="practice-table__content"><a href="/opop_practice_update/{{practice.id}}">{{practice.name}}</a></td>
+    </tr>
+    {% endfor %}    
+  </tbody>
+</table>
+
+<div>
+  <a href="/opop_group_create">Создать группу</a> 
+</div>
+<h2 class="group-table__name">Группы</h2>
+<table class="group-table">
+  <thead class="group-table__head">
+    <tr class="group-table__names">
+      <th class="group-table__content">Номер группы</th>
+      <th class="group-table__content">Курс</th>
+    </tr>
+  </thead>
+  <tbody class="group-table__body">
+    {% for group in groups %}
+    <tr class="group-table__data">
+      <td class="group-table__content">{{group.name}}</td>
+      <td class="group-table__content">{{group.course}}</td>
+      <td class="group-table__content"><a href="opop_group_update/{{group.id}}">Обновить</a></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
 {% endblock %}
