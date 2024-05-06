@@ -64,6 +64,11 @@ class Users(UserMixin, db.Model):
         db.session.commit()
 
     @staticmethod
+    def delete(user_id):
+        Users.query.filter_by(id=user_id).delete()
+        db.session.commit()
+
+    @staticmethod
     def password_generation():
         characters = string.ascii_letters + string.digits
         password = ""   
