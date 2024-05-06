@@ -10,7 +10,7 @@ def init_opop_views():
 # ==OPOP Index==
 
     @app.route("/opop")
-    @login_required
+    # @login_required
     def opop_index():
         # Create list of group and practices
         groups = []
@@ -25,7 +25,7 @@ def init_opop_views():
 # ==OPOP group,practice create==
 
     @app.route("/opop/<entity>/create")
-    @login_required
+    # @login_required
     def opop_entity_create(entity):
         match entity:
             case"group":
@@ -71,7 +71,7 @@ def init_opop_views():
 # ==OPOP group,practice update,delete==
 
     @app.route("/opop/<entity>/<action>/<entity_id>")
-    @login_required
+    # @login_required
     def opop_entity_action(entity,action,entity_id):
         match entity:
             case"group":
@@ -125,7 +125,7 @@ def init_opop_views():
 # ==OPOP student create==
 
     @app.route("/opop/group/update/<entity_id>/create")
-    @login_required
+    # @login_required
     def opop_student_create(entity_id):
         if request.method == "POST":
             new_student_user = Users(
@@ -148,7 +148,7 @@ def init_opop_views():
 # ==OPOP student update,delete==
    
     @app.route("/opop/group/update/<entity_id>/<action>/<student_user_id>")
-    @login_required
+    # @login_required
     def opop_student_action(action,entity_id,student_user_id):
         match action:
             case "update":
