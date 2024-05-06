@@ -29,6 +29,22 @@
     </select>
     <label for="kind_of_practice">Вид практики</label>
   </div>
+  <div>
+    <select name="director_practice_usu" required >
+      {% for director_practice_usu in directors_practice_usu %}
+      <option value="{{director_practice_usu.id}}">{{director_practice_usu.id}}</option>
+      {% endfor %}
+    </select>
+    <label for="director_practice_usu">Руководитель практики от ЮГУ</label>
+  </div>
+  <div>
+    <select name="director_practice_company" required >
+      {% for director_practice_company in directors_practice_company %}
+      <option value="{{director_practice_company.id}}">{{director_practice_company.id}}</option>
+      {% endfor %}
+    </select>
+    <label for="director_practice_company">Руководитель практики от Организации</label>
+  </div>
   {% for group in groups %}
   <div>
     <label for="check_{{group.id}}">{{group.name}}</label>
