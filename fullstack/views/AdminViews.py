@@ -44,7 +44,7 @@ def init_admin_views():
             case "institute":    
                 return render_template("pages/admin/institute/create.html")
 
-    @app.route("/admin/<entity>/<action>/<entity_id>")
+    @app.route("/admin/<entity>/<action>/<entity_id>", methods=["POST", "GET"])
     @login_required
     def admin_entity_action(entity, action, entity_id):
         if request.method == "POST":
