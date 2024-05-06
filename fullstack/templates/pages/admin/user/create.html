@@ -6,21 +6,14 @@
 <!-- TODO сделать генератор на js -->
 <h4>Создание</h4>
 <form action="#" method="post">
-  <div class="form-name">
-    <label for="firstname">Имя</label>
-    <input type="text" class="form-name" name="firstname" placeholder="Иван" required />
-  </div>
-  <div class="form-surname">
-    <label for="lastname">Фамилия</label>
-    <input type="text" class="form-surname" name="lastname" placeholder="Иванович" required />
-  </div>
   <div class="form-patronymic">
-    <label for="surname">Отчество</label>
-    <input type="text" class="form-patronymic" name="surname" placeholder="Иванов" required />
+    <label for="fio">Ф. И. О.</label>
+    <input type="text" class="form-patronymic" name="fio" placeholder="Иванов" required />
   </div>
   <div class="form-login">
-    <label for="role">Роли</label>
-    <input type="text" class="form-login" name="role" placeholder="ИИИ" required />
+    <label for="student">Студент</label>
+    <label for="director">Директор</label><label for="admin">Администратор</label>
+    <input type="checkbox" name="student" id="student"><input type="checkbox" name="director" id="director"><input type="checkbox" name="admin" id="admin">
   </div>
   <div class="form-login">
     <label for="post">Должность</label>
