@@ -34,14 +34,13 @@ def init_admin_views():
             case "user":
                 if request.method == "POST":
                     name = request.form["fio"].split(" ")
-                    form = request.form.to_dict()
-                    role = " ".join([key for key in form.keys() if form[key] == "on"])
                 
-                    print(role)
                     user = Users(lastname=name[0], firstname=name[1], surname=name[2] if len(name) == 3 else " ", \
                         login=request.form["login"], password=request.form["password"],\
-                            role=role)
+                            role=request.form["role"])
+                    
                     data = Users.create(user)
+                    
                     if data["role"] == "":
                         return jsonify({"message": data["message"]})
                     
@@ -57,6 +56,11 @@ def init_admin_views():
                     return redirect("/admin")
                 
                 return render_template("pages/admin/institute/create.html")
+            
+            case "specialization":
+                if request.method == "POST":
+                    pass
+                return render_template("pages/admin/institute/specialization/create.html")
 
 
     @app.route("/admin/<entity>/<action>/<entity_id>", methods=["POST", "GET"])

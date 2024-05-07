@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="admnin-back">
-  <a href="/admin_institute_index"><button type="button">Назад</button></a>
+  <a href="/admin"><button type="button">Назад</button></a>
 </div>
 <form action="#" method="post">
   <div>
@@ -13,10 +13,11 @@
     <input type="text" name="specialization_code" required>
   </div>
   <div>
-    {#Разобраться как вывести имя ОПОП#}
+    {#Разобраться как вывести имя ОПОП #}
+    {# @Kidreole2 Подсказка user_id))) #}
     <select name="director_opop_id" id="">
       {% for opop_director in opop_directors %}
-      <option value="{{ opop_director.id }}">{{ opop_director.id }}
+      <option value="{{ opop_director.user_id }}">{{ opop_director.id }}
       </option>
       {% endfor %}
     </select>

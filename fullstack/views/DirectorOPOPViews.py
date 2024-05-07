@@ -1,4 +1,4 @@
-from flask import request, render_template, redirect, url_for 
+from flask import request, render_template, redirect, url_for, jsonify
 from flask_login import current_user
 from core import app 
 from datetime import datetime as date
@@ -20,6 +20,13 @@ def init_opop_views():
         for group in groups:
             practices = practices.append(Practice_Group.query.filter_by(group_id=group.id).all())
         return render_template("pages/opop/index.html", groups=groups,practices=practices)
+
+    @app.route("/opop/practice_name/check", method=["POST"])
+    def practice_name_check():
+        if Practice.query.filter_by(name=request.form["name"]).first() is not None:
+            return jsonify({"error": "Практика с таким именем существует"}), 400
+        else:
+            return jsonify({"error": ""}), 200
 
 # ==OPOP group,practice create==
 
@@ -57,19 +64,16 @@ def init_opop_views():
                     )
                     print(request.form)
                     practice_id = Practice.create(new_practice)
-                    data = request.form.to_dict()
-                    data_keys = data.keys()
+                    groups = request.form["groups"]
+                    for group in groups:
+                        group_id = int(group)
+                        practice_group = Practice_Group(
+                            practice_id=practice_id,
+                            group_id=group_id
+                        )
+                        Practice_Group.create(practice_group)
                     
-                    for checkbox in data_keys:
-                        if "check_" in checkbox and request.form[checkbox]:
-                            group_id = int(checkbox.split("_")[1])
-                            practice_group = Practice_Group(
-                                practice_id=practice_id,
-                                group_id=group_id
-                            )
-                            Practice_Group.create(practice_group)
-                    
-                    return redirect("/opop")
+                    return jsonify({"message": "Практика была успешно создана"})
         
                 groups = Group.query.order_by(Group.name).all()
                 directors_practice_usu = Director_Practice_USU.query.all()
@@ -98,7 +102,8 @@ def init_opop_views():
                         student_users = Student.query.order_by(Student.id).all()
                         return render_template("pages/opop/group/update.html", student_users=student_users,group=old_group)
                     case "delete":
-                        return "Fuck you"
+                        Group.delete(id_group=entity_id)
+                    
             case"practice":
                 match action:
                     case "update":
@@ -129,7 +134,7 @@ def init_opop_views():
                             return redirect(url_for(request.url))
                         return render_template("pages/opop/practice/update.html", practice_id=practice_id)
                     case "delete":
-                        return "Fuck you"
+                        Practice.delete(id_practice=entity_id)
                 
 # ==OPOP student create==
 

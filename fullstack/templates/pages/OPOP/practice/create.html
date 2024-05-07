@@ -47,18 +47,21 @@
   </div>
   {% for group in groups %}
   <div>
-    <label for="check_{{group.id}}">{{group.name}}</label>
-    <input type="checkbox" name="check_{{group.id}}">
+    <label for="{{group.id}}">{{group.name}}</label>
+    <input type="checkbox" class="group-checkbox" name="{{group.id}}">
   </div>
   {% endfor %}
   <div>
     <label for="order">Номер приказа и его дата</label>
-    <input type="text" name="order" required />
+    <input type="text" name="order" placeholder="12-222 от 21.10.2023" required />
   </div>
   <div>
     <label for="recomendations">Рекомендации(не обязательно)</label>
     <input type="text" name="recomendations" />
   </div>
-  <button class="btn" type="submit">Создать</button>
+  <button class="btn" id="practice-create" type="button">Создать</button>
 </form>
+{% endblock %}
+{% block script %}
+  <script src="{{ url_for('static', filename='js/opop.practice-create.js') }}"></script>
 {% endblock %}

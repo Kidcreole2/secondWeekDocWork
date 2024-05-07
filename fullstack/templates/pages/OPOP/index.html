@@ -6,41 +6,53 @@
 <div>
   <a href="opop/practice/create">Создать</a>
 </div>
-<h2 class="practice-table__name">Практики</h2>
-<table class="practice-table">
-  <thead class="practice-table__head">
-    <tr class="practice-table__names">
-      <th class="practice-table__content">Название</th>
-    </tr>
-  </thead>
-  <tbody class="practice-table__body">
-    {% for practice in practices %}
-    <tr class="practice-table__data">
 
-      <td class="practice-table__content"><a href="/opop_practice_update/{{practice.id}}">{{practice.name}}</a></td>
-    </tr>
-    {% endfor %}    
-  </tbody>
-</table>
-<div>
-  <a href="opop/group/create">Создать группу</a> 
-</div>
-<h2 class="group-table__name">Группы</h2>
-<table class="group-table">
-  <thead class="group-table__head">
-    <tr class="group-table__names">
-      <th class="group-table__content">Номер группы</th>
-      <th class="group-table__content">Курс</th>
-    </tr>
-  </thead>
-  <tbody class="group-table__body">
-    {% for group in groups %}
-    <tr class="group-table__data">
-      <td class="group-table__content">{{group.name}}</td>
-      <td class="group-table__content">{{group.course}}</td>
-      <td class="group-table__content"><a href="opop_group_update/{{group.id}}">Обновить</a></td>
-    </tr>
+<div class="practices">
+
+  <div class="practices-head list-head">
+    <h2 class="practice-table__name">Практики</h2>
+    <div class="practices-head-tools tools">
+      <a href="/opop/practice/create" class="practices-head-tools__a add">
+        Add
+      </a>
+      <button class="practices-head-tools__button toggle">&#x2B9F;</button>
+    </div>
+  </div>
+
+  <ul class="practices-list">
+    {% for practice in practices %}
+    <li id="practice_{{ practice.id }}">
+      <a href="/opop_practice_update/{{practice.id}}">{{practice.name}}</a>
+      <span class="users-list-item-tools">
+        <button id="{{ practice.id }}" class="practice-list-tools__button delete">
+          Delete
+        </button>
+      </span>
+    </li>
     {% endfor %}
-  </tbody>
-</table>
+  </ul>
+</div>
+
+<div class="groups">
+  <div class="groups-head list-head">
+    <h2 class="group-table__name">Группы</h2>
+  </div>
+  <div class="practices-list">
+  <ul>
+    {% for group in groups %}
+    <li id="group_{{ group.id }}">
+      <a href="opop/group/update/{{group.id}}" class="group-table__content">{{group.name}}</a>
+      <span class="group-table__content">{{group.course}}</span>
+
+      <span class="users-list-item-tools">
+        <button class="group-list-tools__button delete" id="{{ group.id }}">Delete</button>
+      </span>
+    </li>
+    {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endblock %}
+{% block script %}
+  <script src="{{ url_for('static', filename='js/opop.index.js') }}"></script>
 {% endblock %}

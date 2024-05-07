@@ -18,9 +18,9 @@
       <a href="/admin/user/edit/{{ user.id }}" class="users-list-item__a">
         {{ user.lastname }} {{ user.firstname }}
       </a>
-      <div class="users-list-item-tools">
+      <span class="users-list-item-tools">
         <button id="{{ user.id }}" class="users-list-tools__button delete">Delete</button>
-      </div>
+      </span>
     </li>
     {% endfor %}
   </ul>
@@ -34,20 +34,36 @@
       <button class="insitutes-head-tools__button toggle showed"></button>
     </div>
   </div>
-  <ul class="users-list">
+  <ul class="institutes-list">
     {% for institute in institutes %}
-    <li class="institutes-list-item">
+    <li class="institutes-list-item" id="{{ institute.id }}">
       <a href="/admin/user/edit/{{ institute.id }}" class="institutes-list-item__a">
         {{ institute.name }} 
       </a>
-      <div class="institutes-list-item-tools">
+      <span class="institutes-list-item-tools">
         <button id="{{ institute.id }}" class="institutes-list-item-tools__a delete">Delete</button>
-      </div>
+      </span>
+      
     </li>
     {% endfor %}
   </ul>
 </div>
-
+<div class="specialisations">
+  <div class="specialisations-head list-head">
+    <h4 class="specialisations-head__h4">Специализации</h4>
+    <div class="specialization-head-tools">
+      <a href="/admin/specialization/create" class="specialization-head-tools__a add"></a>
+      <button class="specialization-head-tools__button toggle"></button>
+    </div>
+  </div>
+  <ul class="specializations-list">
+    {% for specialisation in specialisations %}
+    <li class="specialization-item">
+      <a href="" class="specializations-list-item__a edit"></a>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
 {% endblock %}
 {% block script %}
   <script src="{{ url_for('static', filename='js/admin.index.js') }}"></script>
