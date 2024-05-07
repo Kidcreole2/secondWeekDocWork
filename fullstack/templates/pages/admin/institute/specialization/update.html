@@ -1,21 +1,41 @@
-{% extends "base.html" %}
-{% block content %}
+{% extends "base.html" %} {% block content %}
 <div class="admnin-back">
-    <a href="/admin_institute_update">Назад</a>
+  <a href="/admin">Назад</a>
 </div>
+
 <form action="#" method="post">
-    <div>
-        <label for="name">Название</label>
-        <input type="text" name="name" required>
-    </div>
-    <div>
-        <label for="specialization_code">Код направления</label>
-        <input type="text" name="specialization_code" required>
-    </div>
-    <div>
-        <label for="name">Имя</label>
-        <input type="text" name="director_opop_id" required>
-    </div>
-    <button type="submit">Обновить</button>
+  <div class="form-name">
+    <label for="name">Название</label>
+    <input type="text" name="name" value="{{ old_spec.name }}" required />
+  </div>
+
+  <div class="form-spec">
+    <label for="specialization_code">Код направления</label>
+    <input type="text" name="specialization_code" value="{{ old_spec.specialization_code }}" required />
+  </div>
+
+  <div class="form-opop">
+    <label for="name">Имя</label>
+    <select name="director_opop_id" id="">
+      {% for opop_director in opop_directors %}
+      <option value="{{ opop_director.user_id }}">
+        {{ opop_director.id }}
+      </option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <div class="form-institute">
+    <select name="spec-institute" list="institutes">
+      {% for institute in institutes %}
+      <option value="{{ institute.id }}">{{ institute.name }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <button id="specialisation-update" type="button">Обновить</button>
 </form>
+{% endblock %} 
+
+{% block script %}
+<script src="{{ url_for('static', filename='js/admin.spec-update.js') }}"></script>
 {% endblock %}

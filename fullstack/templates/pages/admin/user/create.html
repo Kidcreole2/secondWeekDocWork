@@ -12,11 +12,6 @@
   </div>
 
   <div class="form-role">
-    <div class="form-role-student">
-      <label class="form-role__label" for="student">Студент</label>
-      <input class="form-role__checkbox" type="checkbox" name="student" id="student">
-    </div>
-
     <div class="form-role-director-opop">
       <label for="director">Руководитель ОПОП</label>
       <input class="form-role__checkbox" type="checkbox" name="director-opop" id="director">
@@ -53,32 +48,6 @@
   <div class="form-two-pass">
     <label for="passwordConfirm">Повторите пароль</label>
     <input type="password" class="form-two-pass" name="passwordConfirm" placeholder="Пароль" required />
-  </div>
-
-  <div>
-    <select name="user-type">
-      <option value="director-opop">Руковдитель ОПОП</option>
-      <option value="director-company">Руководитель предприятия</option>
-      <option value="directon-organization">Руководитель организации</option>
-      <option value="director-usu">Руководитель практики от ЮГУ</option>
-      <option value="student">Студент</option>
-    </select>
-  </div>
-
-  <div class="form-login-post">
-    <label for="post">Должность</label>
-    <input type="text" class="form-login" name="post" placeholder="ИИИ" required />
-  </div>
-
-  <div class="student-group">
-
-    <input name="student-group" list="groups">
-      <datalist id="groups">
-        {% for group in groups %}
-          <option value="{{ group.name }}"></option>
-        {% endfor %}
-      </datalist>
-    </select>
   </div>
 
   <button id="user-create" class="btn" type="button">Добавить пользователя</button>

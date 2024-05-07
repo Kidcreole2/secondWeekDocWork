@@ -34,18 +34,18 @@ def init_admin_views():
             case "user":
                 if request.method == "POST":
                     name = request.form["fio"].split(" ")
-                
+
                     user = Users(lastname=name[0], firstname=name[1], surname=name[2] if len(name) == 3 else " ", \
                         login=request.form["login"], password=request.form["password"],\
                             role=request.form["role"])
-                    
+
                     data = Users.create(user)
                     print(data)
                     if data["role"] == "":
                         return jsonify({"message": data["message"]}), 400
-                    
+
                     return jsonify({"message": "Пользователь был успешно создан"})
-        
+
                 return render_template("pages/admin/user/create.html")
             
             case "institute":
@@ -121,14 +121,19 @@ def init_admin_views():
                             return jsonify({"message": "Pidor"}), 200
                         
                         case "edit":
-                            old_institute = Institute.query.filter_by(id=entity_id).first()
+                            old_spec = Specialization.query.filter_by(id=entity_id).first()
                             
                             if request.method == "POST":
-                                print("edit")
                                 name = request.form["name"]
-                                new_institute = Institute(name=name)
-                                Institute.update(old_institute=old_institute, new_institute=new_institute)
-                                return redirect("/admin")
-                               
-                            current_specs = Specialization.query.filter_by(institute_id=old_institute.id).all()
-                            return render_template("pages/admin/institute/edit.html", old_institute=old_institute, current_specializations=current_specs)
+                                code = request.form["code"]
+                                institute_id = int(request.form["institute_id"])
+                                opop_id = int(request.form['opop_id'])
+                                new_spec = Specialization(name=name, specialization_code=code, institute_id=institute_id, director_opop_id=opop_id)
+                                Specialization.update(old_specialization=old_spec, new_specialization=new_spec)
+                                return jsonify({"message": "Специализация успешно обновлена"}), 200
+                            
+                            opops = Director_OPOP.query.all()
+                            user_opops = []
+                            for opop in opops:
+                                 user_opops.append(Users.query.filter(id=opop.user_id).first())
+                            return render_template("pages/admin/institute/update.html", old_spec=old_spec, opop_directors=user_opops)

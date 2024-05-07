@@ -1,13 +1,14 @@
 from flask import request, render_template, redirect, url_for, flash, get_flashed_messages, jsonify
 from flask_login import logout_user, current_user, login_required
 from core import app, login_manager
-from datetime import datetime as date
 from models import *
 from file_manager import allowed_file, save_file
 
+
 @login_manager.user_loader
 def loader_user(user_id):
-    return Users.query.get(user_id) 
+    return Users.query.get(user_id)
+
 
 # ==utilite functions folder==
 
@@ -32,7 +33,7 @@ def upload():
             flash("неверный тип файла")
     messages = get_flashed_messages()
     print(messages)
-    return render_template("test/file_upload.html",  messages=messages)
+    return render_template("test/file_upload.html", messages=messages)
 
 
 # ==Basic functions==
@@ -44,22 +45,24 @@ def logout():
     logout_user()
     return redirect(url_for("login"))
 
+
 @app.route("/home")
 @login_required
 def home():
     roles = current_user.role.split()
-    return render_template("index.html",roles=roles)
+    return render_template("index.html", roles=roles)
+
 
 # --login function--
 
 @app.route("/", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
-        #TODO make password check
+        # TODO make password check
         login = request.form["login"]
         print(login)
         password = request.form.get("password")
         roles = Users.auth_user(login, password)["role"]
         roles = roles.split
-        return render_template("index.html",roles=roles)
+        return render_template("index.html", roles=roles)
     return render_template("login.html")

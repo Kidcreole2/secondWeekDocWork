@@ -1,16 +1,16 @@
 $(document).ready(() => {
   $(".users-head-tools__button.toggle").on("click", () => {
-    $(".users-list").toggle(200);
+    $(".users-list").toggle(20);
     $(this).toggleClass("hided");
   });
 
   $(".institutes-head-tools__button.toggle").on("click", () => {
-    $(".institutes-list").toggle(200);
+    $(".institutes-list").toggle(20);
     $(this).toggleClass("hided");
   });
 
-  $(".specializations-head-tools__button.toggle").on("click", () => {
-    $(".specializations-list").toggle(200);
+  $(".specialization-head-tools__button.toggle").on("click", () => {
+    $(".specializations-list").toggle(20);
     $(this).toggleClass("hided");
   });
 
@@ -38,7 +38,7 @@ $(document).ready(() => {
       url: `/admin/institute/delete/${id}`,
       dataType: "html",
       success: () => {
-        $(`li#inst_${id}`).hide(20)
+          $(`li#inst_${id}`).hide(20);
         alert("Zaebis");
       },
       error: (xhr, status, error) => {
@@ -56,21 +56,21 @@ $(document).ready(() => {
     window.location.replace("/admin/institute/create");
   });
 
-  $(".specializations-head-tools__button.add").on("click", () => {
+  $(".specialization-head-tools__button.add").on("click", () => {
     window.location.replace("/admin/specialization/create");
   });
 
   $(".specializations-list-tools__button.delete").on("click", (e) => {
-    id = e.target.id
+    id = e.target.id;
 
     $.ajax({
-        method: "POST",
-        url: `/opop/specialization/delete/${id}`,
-        dataType: 'html',
-        success: () => {
-            $(`li#group_${id}`).hide(20)
-            alert("Zaebis")
-        }
+      method: "POST",
+      url: `/opop/specialization/delete/${id}`,
+      dataType: 'html',
+      success: () => {
+        $(`li#group_${id}`).hide(20)
+        alert("Zaebis")
+      }
     })
   });
 });

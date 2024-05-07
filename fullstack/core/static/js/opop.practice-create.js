@@ -14,12 +14,12 @@ $(document).ready(() => {
       success: () => {
         start_practice = $('input[name="start_date"]').val();
         end_practice = $('input[name="end_date"]').val();
-        type_of_practice = $('input[name="type_of_practice"]');
-        kind_of_practice = $('input[name="kind_of_practice"]');
-        director_practice_usu = $('input[name="director_practice_usu"]');
+        type_of_practice = $('select[name="type_of_practice"] option:selected').val();
+        kind_of_practice = $('select[name="kind_of_practice"] option:selected').val();
+        director_practice_usu = $('select[name="director_practice_usu"] option:selected').val();
         director_practice_company = $(
-          'input[name="director_practice_company"]'
-        );
+          'select[name="director_practice_company"] option:selected'
+        ).val();
         order = $('input[name="order"]').val();
         recomends = $('input[name="recomendations"]').val();
 
