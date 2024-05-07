@@ -109,3 +109,20 @@ def init_admin_views():
                                
                             current_specs = Specialization.query.filter_by(institute_id=old_institute.id).all()
                             return render_template("pages/admin/institute/edit.html", old_institute=old_institute, current_specializations=current_specs)
+                        
+                case "specialization":
+                    match action:
+                        case "delete" :
+                            Specialization.delete(entity_id)
+                        
+                        case "edit":
+                            old_institute = Institute.query.filter_by(id=entity_id).first()
+                            
+                            if request.method == "POST":
+                                print("edit")
+                                name = request.form["name"]
+                                new_institute = Institute(name=name)
+                                Institute.update(old_institute=old_institute, new_institute=new_institute)
+                               
+                            current_specs = Specialization.query.filter_by(institute_id=old_institute.id).all()
+                            return render_template("pages/admin/institute/edit.html", old_institute=old_institute, current_specializations=current_specs)

@@ -9,6 +9,11 @@ $(document).ready(() => {
     $(this).toggleClass("hided");
   });
 
+  $(".specializations-head-tools__button.toggle").on("click", () => {
+    $(".specializations-list").toggle(200);
+    $(this).toggleClass("hided");
+  });
+
   $(".practices-list-tools__button.delete").on("click", (e) => {
     id = e.target.id;
     $.ajax({
@@ -32,6 +37,20 @@ $(document).ready(() => {
     $.ajax({
         method: "POST",
         url: `/opop/group/delete/${id}`,
+        dataType: 'html',
+        success: () => {
+            $(`li#group_${id}`).hide(20)
+            alert("Zaebis")
+        }
+    })
+  });
+
+  $(".specializations-list-tools__button.delete").on("click", (e) => {
+    id = e.target.id
+
+    $.ajax({
+        method: "POST",
+        url: `/opop/specialization/delete/${id}`,
         dataType: 'html',
         success: () => {
             $(`li#group_${id}`).hide(20)

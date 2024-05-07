@@ -64,7 +64,7 @@ def init_opop_views():
                     )
                     print(request.form)
                     practice_id = Practice.create(new_practice)
-                    groups = request.form["groups"]
+                    groups = request.form["groups"].split()
                     for group in groups:
                         group_id = int(group)
                         practice_group = Practice_Group(

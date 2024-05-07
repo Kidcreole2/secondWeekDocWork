@@ -60,6 +60,9 @@
     {% for specialisation in specialisations %}
     <li class="specialization-item">
       <a href="" class="specializations-list-item__a edit"></a>
+      <span class="specializations-list-item-tools">
+        <button id="{{ specialization.id }}" class="specializations-list-item-tools__a delete">Delete</button>
+      </span>
     </li>
     {% endfor %}
   </ul>
