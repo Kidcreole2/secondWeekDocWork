@@ -59,7 +59,7 @@ def login():
         login = request.form["login"]
         print(login)
         password = request.form.get("password")
-        roles = Users.auth_user(login, password)
-        roles = roles.split()
+        roles = Users.auth_user(login, password)["role"]
+        roles = roles.split
         return render_template("index.html",roles=roles)
     return render_template("login.html")

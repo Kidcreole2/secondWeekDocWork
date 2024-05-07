@@ -13,15 +13,16 @@ def init_opop_views():
     def opop_index():
         # Create list of group and practices
         groups = []
-        practices = []
-        specializations = Specialization.query.filter_by(director_opop_id = current_user.id).all()
-        for specialization in specializations:
-            groups = groups.append(Group.query.filter_by(specialization_id = specialization.id).all())
-        for group in groups:
-            practices = practices.append(Practice_Group.query.filter_by(group_id=group.id).all())
+        # practices = []
+        # specializations = Specialization.query.filter_by(director_opop_id = current_user.id).all()
+        # for specialization in specializations:
+        #     groups = groups.append(Group.query.filter_by(specialization_id = specialization.id).all())
+        # for group in groups:
+        #     practices = practices.append(Practice_Group.query.filter_by(group_id=group.id).all())
+        practices = Practice.query.all()
         return render_template("pages/opop/index.html", groups=groups,practices=practices)
 
-    @app.route("/opop/practice_name/check", method=["POST"])
+    @app.route("/opop/practice_name/check", methods=["POST"])
     def practice_name_check():
         if Practice.query.filter_by(name=request.form["name"]).first() is not None:
             return jsonify({"error": "Практика с таким именем существует"}), 400
@@ -135,6 +136,7 @@ def init_opop_views():
                         return render_template("pages/opop/practice/update.html", practice_id=practice_id)
                     case "delete":
                         Practice.delete(id_practice=entity_id)
+                        return jsonify({"message": "pidor"}), 200
                 
 # ==OPOP student create==
 

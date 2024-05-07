@@ -46,9 +46,9 @@ class Users(UserMixin, db.Model):
         if new_user is None:
             db.session.add(user)
             db.session.commit()
-            return { "id":user.id, "exists": False}
+            return { "id":user.id, "exists": False, "role": user.role, "message": ""}
         else:
-            return {"id": new_user.id, "exists": True}
+            return {"id": new_user.id, "exists": True, "message": "Пользователь с таким логином уже существует придумайте другой", "role": ""}
         
     @staticmethod 
     def update(old_user_id, new_user): 
@@ -183,7 +183,7 @@ class Institute(db.Model) :
         for specialization in specializations:
             specialization.institute_id = ""
             Specialization.update(specialization)
-        Institute.query.filter_by(institute_id=id_institute).delete()
+        Institute.query.filter_by(id=id_institute).delete()
         db.session.commit()
 
 class Director_OPOP(db.Model) :
@@ -547,7 +547,7 @@ class Student_Practice(db.Model) :
     
     @staticmethod
     def delete_practice(id_practice):
-        practices = Student_Practice.query.filter_by(practice_id=id_practice).all
+        practices = Student_Practice.query.filter_by(practice_id=id_practice).all()
         for practice in practices:
             tasks = Task.query.filter_by(student_practice_id = practice.id).all()
             for task in tasks:

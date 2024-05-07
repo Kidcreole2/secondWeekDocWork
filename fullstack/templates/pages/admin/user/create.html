@@ -81,11 +81,10 @@
     </select>
   </div>
 
-  <button formaction="" id="user-create" class="btn" type="button">Добавить пользователя</button>
+  <button id="user-create" class="btn" type="button">Добавить пользователя</button>
 </form>
-{% for message in messages %} {{message}} {% endfor %}
 
 {% endblock %}
-{% block srcipt %}
+{% block script %}
   <script src="{{ url_for('static', filename='js/admin.user-create.js') }}"></script>
 {% endblock %}

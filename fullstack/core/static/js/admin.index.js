@@ -18,10 +18,10 @@ $(document).ready(() => {
     id = e.target.id;
     $.ajax({
       method: "POST",
-      url: `/admin/users/delete/${id}`,
+      url: `/admin/user/delete/${id}`,
       dataType: "html",
       success: () => {
-        $(`li#${id}`).hide(20);
+        $(`li#user_${id}`).hide(20);
         alert("Zaebis");
       },
       error: (xhr, status, error) => {
@@ -31,14 +31,14 @@ $(document).ready(() => {
     });
   });
 
-  $(".institutes-list-tools__button.delete").on("click", (e) => {
+  $(".institutes-list-item-tools__button.delete").on("click", (e) => {
     id = e.target.id;
     $.ajax({
       method: "POST",
-      url: `/admin/institutes/delete/${id}`,
+      url: `/admin/institute/delete/${id}`,
       dataType: "html",
       success: () => {
-        $(`li#${id}`).hide(20)
+        $(`li#inst_${id}`).hide(20)
         alert("Zaebis");
       },
       error: (xhr, status, error) => {

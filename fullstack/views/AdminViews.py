@@ -40,9 +40,9 @@ def init_admin_views():
                             role=request.form["role"])
                     
                     data = Users.create(user)
-                    
+                    print(data)
                     if data["role"] == "":
-                        return jsonify({"message": data["message"]})
+                        return jsonify({"message": data["message"]}), 400
                     
                     return jsonify({"message": "Пользователь был успешно создан"})
         
@@ -71,6 +71,7 @@ def init_admin_views():
                     match action:
                         case "delete" :
                             Users.delete(user_id=entity_id)
+                            return jsonify({"message": "Pidor"}), 200
                         
                         case "edit":
                             old_user = Users.query.filter_by(id=entity_id).first()
@@ -97,6 +98,7 @@ def init_admin_views():
                     match action:
                         case "delete" :
                             Institute.delete(entity_id)
+                            return jsonify({"message": "Pidor"}), 200
                         
                         case "edit":
                             old_institute = Institute.query.filter_by(id=entity_id).first()
@@ -106,14 +108,17 @@ def init_admin_views():
                                 name = request.form["name"]
                                 new_institute = Institute(name=name)
                                 Institute.update(old_institute=old_institute, new_institute=new_institute)
-                               
+                                return redirect("/admin")
+
+                                
                             current_specs = Specialization.query.filter_by(institute_id=old_institute.id).all()
-                            return render_template("pages/admin/institute/edit.html", old_institute=old_institute, current_specializations=current_specs)
+                            return render_template("pages/admin/institute/update.html", institute=old_institute, current_specializations=current_specs)
                         
                 case "specialization":
                     match action:
                         case "delete" :
                             Specialization.delete(entity_id)
+                            return jsonify({"message": "Pidor"}), 200
                         
                         case "edit":
                             old_institute = Institute.query.filter_by(id=entity_id).first()
@@ -123,6 +128,7 @@ def init_admin_views():
                                 name = request.form["name"]
                                 new_institute = Institute(name=name)
                                 Institute.update(old_institute=old_institute, new_institute=new_institute)
+                                return redirect("/admin")
                                
                             current_specs = Specialization.query.filter_by(institute_id=old_institute.id).all()
                             return render_template("pages/admin/institute/edit.html", old_institute=old_institute, current_specializations=current_specs)

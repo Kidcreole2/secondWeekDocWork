@@ -14,7 +14,7 @@
   </div>
   <ul class="users-list list">
     {% for user in users %}
-    <li class="users-list-item" id="{{ user.id }}">
+    <li class="users-list-item" id="user_{{ user.id }}">
       <a href="/admin/user/edit/{{ user.id }}" class="users-list-item__a">
         {{ user.lastname }} {{ user.firstname }}
       </a>
@@ -36,12 +36,12 @@
   </div>
   <ul class="institutes-list">
     {% for institute in institutes %}
-    <li class="institutes-list-item" id="{{ institute.id }}">
-      <a href="/admin/user/edit/{{ institute.id }}" class="institutes-list-item__a">
+    <li class="institutes-list-item" id="inst_{{ institute.id }}">
+      <a href="/admin/institute/edit/{{ institute.id }}" class="institutes-list-item__a">
         {{ institute.name }} 
       </a>
       <span class="institutes-list-item-tools">
-        <button id="{{ institute.id }}" class="institutes-list-item-tools__a delete">Delete</button>
+        <button id="{{ institute.id }}" class="institutes-list-item-tools__button delete">Delete</button>
       </span>
       
     </li>

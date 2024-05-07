@@ -1,20 +1,20 @@
 $(document).ready(() => {
-  $(".practices-head-tools__button.toggle").on("click", () => {
+  $(".practices-head-tools__button").on("click", () => {
     $(".users-list").toggle(200);
-    $(this).toggleClass("hided");
+    // $(this).toggleClass("hided");
   });
 
-  $(".group-head-tools__button.toggle").on("click", () => {
+  $(".group-head-tools__button+.toggle").on("click", () => {
     $(".institutes-list").toggle(200);
     $(this).toggleClass("hided");
   });
 
-  $(".specializations-head-tools__button.toggle").on("click", () => {
+  $(".specializations-head-tools__button+.toggle").on("click", () => {
     $(".specializations-list").toggle(200);
     $(this).toggleClass("hided");
   });
 
-  $(".practices-list-tools__button.delete").on("click", (e) => {
+  $(".practice-list-tools__button+.delete").on("click", (e) => {
     id = e.target.id;
     $.ajax({
       method: "POST",
