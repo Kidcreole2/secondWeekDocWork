@@ -62,6 +62,7 @@ def studentPractice_update(practice_id):
         )
         Student.create(new_Task)
         return redirect(url_for(f"opop_practice_index/{practice_id}"))
+
 @app.route("/studentPractice/update/<practice_id>/task/<action>/<task_id>")
 @login_required
 def studentPractice_update(practice_id,action,task_id): 
