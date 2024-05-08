@@ -48,7 +48,7 @@ def studentPractice_update(practice_id):
             remarks=request.form['remarks']
         )
         Student.update(old_student_practice,new_student_practice)
-        return redirect(url_for(f"opop_practice_index/{practice_id}"))
+        return redirect(url_for(f""))
     student_practice = Student_Practice.query.filter_by(id = practice_id).first()
     return render_template("pages/studentPractice/supervisor_index.html", student_practice=student_practice)
     
@@ -62,7 +62,7 @@ def studentPractice_update(practice_id):
         student_practice_id=practice_id
         )
         Student.create(new_Task)
-        return redirect(url_for(f"opop_practice_index/{practice_id}"))
+        return redirect(url_for(f""))
 
 @app.route("/studentPractice/update/<practice_id>/task/<action>/<task_id>")
 @login_required
@@ -77,7 +77,7 @@ def studentPractice_update(practice_id,action,task_id):
                 student_practice_id=practice_id
                 )
                 Student.update(old_task, new_Task)
-                return redirect(url_for(f"opop_practice_index/{practice_id}"))
+                return redirect(url_for(f""))
         case "delete":
             return "Fuck you"
     

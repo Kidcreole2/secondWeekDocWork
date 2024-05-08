@@ -1,0 +1,91 @@
+{% extends "base.html" %} {% block content %}
+<div>
+  <a href="/studentPractice/{{role}}">Назад</a>
+</div>
+
+{# comment #} Часть видимая всем {# endcomment #}
+
+<div>
+    <a href="/studentPractice/update/{{practice_id}}/task/create">Создать задачу</a>
+</div>
+
+<ul>
+    {% for task in tasks %}
+    <li>
+      <a href="/studentPractice/update/{{practice_id}}/task/update/{{task.id}}">Задание</a>
+      <span>
+        <button id="{{ task.id }}">Delete</button>
+      </span>
+    </li>
+  </ul>
+
+<form>
+  <div>
+    <label>Город прохождения практики</label>
+    <input type="text" 
+      name="place_city"/>
+  </div>
+  
+  <div>
+    <label>Адрес прохождения практики</label>
+    <input type="text"  
+      name="place_address"/>
+  </div>
+
+  <div>
+    <label>Название предприятия на котором проходит практика</label>
+    <input type="text"  
+      name="place_name"/>
+  </div>
+
+  <div>
+    <label>Сокращенное название предприятия на котором проходит практика</label>
+    <input type="text"  
+      name="place_name_short"/>
+  </div>
+</form>
+{# comment #} Часть скрытая от студента {# endcomment #}
+<form>
+  <div>
+    <label>Прошёл ли студент практику</label>
+    <select name="passed">
+      <option value="Да">Да</option>
+      <option value="Нет">Нет</option>
+    </select>
+  </div>
+
+  <div>
+    <label>Продемонстрированные качества</label>
+    <input type="text"  
+      name="demonstrated_qualities"/>
+  </div>
+
+  <div>
+    <label>Как справлялся с возникающими при работе проблемами</label>
+    <select name="overcoming_difficulties">
+      <option value="Оперативно">Оперативно</option>
+      <option value="Легко">Легко</option>
+      <option value="С трудом">С трудом</option>
+    </select>
+  </div>
+
+  <div>
+    <label>Индивидуальное задание, предусмотренное программой практики, выполнено...</label>
+    <select name="work_volume">
+      <option value="Частично">Частично</option>
+      <option value="В полном объёме">В полном объёме</option>
+      <option value="Успешно">Успешно</option>
+    </select>
+  </div>
+  <div>
+    <label>Замечания</label>
+    <input type="text"  
+      name="remarks"/>
+  </div>
+  <button id="user-change" class="btn" type="button">Изменить пользователя</button>
+</form>
+{% endblock %}
+
+{% block script %}
+  <script src=""></script>
+{% endblock %}
