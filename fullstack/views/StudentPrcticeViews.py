@@ -12,23 +12,23 @@ def studentPractice_index(role):
     match role:
         case "student":
             student = Student.query.filter_by(user_id=current_user.id).first()
-            print(student)
             student_practice = Student_Practice.query.filter_by(student_id=student.user_id  ).all()
-            print(student)
-            return render_template("pages/studentPactice/student.html", student_practices=student_practice)
+            return render_template("pages/studentPactice/student_index.html", student_practices=student_practice)
         case "supervisor":
             roles = current_user.roles.split()
-            if "director" in roles:
+            if "director-organization" in roles:
                 director_practice_organization = Director_Practice_Organization.query.filter_by(user_id=current_user.id).first()
                 student_practice_dpo = Student_Practice.query.filter_by(director_practice_organization_id=director_practice_organization.id).all()
-            if "director" in roles:
+            if "director-usu" in roles:
                 director_practice_usu = Director_Practice_USU.query.filter_by(user_id=current_user.id).first()
-                student_practice_dpu = Practice.query.filter_by(director_practice_usu_id=director_practice_usu.id).all()
-            if "director" in roles:
+                practice_dpu = Practice.query.filter_by(director_practice_usu_id=director_practice_usu.id).all()
+                student_practice_dpu = Student_Practice.query.filter_by(practice_id = practice_dpu.id)
+            if "director-company" in roles:
                 director_practice_company = Director_Practice_Company.query.filter_by(user_id=current_user.id).first()
-                student_practice_dpc = Practice.query.filter_by(director_practice_company_id=director_practice_company.id).all()
+                practice_dpc = Practice.query.filter_by(director_practice_company_id=director_practice_company.id).all()
+                student_practice_dpc = Student_Practice.query.filter_by(practice_id = practice_dpc.id)
             student_practice = set(student_practice_dpo,student_practice_dpu,student_practice_dpc)
-            return render_template("pages/studentPractice/supervisor.html", student_practice=student_practice)
+            return render_template("pages/studentPractice/supervisor_index.html", student_practice=student_practice)
     
 @app.route("/studentPractice/update/<practice_id>")
 @login_required
@@ -49,7 +49,8 @@ def studentPractice_update(practice_id):
         )
         Student.update(old_student_practice,new_student_practice)
         return redirect(url_for(f"opop_practice_index/{practice_id}"))
-    
+    student_practice = Student_Practice.query.filter_by(id = practice_id).first()
+    return render_template("pages/studentPractice/supervisor_index.html", student_practice=student_practice)
     
 @app.route("/studentPractice/update/<practice_id>/task/create")
 @login_required

@@ -22,7 +22,7 @@ $(document).ready(() => {
       dataType: "html",
       success: () => {
         $(`li#practice_${id}`).hide(20);
-        alert("Zaebis");
+        alert("Delete completed");
       },
       error: (xhr, status, error) => {
         var err = "(" + xhr.responseText + ")";
@@ -40,7 +40,7 @@ $(document).ready(() => {
         dataType: 'html',
         success: () => {
             $(`li#group_${id}`).hide(20)
-            alert("Zaebis")
+            alert("Delete completed")
         }
     })
   });
@@ -54,7 +54,7 @@ $(document).ready(() => {
         dataType: 'html',
         success: () => {
             $(`li#student_${id}`).hide(20)
-            alert("Zaebis")
+            alert("Delete completed")
         }
     })
   });
@@ -68,7 +68,7 @@ $(document).ready(() => {
         dataType: 'html',
         success: () => {
             $(`li#group_${id}`).hide(20)
-            alert("Zaebis")
+            alert("Delete completed")
         }
     })
   });
