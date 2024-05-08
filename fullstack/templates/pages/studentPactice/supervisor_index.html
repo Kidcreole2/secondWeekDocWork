@@ -1,15 +1,18 @@
 {% extends "base.html" %} {% block content %}
-<h2 class="student-practice-table__name">Практики студентов</h2>
-<table class="student-practice-table">
-    <thead class="student-practice-table__head">
-        <tr class="student-practice-table__names">
-            <th class="student-practice-table__content"></th>
-        </tr>
-    </thead>
-    <tbody class="student-practice-table__body">
-        <tr class="student-practice-table__data">
-
-        </tr>
-    </tbody>
-</table>
+<div>
+    <div class="practices-head">
+        <h3 class="student-practice-table__name">Практики студентов</h3>
+    </div>
+    <ul class="practices-list">
+        {% for practice in practices %}
+        <li id="practice_{{practice.id}}">
+            <a href="/startPractice/update/{{ practice.id }}">{{ practice.name }}</a>
+            <span class="practice-item-tools">
+                <button class="practice-item-tools__button delete" type="button">Delete</button>
+                <button class="practice-item-tools__button toggle" type="button"></button>
+            </span>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
 {% endblock %}
