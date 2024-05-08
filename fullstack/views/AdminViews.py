@@ -32,7 +32,7 @@ def init_admin_views():
      
     @app.route("/admin/specialization/name_check", methods=["POST"])
     @login_required
-    def institute_name_check():
+    def spec_name_check():
         
         institute_by_id = Specialization.query.filter_by(id=request.form["id"]).first().id
         institute_by_name = Specialization.query.filter_by(name=request.form["name"]).first()

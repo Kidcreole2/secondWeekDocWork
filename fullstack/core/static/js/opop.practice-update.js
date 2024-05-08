@@ -1,5 +1,5 @@
 $(document).ready(() => {
-  $("#practice-create").on("click", () => {
+  $("#practice-update").on("click", () => {
     practiceName = $('input[name="name"]').val();
     $.ajax({
       method: "POST",
@@ -37,8 +37,6 @@ $(document).ready(() => {
             end_date: end_practice,
             type_of_practice: type_of_practice,
             kind_of_practice: kind_of_practice,
-            director_practice_usu,
-            director_practice_company,
             order: order,
             recomendations: recomends,
             groups: groups.join(" "),

@@ -14,13 +14,17 @@
   </select>
   <div>
     <label for="course">Курс</label>
-    <input type="text" name="course" required />
+    <input type="number" name="course" required />
   </div>
   <select name="form" id="">
     <option value="очная">очная</option>
     <option value="очно-заочная">очно-заочная</option>
     <option value="заочная">заочная</option>
   </select>
-  <button type="submit">Создать</button>
+  <button type="button">Создать</button>
 </form>
+{% endblock %}
+
+{% block script %}
+  <script src="{{ url_for('static', filename='js/opop.group-create.js') }}"></script>
 {% endblock %}

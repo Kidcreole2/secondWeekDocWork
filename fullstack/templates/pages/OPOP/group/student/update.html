@@ -3,16 +3,28 @@
   <div>Изменить студента</div>
   <div>
     <label for="firstname">Имя</label>
-    <input type="text" name="firstname">
+    <input type="text" value="{{ student_user.firstname }}" name="firstname">
   </div>
   <div>
     <label for="lastname">Фамилия</label>
-    <input type="text" name="lastname">
+    <input type="text" value="{{ student_user.lastname }}" name="lastname">
   </div>
   <div>
     <label for="surname">Отчество</label>
-    <input type="text" name="surname">
+    <input type="text" value="{{ student_user.surname }}" name="surname">
   </div>
+  <select name="group_id">
+    {% for group in groups %}
+      <option 
+        {% if student.group_id %}
+          selected
+        {% endif %}
+        value="{{ group.id }}">
+        {{ group.name }}
+      </option>
+    {% endfor %}
+  </select>
   <button type="submit">Обновить</button>
 </form>
 {% endblock %}
+

@@ -45,6 +45,20 @@ $(document).ready(() => {
     })
   });
 
+  $(".student-list-tools__button.delete").on("click", (e) => {
+    id = e.target.id
+    groupId = $(e).attr("data-group-id")
+    $.ajax({
+        method: "POST",
+        url: `/opop/group/${groupId}/delete/${id}`,
+        dataType: 'html',
+        success: () => {
+            $(`li#student_${id}`).hide(20)
+            alert("Zaebis")
+        }
+    })
+  });
+
   $(".specializations-list-tools__button.delete").on("click", (e) => {
     id = e.target.id
 

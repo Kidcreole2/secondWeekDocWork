@@ -515,12 +515,12 @@ class Student(db.Model) :
 class Practice_Group(db.Model) :
     __tablename__ = "practice_group"
     id = db.Column(db.Integer, primary_key = True)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), unique=True)
     group_id = db.Column(db.Integer, db.ForeignKey("group.id"))
+    practice_id = db.Column(db.Integer, db.ForeignKey("practice.id"))
+
     # связи
-    # user = db.relationship("Users", back_populates="student")
-    # group = db.relationship("Group", back_populates="student")
-    student_practice = db.relationship("Student_Practice", back_populates="student", cascade='all, delete')
+    # practice = db.relationship("Practice", back_populates="practice_group")
+    # group = db.relationship("Group", back_populates="practice_group")
 
     def __init__(self, group_id: int, practice_id: int):
         self.group_id = group_id

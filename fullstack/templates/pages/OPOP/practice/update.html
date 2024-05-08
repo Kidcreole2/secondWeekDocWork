@@ -2,18 +2,19 @@
 <a href="/opop_practice_start/{{ practice_id }}" class="btn">Start</a>
 <form action="#" method="post">
   <div>
-    <input type="text" name="name" required />
     <label for="name">Имя</label>
+    <input type="text" name="name" value="{{ practice.name }}" required />
   </div>
   <div>
-    <input type="date" name="start_date" required />
     <label for="start_date">Дата начала практики</label>
+    <input type="date" name="start_date" value="{{ practice.start_date }}" required />
   </div>
   <div>
-    <input type="date" name="end_date" required />
     <label for="end_date">Дата конца практики</label>
+    <input type="date" name="end_date" value="{{ practice.end_date }}" required />
   </div>
   <div>
+    <label for="type_of_practice">Тип практики</label>
     <select name="type_of_practice">
       <option value="ознакомительная">Ознакомительная</option>
       <option value="научно-исследовательская">Научно-исследовательская</option>
@@ -21,7 +22,6 @@
       <option value="технологическая">Технологическая</option>
       <option value="преддипломная">Преддипломная</option>
     </select>
-    <label for="type_of_practice">Тип практики</label>
   </div>
   <div>
     <select name="kind_of_practice" required >
@@ -31,13 +31,63 @@
     <label for="kind_of_practice">Вид практики</label>
   </div>
   <div>
-    <input type="text" name="order" required />
-    <label for="order">Номер приказа и его дата</label>
+    <select name="director_practice_usu" required >
+      {% for director_practice_usu in directors_practice_usu %}
+      <option 
+        {% if director_practice_usu.id == practice.director_practice_usu_id %}
+          selected
+        {% endif %}>
+        value="{{director_practice_usu.id}}">
+         {{director_practice_usu.lastname}} 
+         {{director_practice_usu.firstname}} 
+         {{director_practice_usu.surname}}
+        </option>
+      {% endfor %}
+    </select>
+    <label for="director_practice_usu">Руководитель практики от ЮГУ</label>
   </div>
   <div>
-    <input type="text" name="recomendations" />
-    <label for="recomendations">Рекомендации(не обязательно)</label>
+    <select name="director_practice_company" required >
+      {% for director_practice_company in directors_practice_company %}
+      <option
+        {% if director_practice_company.id == practice.director_practice_company_id %}
+          selected
+        {% endif %}
+        value="{{director_practice_company.id}}">
+        {{director_practice_company.lastname}} 
+        {{director_practice_company.firstname}} 
+        {{director_practice_company.surname}}
+      </option>
+      {% endfor %}
+    </select>
+    <label for="director_practice_company">Руководитель практики от Организации</label>
   </div>
-  <button class="btn" type="submit">Обновить</button>
+  <div>
+    {% for group in groups_in_practice %}
+    <div>
+      <label for="{{group.id}}" checked>{{group.name}}</label>
+      <input type="checkbox" class="group-checkbox" name="{{group.id}}">
+    </div>
+    {% endfor %}
+    {% for group in groups_not_in_practice %}
+    <div>
+      <label for="{{group.id}}">{{group.name}}</label>
+      <input type="checkbox" class="group-checkbox" name="{{group.id}}">
+    </div>
+    {% endfor %}
+  </div>
+  <div>
+    <label for="order">Номер приказа и его дата</label>
+    <input type="text" name="order" placeholder="12-222 от 21.10.2023" value="practice.order"  required />
+  </div>
+  <div>
+    <label for="recomendations">Рекомендации(не обязательно)</label>
+    <input type="text" name="recomendations" />
+  </div>
+  <button class="btn" id="practice-update" type="button">Обновить</button>
 </form>
+{% endblock %}
+
+{% block script %}
+  <script src="{{ url_for('static', 'js/opop.practice-update.js') }}"></script>
 {% endblock %}
