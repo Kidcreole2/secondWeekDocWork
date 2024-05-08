@@ -8,10 +8,10 @@
     <label for="name">Название</label>
     <input type="text" name="name" value="{{ old_spec.name }}" required />
   </div>
-
+  <input type="hidden" name="id" value="{{ old_spec.id }}">
   <div class="form-spec">
     <label for="specialization_code">Код направления</label>
-    <input type="text" name="specialization_code" value="{{ old_spec.specialization_code }}" required />
+    <input type="text" name="code" value="{{ old_spec.specialization_code }}" required />
   </div>
 
   <div class="form-opop">

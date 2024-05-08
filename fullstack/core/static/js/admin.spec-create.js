@@ -1,5 +1,5 @@
 $(document).ready(() => {
-  $("#specialisation-update").click(() => {
+  $("#specialisation-create").click(() => {
     $.ajax({
       method: "POST",
       url: "/admin/specialization/name_check",
@@ -11,7 +11,7 @@ $(document).ready(() => {
       error: (xhr, status, error) => {
         alert(JSON.parse(xhr.responseText).message);
       },
-      success: (data) => {
+      success: () => {
         $.ajax({
           method: "POST",
           dataType: "html",

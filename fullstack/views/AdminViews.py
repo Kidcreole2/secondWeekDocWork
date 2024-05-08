@@ -11,7 +11,7 @@ def init_admin_views():
     
     @app.route("/admin/user/login_check", methods=["POST"])
     @login_required
-    def login_check():
+    def user_login_check():
         user_by_id = Users.query.filter_by(id=request.form["id"]).first().id
         user_by_login = Users.query.filter_by(login=request.form["login"]).first()
         
@@ -19,6 +19,28 @@ def init_admin_views():
             return jsonify({"success": "everything ok"}), 200
         else:
             return jsonify({"success": "u're stupid donkey", "error": "Пользователь с таким логином существует"}), 400
+    
+    @app.route("/admin/institute/name_check", methods=["POST"])
+    @login_required
+    def institute_name_check():
+        institute_by_id = Institute.query.filter_by(id=request.form["id"]).first().id
+        institute_by_name = Institute.query.filter_by(name=request.form["name"]).first()
+        if institute_by_name == None or institute_by_name.id == institute_by_id:
+            return jsonify({"message": "zaebis"}), 200
+        
+        return jsonify({"message": "Институт с таким названием уже существует"}), 400
+     
+    @app.route("/admin/specialization/name_check", methods=["POST"])
+    @login_required
+    def institute_name_check():
+        
+        institute_by_id = Specialization.query.filter_by(id=request.form["id"]).first().id
+        institute_by_name = Specialization.query.filter_by(name=request.form["name"]).first()
+        if institute_by_name == None or institute_by_name.id == institute_by_id:
+            return jsonify({"message": "zaebis"}), 200
+        
+        return jsonify({"message": "Институт с таким названием уже существует"}), 400
+   
     
     @app.route("/admin")
     @login_required
@@ -108,7 +130,7 @@ def init_admin_views():
                                 name = request.form["name"]
                                 new_institute = Institute(name=name)
                                 Institute.update(old_institute=old_institute, new_institute=new_institute)
-                                return redirect("/admin")
+                                return jsonify({"message": "Данные успешно обновлены"}), 200
 
                                 
                             current_specs = Specialization.query.filter_by(institute_id=old_institute.id).all()
@@ -128,12 +150,15 @@ def init_admin_views():
                                 code = request.form["code"]
                                 institute_id = int(request.form["institute_id"])
                                 opop_id = int(request.form['opop_id'])
+                                
                                 new_spec = Specialization(name=name, specialization_code=code, institute_id=institute_id, director_opop_id=opop_id)
                                 Specialization.update(old_specialization=old_spec, new_specialization=new_spec)
+                                
                                 return jsonify({"message": "Специализация успешно обновлена"}), 200
                             
                             opops = Director_OPOP.query.all()
                             user_opops = []
                             for opop in opops:
                                  user_opops.append(Users.query.filter(id=opop.user_id).first())
+                            
                             return render_template("pages/admin/institute/update.html", old_spec=old_spec, opop_directors=user_opops)
