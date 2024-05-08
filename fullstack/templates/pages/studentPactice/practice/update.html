@@ -17,6 +17,7 @@
         <button id="{{ task.id }}">Delete</button>
       </span>
     </li>
+    {% endfor %}
   </ul>
 
 <form>
@@ -43,9 +44,7 @@
     <input type="text"  
       name="place_name_short"/>
   </div>
-</form>
-{# comment #} Часть скрытая от студента {# endcomment #}
-<form>
+  {% if current_user.role != "student" %}
   <div>
     <label>Прошёл ли студент практику</label>
     <select name="passed">
@@ -79,9 +78,9 @@
   </div>
   <div>
     <label>Замечания</label>
-    <input type="text"  
-      name="remarks"/>
+    <input type="text"  name="remarks"/>
   </div>
+  {% endif %}
   <button id="user-change" class="btn" type="button">Изменить пользователя</button>
 </form>
 {% endblock %}
