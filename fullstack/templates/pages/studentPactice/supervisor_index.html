@@ -1,15 +1,22 @@
 {% extends "base.html" %} {% block content %}
-<h2 class="student-practice-table__name">Практики студентов</h2>
-<table class="student-practice-table">
-    <thead class="student-practice-table__head">
-        <tr class="student-practice-table__names">
-            <th class="student-practice-table__content"></th>
-        </tr>
+  <div>Практики студента</div>
+  
+  <table>
+    <thead>
+      <tr>
+        <th>Название</th>
+      </tr>
     </thead>
-    <tbody class="student-practice-table__body">
-        <tr class="student-practice-table__data">
-
-        </tr>
+    <tbody>
+      {% for student_practice in student_practices %}
+      <tr>
+        {{student_practice.practice.id}}
+      </tr>
+      <tr>
+        <!-- Редактирование практики -->
+        <td><a href="/studentPractice/update/{{student_practice.id}}">Редактировать</a></td>
+      </tr>
+      {% endfor %}    
     </tbody>
-</table>
+  </table>
 {% endblock %}

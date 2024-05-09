@@ -28,7 +28,7 @@ def studentPractice_index(role):
                 practice_dpc = Practice.query.filter_by(director_practice_company_id=director_practice_company.id).all()
                 student_practice_dpc = Student_Practice.query.filter_by(practice_id = practice_dpc.id)
             student_practice = set(student_practice_dpo,student_practice_dpu,student_practice_dpc)
-            return render_template("pages/studentPractice/supervisor_index.html", student_practice=student_practice)
+            return render_template("pages/studentPractice/index.html", student_practice=student_practice)
     
 @app.route("/studentPractice/update/<practice_id>")
 @login_required
