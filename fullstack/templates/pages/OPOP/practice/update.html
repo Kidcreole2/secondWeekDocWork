@@ -33,11 +33,11 @@
   <div>
     <select name="director_practice_usu" required >
       {% for director_practice_usu in directors_practice_usu %}
-      <option 
         {% if director_practice_usu.id == practice.director_practice_usu_id %}
-          selected
+        <option selected value="{{director_practice_usu.id}}">
+        {% else  %}
+        <option value="{{director_practice_usu.id}}">
         {% endif %}>
-        value="{{director_practice_usu.id}}">
          {{director_practice_usu.lastname}} 
          {{director_practice_usu.firstname}} 
          {{director_practice_usu.surname}}
@@ -49,11 +49,11 @@
   <div>
     <select name="director_practice_company" required >
       {% for director_practice_company in directors_practice_company %}
-      <option
         {% if director_practice_company.id == practice.director_practice_company_id %}
-          selected
+        <option selected value="{{director_practice_company.id}}">
+        {% else %}
+        <option value="{{director_practice_company.id}}">
         {% endif %}
-        value="{{director_practice_company.id}}">
         {{director_practice_company.lastname}} 
         {{director_practice_company.firstname}} 
         {{director_practice_company.surname}}
