@@ -43,7 +43,7 @@ def init_opop_views():
         match entity:
             case "group":
                 opop_director = Director_OPOP.query.filter_by(user_id=current_user.id).first()
-                spezializations = Specialization.query.filter_by(opop_director_id=opop_director.id).all()
+                spezializations = Specialization.query.filter_by(director_opop_id=opop_director.id).all()
                 
                 if request.method == "POST":
                     new_group = Group(
