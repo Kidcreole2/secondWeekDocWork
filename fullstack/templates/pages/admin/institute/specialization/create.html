@@ -16,7 +16,7 @@
   </div>
 
   <div class="form-opop">
-    <label for="name">Имя</label>
+    <label for="name">Имя директора ОПОП</label>
     <select name="director_opop_id" id="">
       {% for opop_director in opop_directors %}
       <option value="{{ opop_director.user_id }}">
@@ -33,10 +33,10 @@
       {% endfor %}
     </select>
   </div>
-  <button id="specialisation-create" type="button">Обновить</button>
+  <button id="specialisation-create" type="button">Создать</button>
 </form>
 {% endblock %}
 
 {% block script %}
-  <script src="{{ url_for('static', 'js/admin.spec-create.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/admin.spec-create.js') }}"></script>
 {% endblock %}

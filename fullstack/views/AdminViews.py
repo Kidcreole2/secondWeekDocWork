@@ -59,12 +59,34 @@ def init_admin_views():
                     user = Users(lastname=name[0], firstname=name[1], surname=name[2] if len(name) == 3 else " ", \
                         login=request.form["login"], password=request.form["password"],\
                             role=request.form["role"])
-
+                    
                     data = Users.create(user)
+                                
                     print(data)
                     if data["role"] == "":
                         return jsonify({"message": data["message"]}), 400
-
+                    
+                    print(data["id"])
+                    
+                    roles = request.form["role"].split()
+                    
+                    print(roles)
+                    
+                    for role in roles:
+                        match role:
+                            case "director-opop":
+                                Director_OPOP.create(Director_OPOP(user_id=data["id"], post="DOCENT"))
+                                print("opop good")
+                            case "director-organization":
+                                Director_Practice_Organization.create(Director_Practice_Organization(user_id=data["id"], post="DOCENT"))
+                                print("org good")
+                            case "director-company":
+                                Director_Practice_Company.create(Director_Practice_Company(user_id=data["id"], post="DOCENT"))
+                                print("comp good")
+                            case "director-usu":
+                                Director_Practice_USU.create(Director_Practice_USU(user_id=data["id"], post="DOCENT"))
+                                print("usu good")
+                                
                     return jsonify({"message": "Пользователь был успешно создан"})
 
                 return render_template("pages/admin/user/create.html")
@@ -81,7 +103,12 @@ def init_admin_views():
             case "specialization":
                 if request.method == "POST":
                     pass
-                return render_template("pages/admin/institute/specialization/create.html")
+                opop_directors = Director_OPOP.query.all()
+                institutes = Institute.query.all()
+                opop_directors_user = []
+                for opop_director in opop_directors:
+                    opop_directors_user = opop_directors_user.append(Users.query.filter_by(id=opop_director.user_id).first())
+                return render_template("pages/admin/institute/specialization/create.html", institutes=institutes , opop_directors=opop_directors_user)
 
 
     @app.route("/admin/<entity>/<action>/<entity_id>", methods=["POST", "GET"])

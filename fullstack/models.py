@@ -36,7 +36,7 @@ class Users(UserMixin, db.Model):
         print(user)
         if user is not None and user.password == password:
             login_user(user)
-            return {"role": user.role, "message": ""}
+            return {"role": user.role, "message": "", "id": user.id}
         else:
             return {"message": "Пользователь с таким логином уже существует придумайте другой", "role": ""}
     
@@ -60,38 +60,38 @@ class Users(UserMixin, db.Model):
         old_user.surname = new_user.surname
         db.session.commit()
         
-    @staticmethod
-    def load_data_csv(csv_path):
-        dict_list = list()
-        with csv_path.open(mode="r") as csv_reader:
-            csv_reader = csv.reader(csv_reader)
-            header = next(csv_reader)
-            for rows in csv_reader:
-                dict_list.append({'surname':rows[0], 'firstname':rows[1], 'lastname':rows[2], 'role':rows[3], 'post':rows[4], 'group':rows[5]})
-        for i in dict_list:
-            new_user = Users(firstname=i['firstname'], lastname=i['lastname'], surname=i['surname'], role=i['role'])
-            db.seesion.add(new_user)
-            if i['role'] == "student":
-                group = Group.query.filter_by(name = i['group'])
-                new_student = Student(user_id=new_user, group_id=group)
-                db.seesion.add(new_student)
-                db.session.commit()
-            elif i['role'] == "director_opop":
-                new_director = Director_OPOP(user_id=new_user, post=i['post'])
-                db.seesion.add(new_director)
-                db.session.commit()
-            elif i['role'] == "director_practice_usu":
-                new_director = Director_Practice_USU(user_id=new_user, post=i['post'])
-                db.seesion.add(new_director)
-                db.session.commit()
-            elif i['role'] == "director_practice_company":
-                new_director = Director_Practice_Company(user_id=new_user, post=i['post'])
-                db.seesion.add(new_director)
-                db.session.commit()
-            elif i['role'] == "director_practice_organization":
-                new_director = Director_Practice_Organization(user_id=new_user, post=i['post'])
-                db.seesion.add(new_director)
-                db.session.commit()
+    # @staticmethod
+    # def load_data_csv(csv_path):
+    #     dict_list = list()
+    #     with csv_path.open(mode="r") as csv_reader:
+    #         csv_reader = csv.reader(csv_reader)
+    #         header = next(csv_reader)
+    #         for rows in csv_reader:
+    #             dict_list.append({'surname':rows[0], 'firstname':rows[1], 'lastname':rows[2], 'role':rows[3], 'post':rows[4], 'group':rows[5]})
+    #     for i in dict_list:
+    #         new_user = Users(firstname=i['firstname'], lastname=i['lastname'], surname=i['surname'], role=i['role'])
+    #         db.seesion.add(new_user)
+    #         if i['role'] == "student":
+    #             group = Group.query.filter_by(name = i['group'])
+    #             new_student = Student(user_id=new_user, group_id=group)
+    #             db.seesion.add(new_student)
+    #             db.session.commit()
+    #         elif i['role'] == "director_opop":
+    #             new_director = Director_OPOP(user_id=new_user, post=i['post'])
+    #             db.seesion.add(new_director)
+    #             db.session.commit()
+    #         elif i['role'] == "director_practice_usu":
+    #             new_director = Director_Practice_USU(user_id=new_user, post=i['post'])
+    #             db.seesion.add(new_director)
+    #             db.session.commit()
+    #         elif i['role'] == "director_practice_company":
+    #             new_director = Director_Practice_Company(user_id=new_user, post=i['post'])
+    #             db.seesion.add(new_director)
+    #             db.session.commit()
+    #         elif i['role'] == "director_practice_organization":
+    #             new_director = Director_Practice_Organization(user_id=new_user, post=i['post'])
+    #             db.seesion.add(new_director)
+    #             db.session.commit()
 
     @staticmethod
     def delete(user_id):
@@ -134,8 +134,8 @@ class Practice(db.Model) :
     started = db.Column(db.Boolean, nullable = False)
 
     # связи
-    # director_practice_usu = db.relationship("Director_Practice_USU", back_populates="practice")
-    # director_practice_company = db.relationship("Director_Practice_Company", back_populates="practice")
+    director_practice_usu = db.relationship("Director_Practice_USU", back_populates="practice")
+    director_practice_company = db.relationship("Director_Practice_Company", back_populates="practice")
     practice_group = db.relationship("Practice_Group", back_populates="practice", cascade='all, delete')
     student_practice = db.relationship("Student_Practice", back_populates="practice", cascade='all, delete')
 
@@ -228,7 +228,7 @@ class Director_OPOP(db.Model) :
     post = db.Column(db.String(100), nullable = False)
 
     # связи
-    # user = db.relationship("Users", back_populates="director_opop")
+    user = db.relationship("Users", back_populates="director_opop")
     specialization = db.relationship("Specialization", back_populates="director_opop")
 
     def __init__(self, user_id: int, post: str):
@@ -268,7 +268,7 @@ class Director_Practice_USU(db.Model) :
     post = db.Column(db.String(100), nullable = False)
 
     # связи
-    # user = db.relationship("Users", back_populates="director_practice_usu")
+    user = db.relationship("Users", back_populates="director_practice_usu")
     practice = db.relationship("Practice", back_populates="director_practice_usu", cascade='all, delete')
 
     def __init__(self, user_id: int, post: str):
@@ -309,7 +309,7 @@ class Director_Practice_Company(db.Model) :
     post = db.Column(db.String(100), nullable = False)
 
     # связи
-    # user = db.relationship("Users", back_populates="director_practice_company")
+    user = db.relationship("Users", back_populates="director_practice_company")
     practice = db.relationship("Practice", back_populates="director_practice_company", cascade='all, delete')
     
     def __init__(self, user_id: int, post: str):
@@ -350,7 +350,7 @@ class Director_Practice_Organization(db.Model) :
     post = db.Column(db.String(100), nullable = False)
 
     # связи
-    # user = db.relationship("Users", back_populates="director_practice_organization")
+    user = db.relationship("Users", back_populates="director_practice_organization")
     student_practice = db.relationship("Student_Practice", back_populates="director_practice_organization", cascade='all, delete')
     
     def __init__(self, user_id: int, post: str):
@@ -393,8 +393,8 @@ class Specialization(db.Model) :
     specialization_code = db.Column(db.String(20), unique=True, nullable = False)
 
     # связи
-    # institute = db.relationship("Institute", back_populates="specialization")
-    # director_opop = db.relationship("Director_OPOP", back_populates="specialization")
+    institute = db.relationship("Institute", back_populates="specialization")
+    director_opop = db.relationship("Director_OPOP", back_populates="specialization")
     group = db.relationship("Group", back_populates="specialization", cascade='all, delete')
 
     def __init__(self, institute_id: int, director_opop_id: int, name: str, specialization_code: str):
@@ -433,12 +433,15 @@ class Specialization(db.Model) :
 class Group(db.Model) :
     __tablename__ = "group"
     id = db.Column(db.Integer, primary_key = True)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), unique=True)
-    group_id = db.Column(db.Integer, db.ForeignKey("group.id"))
+    specialization_id = db.Column(db.Integer, db.ForeignKey("specialization.id"))
+    name = db.Column(db.String(10), nullable = False, unique = True)
+    course = db.Column(db.String(15), nullable = False)
+    form = db.Column(db.String(15), nullable = False)
+
     # связи
-    # user = db.relationship("Users", back_populates="student")
-    # group = db.relationship("Group", back_populates="student")
-    student_practice = db.relationship("Student_Practice", back_populates="student", cascade='all, delete')
+    specialization = db.relationship("Specialization", back_populates="group")
+    student = db.relationship("Student", back_populates="group", cascade='all, delete')
+    practice_group = db.relationship("Practice_Group", back_populates="group", cascade='all, delete')
 
     def __init__(self, specialization_id: int, name: str, course: str, form: str):
         self.specialization_id = specialization_id
@@ -467,11 +470,11 @@ class Group(db.Model) :
 
     @staticmethod
     def delete(id_group):
-        # Student_Practice.query.filter_by(student_id=id_student).delete()
-        # Student.query.filter_by(user_id=id_student).delete()
-        # Users.query.filter_by(id=id_student).delete()
-        Users.delete(id_student)
-        db.session.commit()
+        # Practice_Group.delete_group(id_group)
+        # student = Student.query.filter_by(group_id=id_group).user_id
+        # Student.delete(student)
+        Group.query.filter_by(id=id_group).delete()
+        db.sesson.commit()
 
 class Student(db.Model) :
     __tablename__ = "student"
@@ -479,8 +482,8 @@ class Student(db.Model) :
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), unique=True)
     group_id = db.Column(db.Integer, db.ForeignKey("group.id"))
     # связи
-    # user = db.relationship("Users", back_populates="student")
-    # group = db.relationship("Group", back_populates="student")
+    user = db.relationship("Users", back_populates="student")
+    group = db.relationship("Group", back_populates="student")
     student_practice = db.relationship("Student_Practice", back_populates="student", cascade='all, delete')
 
     def __init__(self, user_id: int, group_id: int):
@@ -519,8 +522,8 @@ class Practice_Group(db.Model) :
     practice_id = db.Column(db.Integer, db.ForeignKey("practice.id"))
 
     # связи
-    # practice = db.relationship("Practice", back_populates="practice_group")
-    # group = db.relationship("Group", back_populates="practice_group")
+    practice = db.relationship("Practice", back_populates="practice_group")
+    group = db.relationship("Group", back_populates="practice_group")
 
     def __init__(self, group_id: int, practice_id: int):
         self.group_id = group_id
@@ -565,9 +568,9 @@ class Student_Practice(db.Model) :
     place_name_short = db.Column(db.String(100))
     
     # связи
-    # practice = db.relationship("Practice", back_populates="student_practice")
-    # director_practice_organization = db.relationship("Director_Practice_Organization", back_populates="student_practice")
-    # student = db.relationship("Student", back_populates="student_practice")
+    practice = db.relationship("Practice", back_populates="student_practice")
+    director_practice_organization = db.relationship("Director_Practice_Organization", back_populates="student_practice")
+    student = db.relationship("Student", back_populates="student_practice")
     task = db.relationship("Task", back_populates="student_practice", cascade='all, delete')
 
     def __init__(self, student_id: int, practice_id: int, director_practice_organization_id: int, kind_of_contract: str, paid: bool):
@@ -609,7 +612,7 @@ class Task(db.Model):
     date = db.Column(db.DateTime, nullable=False)
     student_practice_id = db.Column(db.Integer, db.ForeignKey("student_practice.id"))
 
-    # student_practice = db.relationship("Student_Practice", back_populates="task")
+    student_practice = db.relationship("Student_Practice", back_populates="task")
     def __init__(self, name, date, student_practice_id):
         self.name = name
         self.date = date
