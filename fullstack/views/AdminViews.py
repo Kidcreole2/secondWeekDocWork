@@ -107,8 +107,9 @@ def init_admin_views():
                 institutes = Institute.query.all()
                 opop_directors_user = []
                 for opop_director in opop_directors:
-                    opop_directors_user = opop_directors_user.append(Users.query.filter_by(id=opop_director.user_id).first())
-                return render_template("pages/admin/institute/specialization/create.html", institutes=institutes , opop_directors=opop_directors_user)
+                    user = Users.query.filter_by(id=opop_director.user_id).first()
+                    opop_directors_user.append(user)
+                return render_template("pages/admin/institute/specialization/create.html",opop_directors=opop_directors,opop_directors_user=opop_directors_user, institutes=institutes)
 
 
     @app.route("/admin/<entity>/<action>/<entity_id>", methods=["POST", "GET"])
@@ -182,9 +183,10 @@ def init_admin_views():
                                 
                                 return jsonify({"message": "Специализация успешно обновлена"}), 200
                             
-                            opops = Director_OPOP.query.all()
-                            user_opops = []
-                            for opop in opops:
-                                 user_opops.append(Users.query.filter(id=opop.user_id).first())
-                            
-                            return render_template("pages/admin/institute/update.html", old_spec=old_spec, opop_directors=user_opops)
+                            opop_directors = Director_OPOP.query.all()
+                            institutes = Institute.query.all()
+                            opop_directors_user = []
+                            for opop_director in opop_directors:
+                                user = Users.query.filter_by(id=opop_director.user_id).first()
+                                opop_directors_user.append(user)
+                            return render_template("pages/admin/institute/update.html", opop_directors=opop_directors,opop_directors_user=opop_directors_user, institutes=institutes)
