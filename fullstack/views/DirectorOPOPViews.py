@@ -170,9 +170,9 @@ def init_opop_views():
                             users_director_company.append(Users.query.filter_by(id=director.user_id))
                             
                         users_director_usu.sort(key= lambda x: x.lastname)
-                            
+                        practice = Practice.query.filter_by(id=entity_id).first()
                         return render_template("pages/opop/practice/update.html", 
-                                               practice_id=entity_id, 
+                                               practice=practice, 
                                                groups_in_practice=groups_in_practice, 
                                                groups_not_in_practice=groups_not_in_practice,
                                                directors_practice_usu=users_director_usu,
