@@ -19,7 +19,7 @@ $(document).ready(() => {
             name: $("input[name='name']").val(),
             code: $("input[name='code']").val(),
             opop_id: $("select[name='director_opop_id'] option:selected").val(),
-            institute_id: $(
+            id: $(
               "select[name='spec-institute'] option:selected"
             ).val(),
           },

@@ -65,8 +65,8 @@ def init_opop_views():
                         end_date=date.strptime(request.form['end_date'], "%Y-%m-%d"),
                         type_of_practice=request.form['type_of_practice'],
                         kind_of_practice=request.form['kind_of_practice'],
-                        director_practice_company_id = request.form["director_practice_company"],
-                        director_practice_usu_id = request.form["director_practice_usu"],
+                        director_practice_company = request.form["director_practice_company"],
+                        director_practice_usu = request.form["director_practice_usu"],
                         order=request.form['order'],
                         recomendations=request.form['recomendations'],
                         started=False
