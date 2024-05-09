@@ -140,7 +140,7 @@ class Practice(db.Model) :
     student_practice = db.relationship("Student_Practice", back_populates="practice", cascade='all, delete')
 
 
-    def __init__(self, start_date: datetime.date, end_date: datetime.date, recomendations: str, name: str, order: str, type_of_practice: str, kind_of_practice: str, started: bool):
+    def __init__(self, start_date: datetime.date, end_date: datetime.date, recomendations: str, name: str, order: str, type_of_practice: str, kind_of_practice: str, started: bool, director_practice_usu: int, director_practice_company:int):
         self.start_date = start_date
         self.end_date = end_date
         self.recomendations = recomendations
@@ -148,6 +148,8 @@ class Practice(db.Model) :
         self.order = order
         self.type_of_practice = type_of_practice
         self.kind_of_practice = kind_of_practice
+        self.director_practice_company_id = director_practice_company
+        self.director_practice_usu_id = director_practice_usu
         self.started = started
 
     @staticmethod
