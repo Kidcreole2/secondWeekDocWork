@@ -4,12 +4,12 @@ $(document).ready(() => {
     // $(this).toggleClass("hided");
   });
 
-  $(".group-head-tools__button+.toggle").on("click", () => {
+  $(".group-head-tools__button.toggle").on("click", () => {
     $(".institutes-list").toggle(200);
     $(this).toggleClass("hided");
   });
 
-  $(".specializations-head-tools__button+.toggle").on("click", () => {
+  $(".specializations-head-tools__button.toggle").on("click", () => {
     $(".specializations-list").toggle(200);
     $(this).toggleClass("hided");
   });

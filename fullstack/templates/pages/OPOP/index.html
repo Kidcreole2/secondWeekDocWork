@@ -37,6 +37,11 @@
 <div class="groups">
   <div class="groups-head list-head">
     <h2 class="group-table__name">Группы</h2>
+    <div class="groups-head-tools tools">
+      <a href="/opop/group/create" class="groups-head-tools__a add">
+        Add
+      </a>
+      <button class="group-head-tools__button toggle">&#x2B9F;</button>
   </div>
   <div class="groups-list">
   <ul>
@@ -51,15 +56,19 @@
       </span>
     </li>
     <ul class="group-students-list">
-      {% for student in students[group.id] %}
+      {% for group_id, students_data in students.items() %}
+      {% if group_id == group.id %}
+      {% for student in students_data %}
       <li id="student_{{student.id}}">
         <a href="/opop/group/{{ group.id }}/update/{{ student.id }}">{{ student.lastname }} {{ student.firstname }} {{ student.surname }}</a>
         <span class="student-list-tools">
           <button class="student-list-tools__button delete" data-group-id="{{group.id}}" id="{{ student.id }}">Delete</button>
         </span>
       </li>
+      {% endfor %}
+      {% endif %}
+      {% endfor %}
     </ul>
-    {% endfor %}
     {% endfor %}
     </ul>
   </div>
