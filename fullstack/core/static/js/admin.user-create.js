@@ -19,7 +19,7 @@ $(document).ready(() => {
   $("button#user-create").on("click", () => {
     roles = [];
     $(".form-role__checkbox:checked").each((i, el) => {
-      roles.push($(el).attr("id"));
+      roles.push($(el).attr("name"));
     });
 
 
