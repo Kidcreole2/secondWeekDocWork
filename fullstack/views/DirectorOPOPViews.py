@@ -65,8 +65,8 @@ def init_opop_views():
                         end_date=date.strptime(request.form['end_date'], "%Y-%m-%d"),
                         type_of_practice=request.form['type_of_practice'],
                         kind_of_practice=request.form['kind_of_practice'],
-                        director_practice_company_id = int(request.form["director_practice_company"]),
-                        director_practice_usu_id = int(request.form["director_practice_usu"]),
+                        director_practice_company_id = request.form["director_practice_company"],
+                        director_practice_usu_id = request.form["director_practice_usu"],
                         order=request.form['order'],
                         recomendations=request.form['recomendations'],
                         started=False
@@ -92,7 +92,7 @@ def init_opop_views():
                 directors_practice_company = Director_Practice_Company.query.all()
                 company = []
                 for director in directors_practice_company:
-                    company.append(Users.query.filter_by(id=director.user_id))
+                    company.append(Users.query.filter_by(id=director.user_id).first())
                 return render_template("pages/opop/practice/create.html", groups=groups, directors_practice_usu=usu, directors_practice_company=company)
 
 # ==OPOP group,practice update,delete==
