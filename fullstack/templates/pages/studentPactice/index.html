@@ -1,5 +1,6 @@
 {% extends "base.html" %} {% block content %}
 
+{% if current_user.role == "student" %}
 <!-- Часть видимая только студениту -->
 <div>Мои практики</div>
 
@@ -16,13 +17,13 @@
     </tr>
     <tr>
       <!-- Редактирование практики -->
-      <td><a href="/studentPractice/update/{{student_practice.id}}">Редактировать</a></td>
+      <td><a href="/studentPractice/update/{{student_practice.id}}">{{student_practice.name}}</a></td>
     </tr>
     {% endfor %}    
   </tbody>
 </table>
- 
 
+{% else %}
 <!-- Часть видимая только руководителю -->
 <div>Практики студента</div>
   
@@ -35,13 +36,14 @@
   <tbody>
     {% for student_practice in student_practices %}
     <tr>
-      {{student_practice.practice.id}}
+      {{student_practice.id}}
     </tr>
     <tr>
       <!-- Редактирование практики -->
-      <td><a href="/studentPractice/update/{{student_practice.id}}">Редактировать</a></td>
+      <td><a href="/studentPractice/update/{{student_practice.id}}">{{ student_practice.name }}</a></td>
     </tr>
     {% endfor %}    
   </tbody>
 </table>
+{% endif %}
 {% endblock %}

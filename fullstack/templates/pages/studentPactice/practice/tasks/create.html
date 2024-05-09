@@ -1,16 +1,22 @@
 {% extends "base.html" %} {% block content %}
 <div class="admin-back">
-    <a href="/studentPractice/{{role}}">Назад</a>
+    <a id="goBack" href="/studentPractice/{{role}}">Назад</a>
 </div>
-<form>
-    <div>
-        <label>Название</label>
-        <input type="text" name="name">
-    </div>
-    <div>
-        <label>Дата</label>
-        <input type="date" name="date">
-    </div>
-    <button>Создать</button>
-</form>
+<div class="tasks">
+    <form>
+        <div>
+            <label>Название</label>
+            <input type="text" name="name">
+        </div>
+        <div>
+            <label>Дата</label>
+            <input type="date" name="date">
+        </div>
+    </form>
+</div>
+<button id="tasks-create" >Создать</button>
+<button id="add" type="button">Добавить</button>
+{% endblock %}
+{% block script %}
+<script src="{{ url_for('static', 'js/tasks-create.js') }}"></script>
 {% endblock %}

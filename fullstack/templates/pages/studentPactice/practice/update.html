@@ -3,8 +3,6 @@
   <a href="/studentPractice/{{role}}">Назад</a>
 </div>
 
-{# comment #} Часть видимая всем {# endcomment #}
-
 <div>
     <a href="/studentPractice/update/{{practice_id}}/task/create">Создать задачу</a>
 </div>
@@ -81,10 +79,15 @@
     <input type="text"  name="remarks"/>
   </div>
   {% endif %}
-  <button id="user-change" class="btn" type="button">Изменить пользователя</button>
+  <button id="student-practice-change" class="btn" type="button">Изменить пользователя</button>
 </form>
 {% endblock %}
-
+{% if current_user.role == "student" %}
 {% block script %}
-  <script src=""></script>
+  <script src="{{ url_for('static', 'js/student.studentPractice-update.js') }}"></script>
 {% endblock %}
+{% else %}
+{% block script %}
+  <script src="{{ url_for('static', 'js/studentPractice-update.js') }}"></script>
+{% endblock %}
+{% endif %}
