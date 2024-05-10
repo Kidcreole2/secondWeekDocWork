@@ -43,7 +43,6 @@ def init_opop_views():
     def opop_entity_create(entity):
         match entity:
             case "group":
-                opop_director = Director_OPOP.query.filter_by(user_id=current_user.id).first()
                 spezializations = Specialization.query.filter_by(director_opop_id=current_user.id).all()
                 
                 if request.method == "POST":
@@ -105,6 +104,7 @@ def init_opop_views():
             case"group":
                 match action:
                     case "update":
+                        spezializations = Specialization.query.filter_by(director_opop_id=current_user.id).all()
                         old_group = Group.query.filter_by(id=entity_id).first()
                         if request.method == "POST":
                             new_group = Group(
@@ -116,7 +116,7 @@ def init_opop_views():
                             Group.update(old_group,new_group)
                             return redirect(url_for("opop_index"))
                         student_users = Student.query.order_by(Student.id).all()
-                        return render_template("pages/opop/group/update.html", student_users=student_users,group=old_group)
+                        return render_template("pages/opop/group/update.html", spezializations=spezializations, student_users=student_users,group=old_group)
                     case "delete":
                         Group.delete(id_group=entity_id)
                         return jsonify({"message": "pidor"}), 200
@@ -169,9 +169,9 @@ def init_opop_views():
                         users_director_company = []
                         directors_company = Director_Practice_Company.query.all()
                         for director in directors_company:
-                            users_director_company.append(Users.query.filter_by(id=director.user_id))
+                            users_director_company.append(Users.query.filter_by(id=director.user_id).first())
                             
-                        users_director_usu.sort(key= lambda x: x.lastname)
+                        users_director_company.sort(key= lambda x: x.lastname)
                         practice = Practice.query.filter_by(id=entity_id).first()
                         return render_template("pages/opop/practice/update.html", 
                                                practice=practice, 
