@@ -163,8 +163,8 @@ class Practice(db.Model) :
             return new_practice.id
 
     @staticmethod
-    def update(old_practice, new_pratice):
-        old_practice = Practice.query.filter_by(id=old_practice.id).first()
+    def update(old_practice_id, new_pratice):
+        old_practice = Practice.query.filter_by(id=old_practice_id).first()
         old_practice.start_date = new_pratice.start_date
         old_practice.end_date = new_pratice.end_date
         old_practice.director_practice_usu_id = new_pratice.director_practice_usu_id

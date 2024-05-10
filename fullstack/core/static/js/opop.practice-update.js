@@ -1,4 +1,5 @@
 $(document).ready(() => {
+  console.log($('input[name="name"]').val())
   $("#practice-update").on("click", () => {
     practiceName = $('input[name="name"]').val();
     $.ajax({
@@ -6,6 +7,7 @@ $(document).ready(() => {
       url: "/opop/practice_name/check",
       dataType: "html",
       data: {
+        id: $("input[name='id']").val(),
         name: practiceName,
       },
       error: (xhr, status, errror) => {
@@ -40,6 +42,8 @@ $(document).ready(() => {
             order: order,
             recomendations: recomends,
             groups: groups.join(" "),
+            director_practice_company,
+            director_practice_usu
           },
           success: (data) => {
             alert(JSON.parse(data).message);

@@ -2,8 +2,9 @@
 <div>
   <a href="/opop">Назад</a>
 </div>
-<a href="/opop_practice_start/{{ practice_id }}" class="btn">Start</a>
+<a href="/opop_practice_start/{{ practice.id }}" class="btn">Start</a>
 <form action="#" method="post">
+  <input type="hidden" name="id" value="{{ practice.id }}">
   <div>
     <label for="name">Имя</label>
     <input type="text" name="name" value="{{ practice.name }}" required />

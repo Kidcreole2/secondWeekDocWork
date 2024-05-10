@@ -31,10 +31,11 @@ def init_opop_views():
 
     @app.route("/opop/practice_name/check", methods=["POST"])
     def practice_name_check():
-        if Practice.query.filter_by(name=request.form["name"]).first() is not None:
-            return jsonify({"error": "Практика с таким именем существует"}), 400
-        else:
+        practice = Practice.query.filter_by(name=request.form["name"]).first()
+        if practice is None or practice.id == int(request.form["id"]) :
             return jsonify({"error": ""}), 200
+        else:
+            return jsonify({"error": "Практика с таким именем существует"}), 400
 
 # ==OPOP group,practice create==
 
@@ -114,7 +115,7 @@ def init_opop_views():
                                 form=request.form['form']
                             )
                             Group.update(old_group,new_group)
-                            return redirect(url_for("opop_index"))
+                            return redirect(url_for("/opop"))
                         student_users = Student.query.order_by(Student.id).all()
                         return render_template("pages/opop/group/update.html", spezializations=spezializations, student_users=student_users,group=old_group)
                     case "delete":
@@ -125,7 +126,6 @@ def init_opop_views():
                 match action:
                     case "update":
                         if request.method == "POST":
-                            old_practice = Practice.query.filter_by(id=entity_id).first()
                             new_practice = Practice(
                                 name=request.form['name'],
                                 start_date=date.strptime(request.form['start_date'], "%Y-%m-%d"),
@@ -133,12 +133,12 @@ def init_opop_views():
                                 type_of_practice=request.form['type_of_practice'],
                                 kind_of_practice=request.form['kind_of_practice'],
                                 order=request.form['order'],
-                                director_practice_company_id = int(request.form["director_practice_company"]),
-                                director_practice_usu_id = int(request.form["director_practice_usu"]),
+                                director_practice_company= int(request.form["director_practice_company"]),
+                                director_practice_usu= int(request.form["director_practice_usu"]),
                                 recomendations=request.form['recomendations'],
                                 started=False
                             )
-                            Practice.update(old_practice,new_practice)
+                            Practice.update(entity_id,new_practice)
                             groups = request.form["groups"].split()
                             for group in groups:
                                 group_id = int(group)
@@ -147,7 +147,7 @@ def init_opop_views():
                                     group_id=group_id
                                 )
                                 Practice_Group.create(new_practice_group)
-                            return redirect(url_for(request.url))
+                            return jsonify({"message": "ok"}), 200
                         
                         groups_not_in_practice = []
                         groups_in_practice = []
