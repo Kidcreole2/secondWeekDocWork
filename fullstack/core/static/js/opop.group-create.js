@@ -1,4 +1,5 @@
 $(document).ready(() => {
+    $("#group_create").click(() => {
     $.ajax({
         method: "POST",
         dataType: "html",
@@ -15,4 +16,5 @@ $(document).ready(() => {
             alert(JSON.parse(xhr.responseText).message)
         }
     })
+})
 })

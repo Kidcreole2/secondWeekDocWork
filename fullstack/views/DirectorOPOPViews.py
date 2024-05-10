@@ -19,14 +19,14 @@ def init_opop_views():
         #     practices = practices.append(Practice_Group.query.filter_by(group_id=group.id).all())
         practices = Practice.query.all()
         groups = Group.query.all()
-        students_users = dict()
+        students_users = []
         students = Student.query.all()
         for group in groups:
-            students_users[group.id] = []
+            students_users.append([group.id, []])
             for student in students:
                 if student.group_id == group.id:
-                    students_users[group.id].append(Users.query.filter_by(id=student.user_id).first())
-        return render_template("pages/opop/index.html", groups=groups,practices=practices)
+                    students_users[-1][1].append(Users.query.filter_by(id=student.user_id).first())
+        return render_template("pages/opop/index.html", groups=groups,practices=practices, students=students)
 
     @app.route("/opop/practice_name/check", methods=["POST"])
     def practice_name_check():
@@ -43,7 +43,7 @@ def init_opop_views():
         match entity:
             case "group":
                 opop_director = Director_OPOP.query.filter_by(user_id=current_user.id).first()
-                spezializations = Specialization.query.filter_by(director_opop_id=opop_director.id).all()
+                spezializations = Specialization.query.filter_by(director_opop_id=current_user.id).all()
                 
                 if request.method == "POST":
                     new_group = Group(
@@ -118,6 +118,7 @@ def init_opop_views():
                         return render_template("pages/opop/group/update.html", student_users=student_users,group=old_group)
                     case "delete":
                         Group.delete(id_group=entity_id)
+                        return jsonify({"message": "pidor"}), 200
                     
             case"practice":
                 match action:

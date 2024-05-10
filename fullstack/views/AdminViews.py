@@ -46,7 +46,8 @@ def init_admin_views():
     def admin_index():
         users = Users.query.all()
         institutes = Institute.query.all()
-        return render_template("pages/admin/index.html", users=users, institutes=institutes)
+        specializations = Specialization.query.all()
+        return render_template("pages/admin/index.html", users=users, institutes=institutes, specializations=specializations)
 
     @app.route("/admin/<entity>/create", methods=["GET", "POST"])
     @login_required
@@ -102,7 +103,13 @@ def init_admin_views():
             
             case "specialization":
                 if request.method == "POST":
-                    pass
+                    Specialization.create(Specialization(
+                        name=request.form['name'],
+                        specialization_code=request.form['code'],
+                        director_opop_id=int(request.form['opop_id']),
+                        institute_id=int(request.form['id'])
+                    ))
+                    return jsonify({"message": "123"}), 200
                 opop_directors = Director_OPOP.query.all()
                 institutes = Institute.query.all()
                 opop_directors_user = []

@@ -56,9 +56,9 @@
       </span>
     </li>
     <ul class="group-students-list">
-      {% for group_id, students_data in students.items() %}
-      {% if group_id == group.id %}
-      {% for student in students_data %}
+      {% for students_data in students %}
+      {% if students_data[0] == group.id %}
+      {% for student in students_data[1] %}
       <li id="student_{{student.id}}">
         <a href="/opop/group/{{ group.id }}/update/{{ student.id }}">{{ student.lastname }} {{ student.firstname }} {{ student.surname }}</a>
         <span class="student-list-tools">
