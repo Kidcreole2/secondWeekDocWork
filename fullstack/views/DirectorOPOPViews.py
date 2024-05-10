@@ -26,7 +26,8 @@ def init_opop_views():
             for student in students:
                 if student.group_id == group.id:
                     students_users[-1][1].append(Users.query.filter_by(id=student.user_id).first())
-        return render_template("pages/opop/index.html", groups=groups,practices=practices, students=students)
+        print(students_users)
+        return render_template("pages/opop/index.html", groups=groups,practices=practices, students=students_users)
 
     @app.route("/opop/practice_name/check", methods=["POST"])
     def practice_name_check():
@@ -215,7 +216,7 @@ def init_opop_views():
                 old_student = Student.query.filter_by(user_id=student_user_id).first()
                 old_student_user = Users.query.filter_by(id=student_user_id).first()
                 if request.method == "POST":
-                    new_group_id = request.form("group_id")
+                    new_group_id = request.form["group_id"]
                     new_student_user = Users(
                         login=old_student_user.login, 
                         password=old_student_user.password, 
@@ -224,13 +225,13 @@ def init_opop_views():
                         surname=request.form['surname'], 
                         role=old_student_user.role
                     )
-                    Users.update(old_student_user,new_student_user)
+                    Users.update(student_user_id,new_student_user)
                     new_student = Student(
                         group_id=new_group_id,
                         user_id=student_user_id
                     )
                     Student.update(old_student,new_student)
-                    return jsonify({"message": "zaebis"}), 200
+                    return redirect('/opop')
                 groups = Group.query.all()
                 return render_template("pages/opop/group/student/update.html", student_user=old_student_user, student=old_student, groups=groups)
             case "delete":

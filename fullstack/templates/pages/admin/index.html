@@ -53,7 +53,7 @@
     </div>
     <ul class="specializations-list">
       {% for specialization in specializations %}
-        <li class="specialization-item">
+        <li id="specialisation_{{specialization.id}}" class="specialization-item">
           <a href="/admin/specialization/edit/{{ specialization.id }}"
              class="specializations-list-item__a edit">{{ specialization.name }}</a>
           <span class="specializations-list-item-tools">

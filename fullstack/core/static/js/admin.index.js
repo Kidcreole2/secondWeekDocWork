@@ -60,15 +60,15 @@ $(document).ready(() => {
     window.location.replace("/admin/specialization/create");
   });
 
-  $(".specializations-list-tools__button.delete").on("click", (e) => {
+  $(".specializations-list-item-tools__a.delete").on("click", (e) => {
     id = e.target.id;
 
     $.ajax({
       method: "POST",
-      url: `/opop/specialization/delete/${id}`,
+      url: `/admin/specialization/delete/${id}`,
       dataType: 'html',
       success: () => {
-        $(`li#group_${id}`).hide(20)
+        $(`li#specialisation_${id}`).hide(20)
         alert("Delete completed")
       }
     })

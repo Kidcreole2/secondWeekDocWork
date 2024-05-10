@@ -57,16 +57,16 @@
     </li>
     <ul class="group-students-list">
       {% for students_data in students %}
-      {% if students_data[0] == group.id %}
-      {% for student in students_data[1] %}
-      <li id="student_{{student.id}}">
-        <a href="/opop/group/{{ group.id }}/update/{{ student.id }}">{{ student.lastname }} {{ student.firstname }} {{ student.surname }}</a>
-        <span class="student-list-tools">
-          <button class="student-list-tools__button delete" data-group-id="{{group.id}}" id="{{ student.id }}">Delete</button>
-        </span>
-      </li>
-      {% endfor %}
-      {% endif %}
+        {% if students_data[0] == group.id %}
+          {% for student in students_data[1] %}
+            <li id="student_{{student.id}}">
+              <a href="/opop/group/update/{{ group.id }}/update/{{ student.id }}">{{ student.lastname }} {{ student.firstname }} {{ student.surname }}</a>
+              <span class="student-list-tools">
+                <button class="student-list-tools__button delete" data-group-id="{{group.id}}" id="{{ student.id }}">Delete</button>
+              </span>
+            </li>
+          {% endfor %}
+        {% endif %}
       {% endfor %}
     </ul>
     {% endfor %}

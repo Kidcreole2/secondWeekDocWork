@@ -11,6 +11,7 @@ $(document).ready(() => {
         }, 
         success: () => {
             alert("Группа была успешно создана")
+            window.location.replace("/opop")
         },
         error: (xhr, status, error) =>  {
             alert(JSON.parse(xhr.responseText).message)

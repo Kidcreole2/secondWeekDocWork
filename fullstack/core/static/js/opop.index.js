@@ -1,6 +1,6 @@
 $(document).ready(() => {
   $(".practices-head-tools__button").on("click", () => {
-    $(".users-list").toggle(200);
+    $(".practices-list").toggle(200);
     // $(this).toggleClass("hided");
   });
 
@@ -9,12 +9,17 @@ $(document).ready(() => {
     $(this).toggleClass("hided");
   });
 
+  $(".group-list-tools__button.toggle").on("click", () => {
+    $(this).children($(".group-students-list").toggle(200));
+    $(this).toggleClass("hided");
+  });
+  
   $(".specializations-head-tools__button.toggle").on("click", () => {
     $(".specializations-list").toggle(200);
     $(this).toggleClass("hided");
   });
 
-  $(".practice-list-tools__button+.delete").on("click", (e) => {
+  $(".practice-list-tools__button.delete").on("click", (e) => {
     id = e.target.id;
     $.ajax({
       method: "POST",
@@ -59,17 +64,5 @@ $(document).ready(() => {
     })
   });
 
-  $(".specializations-list-tools__button.delete").on("click", (e) => {
-    id = e.target.id
-
-    $.ajax({
-        method: "POST",
-        url: `/opop/specialization/delete/${id}`,
-        dataType: 'html',
-        success: () => {
-            $(`li#group_${id}`).hide(20)
-            alert("Delete completed")
-        }
-    })
-  });
+  
 });

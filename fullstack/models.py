@@ -429,7 +429,7 @@ class Specialization(db.Model) :
         # groups = Group.query.filter_by(specialization_id=id_specialization).all()
         # for group in groups:
         #     Group.delete(group.id)
-        Specialization.query.filter_by(id=id_specialization).delete
+        Specialization.query.filter_by(id=id_specialization).delete()
         db.session.commit()
 
 class Group(db.Model) :
@@ -476,7 +476,7 @@ class Group(db.Model) :
         # student = Student.query.filter_by(group_id=id_group).user_id
         # Student.delete(student)
         Group.query.filter_by(id=id_group).delete()
-        db.sesson.commit()
+        db.session.commit()
 
 class Student(db.Model) :
     __tablename__ = "student"
