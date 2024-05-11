@@ -27,7 +27,7 @@ $(document).ready(() => {
 
         groups = [];
         $(".group-checkbox:checked").each((i, el) => {
-          group.push($(el).attr("name"));
+          groups.push($(el).attr("name"));
         });
 
         $.ajax({
