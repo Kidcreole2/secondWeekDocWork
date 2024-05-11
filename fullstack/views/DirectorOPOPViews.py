@@ -236,5 +236,5 @@ def init_opop_views():
                 return render_template("pages/opop/group/student/update.html", student_user=old_student_user, student=old_student, groups=groups)
             case "delete":
                 student_id = Student.query.filter_by(user_id=student_user_id).first().id
-                Student.delete(id=student_id)
+                Student.delete(id_student=student_id)
                 return jsonify({"message": "Студент успешно удален"}), 200

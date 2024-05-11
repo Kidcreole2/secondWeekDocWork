@@ -196,4 +196,4 @@ def init_admin_views():
                             for opop_director in opop_directors:
                                 user = Users.query.filter_by(id=opop_director.user_id).first()
                                 opop_directors_user.append(user)
-                            return render_template("pages/admin/institute/specialization/update.html", opop_directors=opop_directors,opop_directors_user=opop_directors_user, institutes=institutes)
+                            return render_template("pages/admin/institute/specialization/update.html", old_spec=old_spec, opop_directors=opop_directors,opop_directors_user=opop_directors_user, institutes=institutes)

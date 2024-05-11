@@ -14,11 +14,6 @@ $(document).ready(() => {
     $(this).toggleClass("hided");
   });
   
-  $(".specializations-head-tools__button.toggle").on("click", () => {
-    $(".specializations-list").toggle(200);
-    $(this).toggleClass("hided");
-  });
-
   $(".practice-list-tools__button.delete").on("click", (e) => {
     id = e.target.id;
     $.ajax({
@@ -52,10 +47,11 @@ $(document).ready(() => {
 
   $(".student-list-tools__button.delete").on("click", (e) => {
     id = e.target.id
-    groupId = $(e).attr("data-group-id")
+    groupId = $(e.target).attr("data-group-id")
+    console.log(groupId, id)
     $.ajax({
         method: "POST",
-        url: `/opop/group/${groupId}/delete/${id}`,
+        url: `/opop/group/update/${groupId}/delete/${id}`,
         dataType: 'html',
         success: () => {
             $(`li#student_${id}`).hide(20)

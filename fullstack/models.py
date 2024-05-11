@@ -513,8 +513,8 @@ class Student(db.Model) :
         # Practice_Group.delete_group(id_group)
         # student = Student.query.filter_by(group_id=id_group).user_id
         # Student.delete(student)
-        Group.query.filter_by(id=id_group).delete()
-        db.sesson.commit()
+        Student.query.filter_by(user_id=id_student).delete()
+        db.session.commit()
 
 
 class Practice_Group(db.Model) :
