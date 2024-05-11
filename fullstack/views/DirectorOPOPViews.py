@@ -72,7 +72,7 @@ def init_opop_views():
                         recomendations=request.form['recomendations'],
                         started=False
                     )
-                    
+                    print("all good")
                     practice_id = Practice.create(new_practice)
                     groups = request.form["groups"].split()
                     for group in groups:
