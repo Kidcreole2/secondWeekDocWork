@@ -41,11 +41,11 @@
         </li>
         <li>
           {#{% elif role == "supervisorUgrasu" || role == "supervisorCompany"|| role == "supervisorPracticeOrg" %}#}
-          <a href="/studentPractice_supervisor">Перейти к панели руководителя</a>
+          <a href="/studentPractice/supervisor">Перейти к панели руководителя</a>
         </li>
         <li>
           {#{%if role == "student"%}#}
-          <a href="/studentPractice_student">Перейти к панели студента</a>
+          <a href="/studentPractice/student">Перейти к панели студента</a>
         </li>
         {#{% endif %} {% endfor %}#}
       </ul>
