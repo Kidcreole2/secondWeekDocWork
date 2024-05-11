@@ -134,8 +134,8 @@ class Practice(db.Model) :
     started = db.Column(db.Boolean, nullable = False)
 
     # связи
-    director_practice_usu = db.relationship("Director_Practice_USU", back_populates="practice")
-    director_practice_company = db.relationship("Director_Practice_Company", back_populates="practice")
+    # director_practice_usu = db.relationship("Director_Practice_USU", back_populates="practice")
+    # director_practice_company = db.relationship("Director_Practice_Company", back_populates="practice")
     practice_group = db.relationship("Practice_Group", back_populates="practice", cascade='save-update, merge, delete')
     student_practice = db.relationship("Student_Practice", back_populates="practice", cascade='save-update, merge, delete')
 
@@ -230,7 +230,7 @@ class Director_OPOP(db.Model) :
     post = db.Column(db.String(100), nullable = False)
 
     # связи
-    user = db.relationship("Users", back_populates="director_opop")
+    # user = db.relationship("Users", back_populates="director_opop")
     specialization = db.relationship("Specialization", back_populates="director_opop")
 
     def __init__(self, user_id: int, post: str):
@@ -270,7 +270,7 @@ class Director_Practice_USU(db.Model) :
     post = db.Column(db.String(100), nullable = False)
 
     # связи
-    user = db.relationship("Users", back_populates="director_practice_usu")
+    # user = db.relationship("Users", back_populates="director_practice_usu")
     practice = db.relationship("Practice", back_populates="director_practice_usu", cascade='save-update, merge, delete')
 
     def __init__(self, user_id: int, post: str):
@@ -311,7 +311,7 @@ class Director_Practice_Company(db.Model) :
     post = db.Column(db.String(100), nullable = False)
 
     # связи
-    user = db.relationship("Users", back_populates="director_practice_company")
+    # user = db.relationship("Users", back_populates="director_practice_company")
     practice = db.relationship("Practice", back_populates="director_practice_company", cascade='save-update, merge, delete')
     
     def __init__(self, user_id: int, post: str):
@@ -352,7 +352,7 @@ class Director_Practice_Organization(db.Model) :
     post = db.Column(db.String(100), nullable = False)
 
     # связи
-    user = db.relationship("Users", back_populates="director_practice_organization")
+    # user = db.relationship("Users", back_populates="director_practice_organization")
     student_practice = db.relationship("Student_Practice", back_populates="director_practice_organization", cascade='save-update, merge, delete')
     
     def __init__(self, user_id: int, post: str):
@@ -395,8 +395,8 @@ class Specialization(db.Model) :
     specialization_code = db.Column(db.String(20), unique=True, nullable = False)
 
     # связи
-    institute = db.relationship("Institute", back_populates="specialization")
-    director_opop = db.relationship("Director_OPOP", back_populates="specialization")
+    # institute = db.relationship("Institute", back_populates="specialization")
+    # director_opop = db.relationship("Director_OPOP", back_populates="specialization")
     group = db.relationship("Group", back_populates="specialization", cascade='save-update, merge, delete')
 
     def __init__(self, institute_id: int, director_opop_id: int, name: str, specialization_code: str):
@@ -441,7 +441,7 @@ class Group(db.Model) :
     form = db.Column(db.String(15), nullable = False)
 
     # связи
-    specialization = db.relationship("Specialization", back_populates="group")
+    # specialization = db.relationship("Specialization", back_populates="group")
     student = db.relationship("Student", back_populates="group", cascade='save-update, merge, delete')
     practice_group = db.relationship("Practice_Group", back_populates="group", cascade='save-update, merge, delete')
 
@@ -484,8 +484,8 @@ class Student(db.Model) :
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), unique=True)
     group_id = db.Column(db.Integer, db.ForeignKey("group.id"))
     # связи
-    user = db.relationship("Users", back_populates="student")
-    group = db.relationship("Group", back_populates="student")
+    # user = db.relationship("Users", back_populates="student")
+    # group = db.relationship("Group", back_populates="student")
     student_practice = db.relationship("Student_Practice", back_populates="student", cascade='save-update, merge, delete')
 
     def __init__(self, user_id: int, group_id: int):
@@ -524,8 +524,8 @@ class Practice_Group(db.Model) :
     practice_id = db.Column(db.Integer, db.ForeignKey("practice.id"))
 
     # связи
-    practice = db.relationship("Practice", back_populates="practice_group")
-    group = db.relationship("Group", back_populates="practice_group")
+    # practice = db.relationship("Practice", back_populates="practice_group")
+    # group = db.relationship("Group", back_populates="practice_group")
 
     def __init__(self, group_id: int, practice_id: int):
         self.group_id = group_id
@@ -570,9 +570,9 @@ class Student_Practice(db.Model) :
     place_name_short = db.Column(db.String(100))
     
     # связи
-    practice = db.relationship("Practice", back_populates="student_practice")
-    director_practice_organization = db.relationship("Director_Practice_Organization", back_populates="student_practice")
-    student = db.relationship("Student", back_populates="student_practice")
+    # practice = db.relationship("Practice", back_populates="student_practice")
+    # director_practice_organization = db.relationship("Director_Practice_Organization", back_populates="student_practice")
+    # student = db.relationship("Student", back_populates="student_practice")
     task = db.relationship("Task", back_populates="student_practice", cascade='save-update, merge, delete')
 
     def __init__(self, student_id: int, practice_id: int, director_practice_organization_id: int, kind_of_contract: str, paid: bool):
@@ -614,7 +614,7 @@ class Task(db.Model):
     date = db.Column(db.DateTime, nullable=False)
     student_practice_id = db.Column(db.Integer, db.ForeignKey("student_practice.id"))
 
-    student_practice = db.relationship("Student_Practice", back_populates="task")
+    # student_practice = db.relationship("Student_Practice", back_populates="task")
     def __init__(self, name, date, student_practice_id):
         self.name = name
         self.date = date
