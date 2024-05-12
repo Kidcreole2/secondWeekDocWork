@@ -2,11 +2,11 @@
 <div>
   <a href="/opop">Назад</a>
 </div>
+{% for student in students %}
   <form action="" method="post">
     <div>Начать практику</div>
-    {% for student in students %}
     <h2>{{ student.name }}</h2>
-    <input type="hidden" name="practice_id" value="{{ pactice_id }}" />
+    <input type="hidden" name="practice_id" value="{{ practice.id }}" />
     <input type="hidden" name="student_id" value="{{ student.id }}" />
     <div>
       <input type="checkbox" name="paid" />
@@ -19,10 +19,10 @@
       </select>
     </div>
     <div>
-      <select name="director_of_practice_organization" id="pr_org">
+      <select name="director">
         {% for director in directors %}
         <option value="{{ director.id }}">
-          {{ director.id }}
+          {{ director.firstname }}
         </option>
         {% endfor %}
       </select>

@@ -5,13 +5,14 @@ $(document).ready(() => {
       let practice_id = $(el).children("input[name='practice_id']").val();
       let paid = $(el).children("input[name='paid']:checked") ? true : false;
       let kind_of_contract = $(el)
-        .children("select[name='kind_of_contract'] option:selected")
+        .find("select[name='kind_of_contract'] option:selected")
         .val();
       let director_of_practice_organization = $(el)
-        .children(
-          "select[name='director_of_practice_organization'] option:selected"
+        .find(
+          "select[name='director'] option:selected"
         )
         .val();
+        console.log(kind_of_contract)
       $.ajax({
         method: "POST",
         url: `/opop/practice/start/${practice_id}`,

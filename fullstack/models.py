@@ -575,12 +575,29 @@ class Student_Practice(db.Model) :
     student = db.relationship("Student", back_populates="student_practice")
     task = db.relationship("Task", back_populates="student_practice", cascade='save-update, merge, delete')
 
-    def __init__(self, student_id: int, practice_id: int, director_practice_organization_id: int, kind_of_contract: str, paid: bool):
+    def __init__(
+        self, 
+        student_id: int, 
+        practice_id: int, 
+        director_practice_organization_id: int, 
+        kind_of_contract: str, 
+        paid: bool,
+                 ):
         self.student_id = student_id
         self.practice_id = practice_id
         self.director_practice_organization_id = director_practice_organization_id
         self.kind_of_contract = kind_of_contract
         self.paid = paid
+        self.passed = False
+        self.overcoming_difficulties = ""
+        self.demonstrated_qualities = ""
+        self.work_volume = ""
+        self.reason = ""
+        self.remarks = ""
+        self.place_city = ""
+        self.place_address = ""
+        self.place_name = ""
+        self.place_name_short = ""
 
     @staticmethod
     def create(student_practice):
