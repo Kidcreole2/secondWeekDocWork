@@ -182,11 +182,15 @@ def init_opop_views():
                     case "start":
                         if request.method == "POST":
                             print(request.form["director_of_practice_organization"])
+                            if request.form["paid"] == "true":
+                                paid_bool = True
+                            else:
+                                paid_bool = False
                             new_practice = Student_Practice(
                                 student_id=request.form["student_id"],
                                 practice_id=entity_id,
                                 director_practice_organization_id=int(request.form["director_of_practice_organization"]),
-                                paid=request.form["paid"],
+                                paid=paid_bool,
                                 kind_of_contract=request.form["kind_of_contract"]
                             )
                             Student_Practice.create(new_practice)

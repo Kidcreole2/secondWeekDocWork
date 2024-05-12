@@ -12,9 +12,8 @@ def init_studentPractice_views():
         match role:
             case "student":
                 print("student")
-                student = Student.query.filter_by(user_id=current_user.id).first()
-                student_practice = Student_Practice.query.filter_by(student_id=student.user_id  ).all()
-                return render_template("pages/studentPactice/student_index.html", student_practices=student_practice)
+                student_practice = Student_Practice.query.filter_by(student_id=current_user.id).all()
+                return render_template("pages/studentPactice/index.html", student_practices=student_practice)
             case "supervisor":
                 print("supervisor")
                 roles = current_user.role.split()
@@ -61,7 +60,7 @@ def init_studentPractice_views():
             Student.update(old_student_practice,new_student_practice)
             return redirect(url_for(f""))
         student_practice = Student_Practice.query.filter_by(id = practice_id).first()
-        return render_template("pages/studentPractice/supervisor_index.html", student_practice=student_practice)
+        return render_template("pages/studentPactice/practice/update.html", student_practice=student_practice)
         
     @app.route("/studentPractice/update/<practice_id>/task/create")
     @login_required

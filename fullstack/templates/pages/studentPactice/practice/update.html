@@ -82,12 +82,10 @@
   <button id="student-practice-change" class="btn" type="button">Изменить пользователя</button>
 </form>
 {% endblock %}
+{% block script %}
 {% if current_user.role == "student" %}
-{% block script %}
-  <script src="{{ url_for('static', 'js/student.studentPractice-update.js') }}"></script>
-{% endblock %}
+  <script src="{{ url_for('static', filename='js/student.studentPractice-update.js') }}"></script>
 {% else %}
-{% block script %}
-  <script src="{{ url_for('static', 'js/studentPractice-update.js') }}"></script>
-{% endblock %}
+  <script src="{{ url_for('static', filename='js/studentPractice-update.js') }}"></script>
 {% endif %}
+{% endblock %}
