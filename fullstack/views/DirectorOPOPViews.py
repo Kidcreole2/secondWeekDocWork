@@ -182,11 +182,11 @@ def init_opop_views():
                     case "start":
                         if request.method == "POST":
                             new_practice = Student_Practice(
-                                student_id=1,
+                                student_id=request.form["student_id"],
                                 practice_id=entity_id,
-                                director_practice_organization_id=1,
-                                paid=True,
-                                kind_of_contract="1"
+                                director_practice_organization_id=request.form["director_of_practice_organization"],
+                                paid=request.form["paid"],
+                                kind_of_contract=request.form["kind_of_contract"]
                             )
                             Student_Practice.create(new_practice)
                             return jsonify({"message": "ok"}), 200
@@ -194,13 +194,15 @@ def init_opop_views():
                         directors = Director_Practice_Organization.query.all()
                         director_users = []
                         for director in directors:
-                            director_users.append(Users.query.filter_by(user_id=director.id).first())
+                            director_users.append(Users.query.filter_by(id=director.user_id).first())
                         
                         students = []
                         student_users = []
                         groups = Practice_Group.query.filter_by(practice_id=entity_id).all()
                         for group in groups:
-                            students.append(Student.query.filter_by(group_id=group.id).all())
+                            students_group =Student.query.filter_by(group_id=group.id).all()
+                            for student_group in students_group:
+                                students.append(student_group)
                         for student in students:
                             student_users.append(Users.query.filter_by(id=student.user_id).first())
                         return render_template("pages/opop/practice/start.html", students=student_users,directors=director_users)
