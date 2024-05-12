@@ -38,7 +38,7 @@ def init_studentPractice_views():
                 student_practices.append(student_practice_dpo)
                 student_practices.append(student_practice_dpu)
                 student_practices.append(student_practice_dpc)
-                student_practice = set(student_practices)
+                student_practice = dict(student_practices)
                 return render_template("pages/studentPractice/index.html", student_practice=student_practice)
         
     @app.route("/studentPractice/update/<practice_id>")
