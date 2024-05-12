@@ -2,28 +2,36 @@
 <div>
   <a href="/opop">Назад</a>
 </div>
-<form action="#" method="post">
-  <div>Начать практику</div>
-  <input type="hidden" name="practice_id" value="{{ pactice_id }}" />
-  <div>
-    <input type="checkbox" name="paid" />
-  </div>
-  <div>
-    <select name="kind_of_contract">
-      <option value="not" selected>-</option>
-      <option value="short">Краткосрочный</option>
-      <option value="long">Долгосрочный</option>
-    </select>
-  </div>
-  <div>
-    <select name="director_of_practice_organization" id="pr_org">
-      {% for director in directors %}
-      <option value="{{ director.id }}">
-        {{ director.id }}
-      </option>
-      {% endfor %}
-    </select>
-  </div>
-  <button type="submit">Отправить</button>
-</form>
+{% for student in students %}
+  <form action="" method="post">
+    <div>Начать практику</div>
+    <h2>{{ student.name }}</h2>
+    <input type="hidden" name="practice_id" value="{{ pactice_id }}" />
+    <input type="hidden" name="student_id" value="{{ student.id }}" />
+    <div>
+      <input type="checkbox" name="paid" />
+    </div>
+    <div>
+      <select name="kind_of_contract">
+        <option value="not" selected>-</option>
+        <option value="short">Краткосрочный</option>
+        <option value="long">Долгосрочный</option>
+      </select>
+    </div>
+    <div>
+      <select name="director_of_practice_organization" id="pr_org">
+        {% for director in directors %}
+        <option value="{{ director.id }}">
+          {{ director.id }}
+        </option>
+        {% endfor %}
+      </select>
+    </div>
+  </form>
+{% endfor %}
+<button id="startPractice" type="button">Отправить</button>
+{% endblock %}
+
+{% block script %}
+<script src="{{ url_for('static', filename='js/start_practice.js') }}"></script>
 {% endblock %}
