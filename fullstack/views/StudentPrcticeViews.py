@@ -28,7 +28,7 @@ def init_studentPractice_views():
                     student_practices.append(practice)
                 return render_template("pages/studentPractice/index.html", student_practices=student_practices)
         
-    @app.route("/studentPractice/update/<practice_id>")
+    @app.route("/studentPractice/update/<practice_id>", methods=["POST", "GET"])
     @login_required
     def studentPractice_update_practice(practice_id): 
         if request.method == "POST":

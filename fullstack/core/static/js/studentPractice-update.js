@@ -1,14 +1,14 @@
 $(document).ready(() => {
     $("#student-practice-change").click(() => {
-        place_name = $("input[name=place_name]").val()
-        place_name_short = $("input[name=place_name_short]").val()
+        let place_name = $("input[name=place_name]").val()
+        let place_name_short = $("input[name=place_name_short]").val()
         $.ajax({
             method: "POST",
             dataType: "html",
             data: {
               place_city: $("input[name='place_city'").val(),
-              place_address: $("input[name='place_address']"),
-              place_name: $("input[name='place_name']").val(),
+              place_address: $("input[name='place_address']").val(),
+              place_name: place_name,
               place_name_short: (place_name_short !== "") ?  place_name_short : place_name,
               passed: ($("select[name='passed'] option:selected").val() === "Да") ? true : false,
               demonstrated_qualities: $("input[name='demonstated_qualities']").val(),

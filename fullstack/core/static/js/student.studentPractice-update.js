@@ -7,7 +7,7 @@ $(document).ready(() => {
             dataType: "html",
             data: {
               place_city: $("input[name='place_city'").val(),
-              place_address: $("input[name='place_address']"),
+              place_address: $("input[name='place_address']").val(),
               place_name: $("input[name='place_name']").val(),
               place_name_short: (place_name_short !== "") ?  place_name_short : place_name,
             },
