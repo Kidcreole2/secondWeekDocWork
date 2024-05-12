@@ -31,22 +31,39 @@ def init_studentPractice_views():
     @app.route("/studentPractice/update/<practice_id>", methods=["POST", "GET"])
     @login_required
     def studentPractice_update_practice(practice_id): 
-        if request.method == "POST":
-            old_student_practice = Student_Practice.query.filter_by(id=practice_id).first()
-            new_student_practice = Student_Practice(
-                place_city=request.form['place_city'],
-                place_address=request.form['place_address'],
-                place_name=request.form['place_name'],
-                place_name_short=request.form['place_name_short'],
-                passed=request.form['passed'],
-                overcoming_difficulties=request.form['overcoming_difficulties'],
-                demonstrated_qualities=request.form['demonstrated_qualities'],
-                work_volume=request.form['work_volume'],
-                reason=request.form['reason'],
-                remarks=request.form['remarks']
-            )
-            Student.update(old_student_practice,new_student_practice)
-            return redirect(url_for(f""))
+        if current_user.role == "student":
+            if request.method == "POST":
+                old_student_practice = Student_Practice.query.filter_by(id=practice_id).first()
+                new_student_practice = Student_Practice(
+                    place_city=request.form['place_city'],
+                    place_address=request.form['place_address'],
+                    place_name=request.form['place_name'],
+                    place_name_short=request.form['place_name_short'],
+                    passed=old_student_practice.passed,
+                    overcoming_difficulties=old_student_practice.overcoming_difficulties,
+                    demonstrated_qualities=old_student_practice.demonstrated_qualities,
+                    work_volume=old_student_practice.work_volume,
+                    reason=old_student_practice.reason,
+                    remarks=old_student_practice.remarks
+                )
+                Student_Practice.update(old_student_practice.id,new_student_practice)
+                return jsonify({ "message": "Данные успешно обновлены" }), 200
+            else:
+                old_student_practice = Student_Practice.query.filter_by(id=practice_id).first()
+                new_student_practice = Student_Practice(
+                    place_city=request.form['place_city'],
+                    place_address=request.form['place_address'],
+                    place_name=request.form['place_name'],
+                    place_name_short=request.form['place_name_short'],
+                    passed=request.form['passed'],
+                    overcoming_difficulties=request.form['overcoming_difficulties'],
+                    demonstrated_qualities=request.form['demonstrated_qualities'],
+                    work_volume=request.form['work_volume'],
+                    reason=request.form['reason'],
+                    remarks=request.form['remarks']
+                )
+                Student_Practice.update(old_student_practice.id,new_student_practice)
+                return jsonify({ "message": "Данные успешно обновлены" }), 200
         student_practice = Student_Practice.query.filter_by(id = practice_id).first()
         return render_template("pages/studentPractice/practice/update.html", student_practice=student_practice)
         

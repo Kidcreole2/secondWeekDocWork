@@ -605,13 +605,19 @@ class Student_Practice(db.Model) :
         db.session.commit()
     
     @staticmethod
-    def delete_practice(id_practice):
-        practices = Student_Practice.query.filter_by(practice_id=id_practice).all
-        for practice in practices:
-            tasks = Task.query.filter_by(student_practice_id = practice.id).all()
-            for task in tasks:
-                Task.delete(task.id)
-            Student_Practice.query.filter(practice_id=practice.id).delete()
+    def update(old_student_practice_id, new_student_practice):
+        old_student_practice = Student_Practice.query.filter_by(id=old_student_practice_id).first()
+        old_student_practice.place_city = new_student_practice.place_city
+        old_student_practice.place_address = new_student_practice.place_address
+        old_student_practice.place_name = new_student_practice.place_name
+        old_student_practice.place_name_short = new_student_practice.place_name_short
+        old_student_practice.passed = new_student_practice.passed
+        old_student_practice.overcoming_difficulties = new_student_practice.overcoming_difficulties
+        old_student_practice.demonstrated_qualities = new_student_practice.demonstrated_qualities
+        old_student_practice.work_volume = new_student_practice.work_volume
+        old_student_practice.kind_of_practice = new_student_practice.kind_of_practice
+        old_student_practice.reason = new_student_practice.reason
+        old_student_practice.remarks = new_student_practice.remarks
         db.session.commit()
 
     @staticmethod
