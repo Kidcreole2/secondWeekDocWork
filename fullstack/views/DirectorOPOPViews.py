@@ -179,6 +179,31 @@ def init_opop_views():
                                                groups_not_in_practice=groups_not_in_practice,
                                                directors_practice_usu=users_director_usu,
                                                directors_practice_company=users_director_company)
+                    case "start":
+                        if request.method == "POST":
+                            new_practice = Student_Practice(
+                                student_id=1,
+                                practice_id=entity_id,
+                                director_practice_organization_id=1,
+                                paid=True,
+                                kind_of_contract="1"
+                            )
+                            Student_Practice.create(new_practice)
+                            return jsonify({"message": "ok"}), 200
+                        
+                        directors = Director_Practice_Organization.query.all()
+                        director_users = []
+                        for director in directors:
+                            director_users.append(Users.query.filter_by(user_id=director.id).first())
+                        
+                        students = []
+                        student_users = []
+                        groups = Practice_Group.query.filter_by(practice_id=entity_id).all()
+                        for group in groups:
+                            students.append(Student.query.filter_by(group_id=group.id).all())
+                        for student in students:
+                            student_users.append(Users.query.filter_by(id=student.user_id).first())
+                        return render_template("pages/opop/practice/start.html", students=student_users,directors=director_users)
                     case "delete":
                         Practice.delete(id_practice=entity_id)
                         return jsonify({"message": "pidor"}), 200
