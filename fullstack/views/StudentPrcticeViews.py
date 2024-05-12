@@ -13,32 +13,20 @@ def init_studentPractice_views():
             case "student":
                 print("student")
                 student_practice = Student_Practice.query.filter_by(student_id=current_user.id).all()
-                return render_template("pages/studentPactice/index.html", student_practices=student_practice)
+                return render_template("pages/studentPractice/index.html", student_practices=student_practice)
             case "supervisor":
                 print("supervisor")
                 roles = current_user.role.split()
-                student_practice_dpo = []
-                student_practice_dpu = []
                 student_practice_dpc = []
                 student_practices = []
-                if "director-organization" in roles:
-                    director_practice_organization = Director_Practice_Organization.query.filter_by(user_id=current_user.id).first()
-                    student_practice_dpo.append(Student_Practice.query.filter_by(director_practice_organization_id=director_practice_organization.id).all())
-                if "director-usu" in roles:
-                    director_practice_usu = Director_Practice_USU.query.filter_by(user_id=current_user.id).first()
-                    practice_dpu = Practice.query.filter_by(director_practice_usu_id=director_practice_usu.id).all()
-                    for practice in practice_dpu:
-                        student_practice_dpu.append(Student_Practice.query.filter_by(practice_id = practice.id).first())
                 if "director-company" in roles:
-                    director_practice_company = Director_Practice_Company.query.filter_by(user_id=current_user.id).first()
-                    practice_dpc = Practice.query.filter_by(director_practice_company_id=director_practice_company.id).all()
+                    practice_dpc = Practice.query.filter_by(director_practice_company_id=current_user.id).all()
                     for practice in practice_dpc:
-                        student_practice_dpc.append(Student_Practice.query.filter_by(practice_id = practice_dpc.id).first())
-                student_practices.append(student_practice_dpo)
-                student_practices.append(student_practice_dpu)
-                student_practices.append(student_practice_dpc)
-                student_practice = dict(student_practices)
-                return render_template("pages/studentPractice/index.html", student_practice=student_practice)
+                        student_practice_dpc.append(Student_Practice.query.filter_by(practice_id = practice.id).first())
+                    print(student_practice_dpc)
+                for practice in student_practice_dpc:
+                    student_practices.append(practice)
+                return render_template("pages/studentPractice/index.html", student_practices=student_practices)
         
     @app.route("/studentPractice/update/<practice_id>")
     @login_required
@@ -60,7 +48,7 @@ def init_studentPractice_views():
             Student.update(old_student_practice,new_student_practice)
             return redirect(url_for(f""))
         student_practice = Student_Practice.query.filter_by(id = practice_id).first()
-        return render_template("pages/studentPactice/practice/update.html", student_practice=student_practice)
+        return render_template("pages/studentPractice/practice/update.html", student_practice=student_practice)
         
     @app.route("/studentPractice/update/<practice_id>/task/create")
     @login_required
