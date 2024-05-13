@@ -4,13 +4,13 @@
 </div>
 
 <div>
-    <a href="/studentPractice/update/{{practice_id}}/task/create">Создать задачу</a>
+    <a href="/studentPractice/update/{{student_practice.id}}/task/create">Создать задачу</a>
 </div>
 
 <ul>
     {% for task in tasks %}
     <li>
-      <a href="/studentPractice/update/{{practice_id}}/task/update/{{task.id}}">Задание</a>
+      <a href="/studentPractice/update/{{student_practice.id}}/task/update/{{task.id}}">Задание</a>
       <span>
         <button id="{{ task.id }}">Delete</button>
       </span>
@@ -50,7 +50,10 @@
       <option value="Нет">Нет</option>
     </select>
   </div>
-
+  <div>
+    <label>Если нет то по какой причине</label>
+    <input type="text" value="" name="reason" />
+  </div>
   <div>
     <label>Продемонстрированные качества</label>
     <input type="text"  

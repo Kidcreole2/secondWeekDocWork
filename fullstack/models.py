@@ -582,22 +582,32 @@ class Student_Practice(db.Model) :
         director_practice_organization_id: int, 
         kind_of_contract: str, 
         paid: bool,
-                 ):
+        passed = False,
+        overcoming_difficulties = "",
+        demonstrated_qualities = "",
+        work_volume = "",
+        reason = "",
+        remarks = "",
+        place_city = "",
+        place_address = "",
+        place_name = "",
+        place_name_short = "",
+        ):
         self.student_id = student_id
         self.practice_id = practice_id
         self.director_practice_organization_id = director_practice_organization_id
         self.kind_of_contract = kind_of_contract
         self.paid = paid
-        self.passed = False
-        self.overcoming_difficulties = ""
-        self.demonstrated_qualities = ""
-        self.work_volume = ""
-        self.reason = ""
-        self.remarks = ""
-        self.place_city = ""
-        self.place_address = ""
-        self.place_name = ""
-        self.place_name_short = ""
+        self.passed = passed
+        self.overcoming_difficulties = overcoming_difficulties
+        self.demonstrated_qualities =demonstrated_qualities
+        self.work_volume = work_volume
+        self.reason = reason
+        self.remarks = remarks
+        self.place_city = place_city
+        self.place_address = place_address
+        self.place_name = place_name
+        self.place_name_short = place_name_short
 
     @staticmethod
     def create(student_practice):
@@ -615,7 +625,7 @@ class Student_Practice(db.Model) :
         old_student_practice.overcoming_difficulties = new_student_practice.overcoming_difficulties
         old_student_practice.demonstrated_qualities = new_student_practice.demonstrated_qualities
         old_student_practice.work_volume = new_student_practice.work_volume
-        old_student_practice.kind_of_practice = new_student_practice.kind_of_practice
+        old_student_practice.kind_of_contract = new_student_practice.kind_of_contract
         old_student_practice.reason = new_student_practice.reason
         old_student_practice.remarks = new_student_practice.remarks
         db.session.commit()

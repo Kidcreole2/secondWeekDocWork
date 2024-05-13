@@ -31,10 +31,17 @@ def init_studentPractice_views():
     @app.route("/studentPractice/update/<practice_id>", methods=["POST", "GET"])
     @login_required
     def studentPractice_update_practice(practice_id): 
-        if current_user.role == "student":
-            if request.method == "POST":
+        print(current_user.role)
+        if request.method == "POST":
+            if "student" in current_user.role:
                 old_student_practice = Student_Practice.query.filter_by(id=practice_id).first()
+                print(request.form.to_dict())
                 new_student_practice = Student_Practice(
+                    student_id=old_student_practice.student_id,
+                    practice_id=old_student_practice.practice_id,
+                    director_practice_organization_id=old_student_practice.director_practice_organization_id,
+                    kind_of_contract=old_student_practice.kind_of_contract,
+                    paid=old_student_practice.paid,
                     place_city=request.form['place_city'],
                     place_address=request.form['place_address'],
                     place_name=request.form['place_name'],
@@ -50,12 +57,23 @@ def init_studentPractice_views():
                 return jsonify({ "message": "Данные успешно обновлены" }), 200
             else:
                 old_student_practice = Student_Practice.query.filter_by(id=practice_id).first()
+                if request.form['passed'] == "true":
+                    passed_bool = True
+                else:
+                    passed_bool = False
+                print(request.form.to_dict())
+                print(passed_bool)
                 new_student_practice = Student_Practice(
+                    student_id=old_student_practice.student_id,
+                    practice_id=old_student_practice.practice_id,
+                    director_practice_organization_id=old_student_practice.director_practice_organization_id,
+                    kind_of_contract=old_student_practice.kind_of_contract,
+                    paid=old_student_practice.paid,
                     place_city=request.form['place_city'],
                     place_address=request.form['place_address'],
                     place_name=request.form['place_name'],
                     place_name_short=request.form['place_name_short'],
-                    passed=request.form['passed'],
+                    passed=passed_bool,
                     overcoming_difficulties=request.form['overcoming_difficulties'],
                     demonstrated_qualities=request.form['demonstrated_qualities'],
                     work_volume=request.form['work_volume'],
@@ -78,6 +96,8 @@ def init_studentPractice_views():
             )
             Student.create(new_Task)
             return redirect(url_for(f""))
+        student_practice = Student_Practice.query.filter_by(id = practice_id).first()
+        return render_template("pages/studentPractice/practice/tasks/create.html", student_practice=student_practice)
 
     @app.route("/studentPractice/update/<practice_id>/task/<action>/<task_id>")
     @login_required
@@ -95,6 +115,8 @@ def init_studentPractice_views():
                     return redirect(url_for(f""))
             case "delete":
                 return "Fuck you"
+        student_practice = Student_Practice.query.filter_by(id = practice_id).first()
+        return render_template("pages/studentPractice/practice/tasks/update.html", student_practice=student_practice)
     
     
     
