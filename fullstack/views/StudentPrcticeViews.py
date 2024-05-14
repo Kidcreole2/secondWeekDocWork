@@ -85,7 +85,7 @@ def init_studentPractice_views():
         student_practice = Student_Practice.query.filter_by(id = practice_id).first()
         return render_template("pages/studentPractice/practice/update.html", student_practice=student_practice)
         
-    @app.route("/studentPractice/update/<practice_id>/task/create")
+    @app.route("/studentPractice/update/<practice_id>/task/create", methods=["POST", "GET"])
     @login_required
     def studentPractice_create_task(practice_id): 
         if request.method == "POST":
@@ -95,12 +95,12 @@ def init_studentPractice_views():
             date=request.form['date'],
             student_practice_id=practice_id
             )
-            Student.create(new_Task)
+            Task.create(new_Task)
             return jsonify({ "message": "Данные успешно обновлены" }), 200
         student_practice = Student_Practice.query.filter_by(id = practice_id).first()
         return render_template("pages/studentPractice/practice/tasks/create.html", student_practice=student_practice)
 
-    @app.route("/studentPractice/update/<practice_id>/task/<action>/<task_id>")
+    @app.route("/studentPractice/update/<practice_id>/task/<action>/<task_id>", methods=["POST", "GET"])
     @login_required
     def studentPractice_update_task(practice_id,action,task_id): 
         match action:
@@ -112,7 +112,7 @@ def init_studentPractice_views():
                     date=request.form['date'],
                     student_practice_id=practice_id
                     )
-                    Student.update(old_task, new_Task)
+                    Task.update(old_task, new_Task)
                 return jsonify({ "message": "Данные успешно обновлены" }), 200
             case "delete":
                 return "Fuck you"
