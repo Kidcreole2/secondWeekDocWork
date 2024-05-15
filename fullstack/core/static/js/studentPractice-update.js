@@ -11,6 +11,7 @@ $(document).ready(() => {
               place_name: place_name,
               place_name_short: (place_name_short !== "") ?  place_name_short : place_name,
               passed: ($("select[name='passed'] option:selected").val() === "Да") ? true : false,
+              grade: $("select[name='grade'] option:selected").val(),
               demonstrated_qualities: $("input[name='demonstrated_qualities']").val(),
               overcoming_difficulties: $("select[name='overcoming_difficulties'] option:selected").val(),
               work_volume: $("select[name='work_volume'] option:selected").val(),
