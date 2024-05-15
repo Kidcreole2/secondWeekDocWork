@@ -11,22 +11,20 @@ def init_studentPractice_views():
     def studentPractice_index(role):
         match role:
             case "student":
-                print("student")
-                student_practice = Student_Practice.query.filter_by(student_id=current_user.id).all()
-                return render_template("pages/studentPractice/index.html", student_practices=student_practice)
+                student_practices = Student_Practice.query.filter_by(student_id=current_user.id).all()
+                practice_id_names = []
+                for student_practice in student_practices:
+                    data = [Practice.query.filter_by(id=student_practice.practice_id).first(), student_practice]
+                    practice_id_names.append(data)
+                return render_template("pages/studentPractice/index.html", student_practices=practice_id_names)
             case "supervisor":
-                print("supervisor")
-                roles = current_user.role.split()
-                student_practice_dpc = []
-                student_practices = []
-                if "director-company" in roles:
-                    practice_dpc = Practice.query.filter_by(director_practice_company_id=current_user.id).all()
-                    for practice in practice_dpc:
-                        student_practice_dpc.append(Student_Practice.query.filter_by(practice_id = practice.id).first())
-                    print(student_practice_dpc)
-                for practice in student_practice_dpc:
-                    student_practices.append(practice)
-                return render_template("pages/studentPractice/index.html", student_practices=student_practices)
+                practice_id_names = []
+                if "director-organization" in current_user.role.split(" "):
+                    student_practices = Student_Practice.query.filter_by(director_practice_organization_id=current_user.id).all()
+                    for student_practice in student_practices:
+                        data = [Practice.query.filter_by(id=student_practice.practice_id).first(), student_practice, Users.query.filter_by(id=student_practice.student_id).first()]
+                        practice_id_names.append(data)
+                return render_template("pages/studentPractice/index.html", student_practices=practice_id_names)
         
     @app.route("/studentPractice/update/<practice_id>", methods=["POST", "GET"])
     @login_required
