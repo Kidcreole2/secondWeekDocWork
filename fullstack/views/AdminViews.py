@@ -147,27 +147,48 @@ def init_admin_views():
                                 for role in roles:
                                     match role:
                                         case "director-opop":
-                                            old_director = Director_OPOP.query.filter_by(user_id=old_user.id).first()
                                             new_director = Director_OPOP(
                                                 user_id=entity_id, 
                                                 post=request.form["post"]
                                                 )
-                                            Director_OPOP.update(old_director,new_director)
+                                            old_director = Director_OPOP.query.filter_by(user_id=entity_id).first()
+                                            if old_director:
+                                                Director_OPOP.update(old_director,new_director)  
+                                            else:
+                                                Director_OPOP.create(new_director)
                                                 
                                         case "director-organization":
+                                            new_director = Director_Practice_Organization(
+                                                user_id=entity_id, 
+                                                post=request.form["post"]
+                                                )
                                             old_director = Director_Practice_Organization.query.filter_by(user_id=entity_id).first()
-                                            new_director = Director_Practice_Organization(user_id=entity_id, post=request.form["post"])
-                                            Director_Practice_Organization.update(old_director,new_director)
+                                            if old_director:
+                                                Director_Practice_Organization.update(old_director,new_director)  
+                                            else:
+                                                Director_Practice_Organization.create(new_director)
                                         
                                         case "director-company":
+                                            new_director = Director_Practice_Company(
+                                                user_id=entity_id, 
+                                                post=request.form["post"]
+                                                )
                                             old_director = Director_Practice_Company.query.filter_by(user_id=entity_id).first()
-                                            new_director = Director_Practice_Company(user_id=entity_id, post=request.form["post"])
-                                            Director_Practice_Company.update(old_director,new_director)
+                                            if old_director:
+                                                Director_Practice_Company.update(old_director,new_director)  
+                                            else:
+                                                Director_Practice_Company.create(new_director)
                                         
                                         case "director-usu":
+                                            new_director = Director_Practice_USU(
+                                                user_id=entity_id, 
+                                                post=request.form["post"]
+                                                )
                                             old_director = Director_Practice_USU.query.filter_by(user_id=entity_id).first()
-                                            new_director = Director_Practice_USU(user_id=entity_id, post=request.form["post"])
-                                            Director_Practice_USU.update(old_director,new_director)
+                                            if old_director:
+                                                Director_Practice_USU.update(old_director,new_director)  
+                                            else:
+                                                Director_Practice_USU.create(new_director)
 
                                 return jsonify({ "message": "Данные успешно обновлены" })
                             
