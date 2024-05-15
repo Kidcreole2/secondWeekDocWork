@@ -5,7 +5,7 @@
 {% for student in students %}
   <form action="" method="post">
     <div>Начать практику</div>
-    <h2>{{ student.lastname }}{{ student.firstname }}{{ student.surname }}</h2>
+    <h2>{{ student.lastname }} {{ student.firstname }} {{ student.surname }}</h2>
     <input type="hidden" name="practice_id" value="{{ practice.id }}" />
     <input type="hidden" name="student_id" value="{{ student.id }}" />
     <div>

@@ -98,10 +98,12 @@ class GroupDocument:
         for failed in data:
             student = Student.query \
                 .filter_by(user_id=failed.student_id, group_id=group_id).first()
-
-            student_user = Users.query.filter_by(id=student.user_id).first()
-            students.append(student_user)
+            print(student)
+            if student:
+                student_user = Users.query.filter_by(id=student.user_id).first()
+                students.append(student_user)
         return students
+    
     def _collect_success_students_data(self, group):
         success_students = self._collect_students_data(passed=True, group_id=group.id)
         success_students_data = []
@@ -186,13 +188,15 @@ class GroupDocument:
     def generate_document(self):
         table_contents = self._collect_data()
         pprint.pprint(table_contents)
+        counter = 0
         for table in table_contents:
             self.__document.render(table)
-            name = datetime.date.today().strftime("%d.%m.%Y.docx")
+            name = f"{counter}" + "_" + datetime.date.today().strftime("%d.%m.%Y.docx")
             data = io.BytesIO()
             self.__document.save(data)
             data.seek(0)
             self.__data_files[name] = data
+            counter += 1
 
     def get_documents(self):
         self.generate_document()
