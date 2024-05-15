@@ -154,7 +154,7 @@ class StudentDocument:
             "difficulties": student_practice.overcoming_difficulties,
             "work_volume": student_practice.work_volume,
             "remarks": student_practice.remarks,
-            "rating": student_practice.rating,
+            "rating": student_practice.grade,
             "year": practice.start_date.year
         }
         return practice_data
@@ -194,6 +194,7 @@ class StudentDocument:
 
     def __collect_data(self):
         student_data = self.__collect_student_data()
+        print(self.__practice.id)
         practice = Student_Practice.query.filter_by(id=current_user.id, practice_id=self.__practice.id).first()
         tasks = self.__collect_tasks_data(practice)
         practice_data = self.__collect_practice_data(practice)
