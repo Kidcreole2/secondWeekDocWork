@@ -1,9 +1,9 @@
-from flask import request, render_template, redirect, url_for, flash, get_flashed_messages, jsonify
+from flask import request, render_template, redirect, url_for, flash, get_flashed_messages, jsonify, send_file
 from flask_login import logout_user, current_user, login_required
 from core import app, login_manager
 from datetime import datetime as date
 from models import *
-from file_manager import allowed_file, save_file
+from document_generator import GroupDocument, StudentDocument
 
 def init_studentPractice_views():
     @app.route("/studentPractice/<role>")
@@ -129,8 +129,19 @@ def init_studentPractice_views():
             case "delete":
                 return "Fuck you"
     
-    
-    
+    @app.route("/studentPractice/<role>/upload/<practice_id>")
+    def studentPractice_report(role, practice_id):
+        practice = Practice.query.filter_by(id=practice_id).first()
+        match role:
+            case "director":
+                document = GroupDocument.GroupDocument(practice)
+                files = document.get_documents()
+                files.seek(0)
+                return send_file(files, download_name="zip.zip", as_attachment=True)
+            case "student":
+                file = StudentDocument.StudentDocument(practice).get_document()
+                return send_file(file, download_name=f"{datetime.date.today().strftime('%d.%m.%Y.docx')}", as_attachment=True)
+
     
     
     

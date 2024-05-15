@@ -3,17 +3,20 @@ import os
 from flask_login import current_user
 from models import *
 import pymorphy2
+import io
 
 class StudentDocument:
     
-    def __init__(self):
+    def __init__(self, practice):
         self.__document = docxtpl.DocxTemplate("./templates/student_template.docx")
         self.__base_path = "output/"
+        self.__file = io.BytesIO()
+        self.__practice = practice
     
-    def __get_full_name_with_initials(full_name:list)->str :
+    def __get_full_name_with_initials(self, full_name:list)->str :
         return f"{full_name[0]} {full_name[1][0]}. {full_name[2][0]}."
 
-    def __get_case_fullname(fullname:list, case:str)->str:
+    def __get_case_fullname(self, fullname:list, case:str)->str:
         morph = pymorphy2.MorphAnalyzer()
         lastname = morph.parse(fullname[0])[0].inflect({case}).word
         firstname = morph.parse(fullname[1])[0].inflect({case}).word
@@ -77,10 +80,10 @@ class StudentDocument:
             .query\
                 .filter_by(id=student_practice.practice_id)\
                     .first()
-        
+
         director_practice_usu = Director_Practice_USU\
             .query\
-                .filter_by(id=practice.directior_practice_usu_id)\
+                .filter_by(user_id=practice.director_practice_usu_id)\
                     .first()
         director_practice_usu_user = Users\
             .query\
@@ -89,7 +92,7 @@ class StudentDocument:
         
         director_practice_company = Director_Practice_Company\
             .query\
-                .filter_by(id=practice.directior_practice_company_id)\
+                .filter_by(user_id=practice.director_practice_company_id)\
                     .first()
         director_practice_company_user = Users\
             .query\
@@ -98,7 +101,7 @@ class StudentDocument:
         
         director_practice_organisation = Director_Practice_Organization\
             .query\
-                .filter_by(id=student_practice.directior_practice_organization_id)\
+                .filter_by(user_id=student_practice.director_practice_organization_id)\
                     .first()
         director_practice_organisation_user = Users\
             .query\
@@ -121,28 +124,28 @@ class StudentDocument:
                 "year":  practice.end_date.year
             },
             "place": {
-                "name": practice.place_name,
-                "address": practice.place_address
+                "name": student_practice.place_name,
+                "address": student_practice.place_address
             },
             "directors": {
                 "usu": {
-                    "short_name": self.__get_full_name_with_initials(director_practice_usu_user.lastname, 
+                    "short_name": self.__get_full_name_with_initials([director_practice_usu_user.lastname,
                                                                      director_practice_usu_user.firstname, 
-                                                                     director_practice_usu_user.surname
+                                                                     director_practice_usu_user.surname]
                                                                      ),
                     "post": director_practice_usu.post,
                 },
                 "company": {
-                    "short_name": self.__get_full_name_with_initials(director_practice_company_user.lastname, 
+                    "short_name": self.__get_full_name_with_initials([director_practice_company_user.lastname,
                                                                      director_practice_company_user.firstname, 
-                                                                     director_practice_company_user.surname
+                                                                     director_practice_company_user.surname]
                                                                      ),
                     "post": director_practice_company.post,
                 },
                 "organisation": {
-                    "short_name": self.__get_full_name_with_initials(director_practice_organisation_user.lastname, 
+                    "short_name": self.__get_full_name_with_initials([director_practice_organisation_user.lastname,
                                                                      director_practice_organisation_user.firstname, 
-                                                                     director_practice_organisation_user.surname
+                                                                     director_practice_organisation_user.surname]
                                                                      ),
                     "post": director_practice_organisation.post,
                 },
@@ -156,7 +159,7 @@ class StudentDocument:
         }
         return practice_data
 
-    def __get_practice_kind(practice_kind):
+    def __get_practice_kind(self, practice_kind):
         match practice_kind:
             case "учебная":
                 d = {
@@ -175,7 +178,7 @@ class StudentDocument:
                 }
                 return d
 
-    def __get_practice_type(practice_type):
+    def __get_practice_type(self, practice_type):
         match practice_type:
             case "ознакомительная":
                 return "ознакомительной"
@@ -190,33 +193,23 @@ class StudentDocument:
 
 
     def __collect_data(self):
-        datas = []
         student_data = self.__collect_student_data()
-        practices = Student_Practice.query.filter_by(id=current_user.id).all()
-        for practice in practices:
-            tasks = self.__collect_tasks_data(practice)
-            practice_data = self.__collect_practice_data(practice)
-            data = {
-                "student": student_data,
-                "tasks": tasks,
-                "practice": practice_data
-            }
-            datas.append(data)
-            
-        return datas
+        practice = Student_Practice.query.filter_by(id=current_user.id, practice_id=self.__practice.id).first()
+        tasks = self.__collect_tasks_data(practice)
+        practice_data = self.__collect_practice_data(practice)
+        data = {
+            "student": student_data,
+            "tasks": tasks,
+            "practice": practice_data
+        }
+
+        return data
     
-    def generateDocument(self):
-        if not os.path.isdir(os.path.join(self.__base_path, f"{current_user.firstname}_{current_user.lastname}_{current_user.id}")):
-            path = os.path.join(self.__base_path, f"{current_user.firstname}_{current_user.lastname}_{current_user.id}") 
-            os.mkdir(path)  
-            table_contents = self.__collect_data()
-            document_names = []
-            for table in table_contents:
-                document_name = f"{current_user.firstname}_{current_user.lastname}_{table["practice"]["start"]["date"]}.docx"
-                self.__document.render(table)
-                self.__document.save(f"{path}/{document_name}")
+    def generate_document(self):
+        table = self.__collect_data()
+        self.__document.render(table)
+        self.__document.save(self.__file)
+        self.__file.seek(0)
         
-    def getDocuments(self):
+    def get_document(self):
         self.generate_document()
-        path = os.path.join(self.__base_path, f"{current_user.firstname}_{current_user.lastname}_{current_user.id}") 
-        return os.listdir(path)
