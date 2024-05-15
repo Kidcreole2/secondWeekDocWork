@@ -557,6 +557,7 @@ class Student_Practice(db.Model) :
     practice_id = db.Column(db.Integer, db.ForeignKey("practice.id"))
     director_practice_organization_id = db.Column(db.Integer, db.ForeignKey("director_practice_organization.user_id"))
     passed = db.Column(db.Boolean)
+    grade = db.Column(db.Integer)
     kind_of_contract = db.Column(db.String(100))
     paid = db.Column(db.Boolean)
     overcoming_difficulties = db.Column(db.Text)
@@ -583,6 +584,7 @@ class Student_Practice(db.Model) :
         kind_of_contract: str, 
         paid: bool,
         passed = False,
+        grade = "",
         overcoming_difficulties = "",
         demonstrated_qualities = "",
         work_volume = "",
@@ -608,6 +610,7 @@ class Student_Practice(db.Model) :
         self.place_address = place_address
         self.place_name = place_name
         self.place_name_short = place_name_short
+        self.grade = grade
 
     @staticmethod
     def create(student_practice):
@@ -628,6 +631,7 @@ class Student_Practice(db.Model) :
         old_student_practice.kind_of_contract = new_student_practice.kind_of_contract
         old_student_practice.reason = new_student_practice.reason
         old_student_practice.remarks = new_student_practice.remarks
+        old_student_practice.grade = new_student_practice.grade
         db.session.commit()
 
     @staticmethod

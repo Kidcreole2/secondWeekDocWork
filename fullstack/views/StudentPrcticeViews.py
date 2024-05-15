@@ -74,6 +74,7 @@ def init_studentPractice_views():
                     place_name=request.form['place_name'],
                     place_name_short=request.form['place_name_short'],
                     passed=passed_bool,
+                    grade=int(request.form['grade']),
                     overcoming_difficulties=request.form['overcoming_difficulties'],
                     demonstrated_qualities=request.form['demonstrated_qualities'],
                     work_volume=request.form['work_volume'],
@@ -83,7 +84,13 @@ def init_studentPractice_views():
                 Student_Practice.update(old_student_practice.id,new_student_practice)
                 return jsonify({ "message": "Данные успешно обновлены" }), 200
         student_practice = Student_Practice.query.filter_by(id = practice_id).first()
-        return render_template("pages/studentPractice/practice/update.html", student_practice=student_practice)
+        tasks = Task.query.filter_by(student_practice_id=practice_id).all()
+        role = current_user.role
+        if "student" in role:
+            role = "student"
+        else:
+            role = "supervisor"
+        return render_template("pages/studentPractice/practice/update.html", student_practice=student_practice, tasks=tasks,role=role)
         
     @app.route("/studentPractice/update/<practice_id>/task/create", methods=["POST", "GET"])
     # @login_required
@@ -98,7 +105,8 @@ def init_studentPractice_views():
             Task.create(new_Task)
             return jsonify({ "message": "Данные успешно обновлены" }), 200
         student_practice = Student_Practice.query.filter_by(id = practice_id).first()
-        return render_template("pages/studentPractice/practice/tasks/create.html", student_practice=student_practice, role=current_user.role)
+        urlForUpdate = f"update/{practice_id}"
+        return render_template("pages/studentPractice/practice/tasks/create.html", student_practice=student_practice, role=urlForUpdate)
 
     @app.route("/studentPractice/update/<practice_id>/task/<action>/<task_id>", methods=["POST", "GET"])
     # @login_required
@@ -113,11 +121,13 @@ def init_studentPractice_views():
                     student_practice_id=practice_id
                     )
                     Task.update(old_task, new_Task)
-                return jsonify({ "message": "Данные успешно обновлены" }), 200
+                    return jsonify({ "message": "Данные успешно обновлены" }), 200
+                student_practice = Student_Practice.query.filter_by(id = practice_id).first()
+                urlForUpdate = f"update/{practice_id}"
+                task = Task.query.filter_by(student_practice_id=practice_id).all()
+                return render_template("pages/studentPractice/practice/tasks/update.html", student_practice=student_practice, role=urlForUpdate, task=task)
             case "delete":
                 return "Fuck you"
-        student_practice = Student_Practice.query.filter_by(id = practice_id).first()
-        return render_template("pages/studentPractice/practice/tasks/update.html", student_practice=student_practice, role=current_user.role)
     
     
     

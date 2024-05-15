@@ -10,7 +10,7 @@
 <ul>
     {% for task in tasks %}
     <li>
-      <a href="/studentPractice/update/{{student_practice.id}}/task/update/{{task.id}}">Задание</a>
+      <a href="/studentPractice/update/{{student_practice.id}}/task/update/{{task.id}}">{{task.name}}</a>
       <span>
         <button id="{{ task.id }}">Delete</button>
       </span>
@@ -48,6 +48,15 @@
     <select name="passed">
       <option value="Да">Да</option>
       <option value="Нет">Нет</option>
+    </select>
+  </div>
+  <div>
+    <label>Какая оценка у студента</label>
+    <select name="grade">
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
     </select>
   </div>
   <div>
