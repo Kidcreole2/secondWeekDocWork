@@ -26,6 +26,7 @@ $(document).ready(() => {
             role: roles.join(" "),
             login: $('input[name="login"]').val(),
             password: $("input[name=password]").val(),
+            post: $("input[name='post']").val()
           },
           success: (data) => {
             alert(JSON.parse(data).message)

@@ -18,6 +18,7 @@
     <tr>
       <!-- Редактирование практики -->
       <td><a href="/studentPractice/update/{{student_practice.id}}">{{student_practice.id}}</a></td>
+      <td><a href="/studentPractice/student/upload/{{ student_practice.id }}">Скачать отчет</a></td>
     </tr>
     {% endfor %}    
   </tbody>
@@ -40,7 +41,8 @@
     </tr>
     <tr>
       <!-- Редактирование практики -->
-      <td><a href="/studentPractice/update/{{student_practice.id}}">-{{student_practice.id}}</a></td>
+      <td><a href="/studentPractice/update/{{student_practice.id}}">{{student_practice.id}}</a></td>
+        <td><a href="/studentPractice/director/upload/{{ current_user.id }}">Скачать отчет</a></td>
     </tr>
     {% endfor %}    
   </tbody>

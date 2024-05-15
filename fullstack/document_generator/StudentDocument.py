@@ -1,3 +1,5 @@
+import pprint
+
 import docxtpl
 import os
 from flask_login import current_user
@@ -8,7 +10,7 @@ import io
 class StudentDocument:
     
     def __init__(self, practice):
-        self.__document = docxtpl.DocxTemplate("./templates/student_template.docx")
+        self.__document = docxtpl.DocxTemplate("./document_generator/templates/student_template.docx")
         self.__base_path = "output/"
         self.__file = io.BytesIO()
         self.__practice = practice
@@ -53,12 +55,12 @@ class StudentDocument:
         for task in tasks:
             data_task = {
                 "id": id_task,
-                "date": task.date.srtftime("%d.%m.%Y"),
+                "date": task.date.strftime("%d.%m.%Y"),
                 "name": task.name,
             }
             id_task += 1
             data_tasks.append(data_task)
-
+        pprint.pprint(data_tasks)
         return data_tasks
 
     def __collect_practice_data(self, student_practice):
@@ -165,13 +167,16 @@ class StudentDocument:
                 d = {
                     "name": "учебная",
                     "name_Up": "Учебная",
+                    "name_vp": "учебную",
                     "name_dp": "учебной",
                     "name_dp_UP": "УЧЕБНОЙ"
                 }
+                pprint.pprint(d)
                 return d
             case "производственная":
                 d = {
                     "name": "производственная",
+                    "name_vp": "производственную",
                     "name_Up": "Производственная",
                     "name_dp": "производственной",
                     "name_dp_UP": "ПРОИЗВОДСТВЕННОЙ"
@@ -194,8 +199,7 @@ class StudentDocument:
 
     def __collect_data(self):
         student_data = self.__collect_student_data()
-        print(self.__practice.id)
-        practice = Student_Practice.query.filter_by(id=current_user.id, practice_id=self.__practice.id).first()
+        practice = Student_Practice.query.filter_by(student_id=current_user.id, practice_id=self.__practice.id).first()
         tasks = self.__collect_tasks_data(practice)
         practice_data = self.__collect_practice_data(practice)
         data = {
@@ -214,3 +218,4 @@ class StudentDocument:
         
     def get_document(self):
         self.generate_document()
+        return self.__file
