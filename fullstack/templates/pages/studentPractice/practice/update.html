@@ -22,73 +22,94 @@
   <div>
     <label>Город прохождения практики</label>
     <input type="text" 
-      name="place_city"/>
+      name="place_city" value="{{ student_practice.place_city }}" />
   </div>
   
   <div>
     <label>Адрес прохождения практики</label>
     <input type="text"  
-      name="place_address"/>
+      name="place_address" value="{{ student_practice.place_address }}" />
   </div>
 
   <div>
     <label>Название предприятия на котором проходит практика</label>
     <input type="text"  
-      name="place_name"/>
+      name="place_name" value="{{ student_practice.place_name }}" />
   </div>
 
   <div>
     <label>Сокращенное название предприятия на котором проходит практика</label>
     <input type="text"  
-      name="place_name_short"/>
+      name="place_name_short" {{ student_practice.place_name_short }} />
   </div>
   {% if current_user.role != "student" %}
   <div>
     <label>Прошёл ли студент практику</label>
     <select name="passed">
-      <option value="Да">Да</option>
-      <option value="Нет">Нет</option>
+      {% if student_practice.passed %}
+          <option selected value="Да">Да</option>
+          <option value="Нет">Нет</option>
+      {% else %}
+          <option value="Да">Да</option>
+          <option selected value="Нет">Нет</option>
+      {% endif %}
     </select>
   </div>
   <div>
     <label>Какая оценка у студента</label>
     <select name="grade">
-      <option value="2">2</option>
-      <option value="3">3</option>
-      <option value="4">4</option>
-      <option value="5">5</option>
+        {% if student_practice.grade == 2 %}
+            <option selected value="2">2</option>
+        {% else %}
+            <option value="2">2</option>
+        {% endif %}
+        {% if student_practice.grade == 3%}
+            <option selected value="3">3</option>
+        {% else %}
+            <option value="3">3</option>
+        {% endif %}
+        {% if student_practice.grade == 4%}
+            <option selected value="4">4</option>
+        {% else %}
+            <option value="4">4</option>
+        {% endif %}
+        {% if student_practice.grade == 5%}
+            <option selected value="5">5</option>
+        {% else %}
+            <option value="5">5</option>
+        {% endif %}
     </select>
   </div>
   <div>
     <label>Если нет то по какой причине</label>
-    <input type="text" value="" name="reason" />
+    <input type="text" value="{{ student_practice.reason }}" name="reason" />
   </div>
   <div>
     <label>Продемонстрированные качества</label>
     <input type="text"  
-      name="demonstrated_qualities"/>
+      name="demonstrated_qualities" value="{{ student_practice.demonstrated_qualities }}" />
   </div>
 
   <div>
     <label>Как справлялся с возникающими при работе проблемами</label>
     <select name="overcoming_difficulties">
-      <option value="Оперативно">Оперативно</option>
-      <option value="Легко">Легко</option>
-      <option value="С трудом">С трудом</option>
+      <option value="оперативно">Оперативно</option>
+      <option value="легко">Легко</option>
+      <option value="с трудом">С трудом</option>
     </select>
   </div>
 
   <div>
     <label>Индивидуальное задание, предусмотренное программой практики, выполнено...</label>
     <select name="work_volume">
-      <option value="Частично">Частично</option>
-      <option value="В полном объёме">В полном объёме</option>
-      <option value="Успешно">Успешно</option>
+      <option value="частично">Частично</option>
+      <option value="в полном объёме">В полном объёме</option>
+      <option value="успешно">Успешно</option>
     </select>
   </div>
   <div>
     <label>Замечания</label>
-    <input type="text"  name="remarks"/>
+    <input type="text" value="{{ student_practice.remarks }}" name="remarks"/>
   </div>
   {% endif %}
   <button id="student-practice-change" class="btn" type="button">Изменить пользователя</button>
