@@ -76,18 +76,14 @@ def init_admin_views():
                     for role in roles:
                         match role:
                             case "director-opop":
-                                Director_OPOP.create(Director_OPOP(user_id=data["id"], post="DOCENT"))
-                                print("opop good")
+                                Director_OPOP.create(Director_OPOP(user_id=data["id"], post=request.form["post"]))
                             case "director-organization":
-                                Director_Practice_Organization.create(Director_Practice_Organization(user_id=data["id"], post="DOCENT"))
-                                print("org good")
+                                Director_Practice_Organization.create(Director_Practice_Organization(user_id=data["id"], post=request.form["post"]))
                             case "director-company":
-                                Director_Practice_Company.create(Director_Practice_Company(user_id=data["id"], post="DOCENT"))
-                                print("comp good")
+                                Director_Practice_Company.create(Director_Practice_Company(user_id=data["id"], post=request.form["post"]))
                             case "director-usu":
-                                Director_Practice_USU.create(Director_Practice_USU(user_id=data["id"], post="DOCENT"))
-                                print("usu good")
-                                
+                                Director_Practice_USU.create(Director_Practice_USU(user_id=data["id"], post=request.form["post"]))
+
                     return jsonify({"message": "Пользователь был успешно создан"})
 
                 return render_template("pages/admin/user/create.html")
@@ -125,7 +121,7 @@ def init_admin_views():
             match entity:
                 case "user":
                     match action:
-                        case "delete" :
+                        case "delete":
                             Users.delete(user_id=entity_id)
                             return jsonify({"message": "Pidor"}), 200
                         
@@ -144,8 +140,28 @@ def init_admin_views():
                                     surname= name[2] if len(name) == 3 else " ",
                                     role=role
                                     )
-                                
-                                Users.update(old_user_id=entity_id, new_user=new_user)
+                                roles = request.form["role"].split()
+
+                                data = Users.update(old_user_id=entity_id, new_user=new_user)
+                                print(roles)
+
+                                for role in roles:
+                                    match role:
+                                        case "director-opop":
+                                            Director_OPOP.create(
+                                                Director_OPOP(user_id=data["id"], post=request.form["post"]))
+                                        case "director-organization":
+                                            Director_Practice_Organization.create(
+                                                Director_Practice_Organization(user_id=data["id"],
+                                                                               post=request.form["post"]))
+                                        case "director-company":
+                                            Director_Practice_Company.create(
+                                                Director_Practice_Company(user_id=data["id"],
+                                                                          post=request.form["post"]))
+                                        case "director-usu":
+                                            Director_Practice_USU.create(
+                                                Director_Practice_USU(user_id=data["id"], post=request.form["post"]))
+
                                 return jsonify({ "message": "Данные успешно обновлены" })
                             
                             return render_template("pages/admin/user/update.html", old_user=old_user)
@@ -172,7 +188,7 @@ def init_admin_views():
                         
                 case "specialization":
                     match action:
-                        case "delete" :
+                        case "delete":
                             Specialization.delete(entity_id)
                             return jsonify({"message": "Pidor"}), 200
                         
