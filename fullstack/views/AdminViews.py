@@ -144,23 +144,30 @@ def init_admin_views():
 
                                 data = Users.update(old_user_id=entity_id, new_user=new_user)
                                 print(roles)
-
                                 for role in roles:
                                     match role:
                                         case "director-opop":
-                                            Director_OPOP.create(
-                                                Director_OPOP(user_id=data["id"], post=request.form["post"]))
+                                            old_director = Director_OPOP.query.filter_by(user_id=old_user.id).first()
+                                            new_director = Director_OPOP(
+                                                user_id=entity_id, 
+                                                post=request.form["post"]
+                                                )
+                                            Director_OPOP.update(old_director,new_director)
+                                                
                                         case "director-organization":
-                                            Director_Practice_Organization.create(
-                                                Director_Practice_Organization(user_id=data["id"],
-                                                                               post=request.form["post"]))
+                                            old_director = Director_Practice_Organization.query.filter_by(user_id=entity_id).first()
+                                            new_director = Director_Practice_Organization(user_id=entity_id, post=request.form["post"])
+                                            Director_Practice_Organization.update(old_director,new_director)
+                                        
                                         case "director-company":
-                                            Director_Practice_Company.create(
-                                                Director_Practice_Company(user_id=data["id"],
-                                                                          post=request.form["post"]))
+                                            old_director = Director_Practice_Company.query.filter_by(user_id=entity_id).first()
+                                            new_director = Director_Practice_Company(user_id=entity_id, post=request.form["post"])
+                                            Director_Practice_Company.update(old_director,new_director)
+                                        
                                         case "director-usu":
-                                            Director_Practice_USU.create(
-                                                Director_Practice_USU(user_id=data["id"], post=request.form["post"]))
+                                            old_director = Director_Practice_USU.query.filter_by(user_id=entity_id).first()
+                                            new_director = Director_Practice_USU(user_id=entity_id, post=request.form["post"])
+                                            Director_Practice_USU.update(old_director,new_director)
 
                                 return jsonify({ "message": "Данные успешно обновлены" })
                             
