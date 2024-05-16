@@ -134,6 +134,86 @@ form div {
 
 .student-practice {
   background-color: rgba(24, 64, 168, 0.8);
+  padding: 12px;
+  max-width: 900px;
+  margin-inline: auto;
+}
+
+.border-right {
+  border-right: 2px solid white;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.border-down {
+  border-bottom: 2px solid white;
+  margin: 0 !important; 
+}
+
+.student-practice h3 {
+  width: 100%;
+  padding-bottom: 15px;
+}
+
+.update {
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  background-color: #00b4dbe6;
+  border-radius: 20px;
+  width: 100px;
+  height: 25px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  border: none !important;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+}
+
+.download {
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  background-color: #00b4dbe6;
+  border-radius: 20px;
+  width: 150px;
+  height: 25px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  border: none !important;
+}
+
+.editing {
+  background-color: #00b4dbe6;
+  border-radius: 20px;
+  width: 210px;
+  height: 35px;
+  margin-top: 7px ;
+  border: none !important;
+}
+
+.edit-form {
+  margin-inline: auto;
+}
+
+form select {
+  background-color: rgba(204, 204, 204, 0.85) !important;
+  height: 40px;
+  border-radius: 20px !important;
+  margin-top: 7px;
+  border: none !important;  
+}
+
+form select:focus {
+  background-color: white !important;
+}
+
+form select option {  
+  background-color: rgba(204, 204, 204, 0.85) !important;
+  border-radius: 20px !important;
 }
 
 /*# sourceMappingURL=main.css.map */
