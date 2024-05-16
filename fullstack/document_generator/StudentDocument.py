@@ -26,7 +26,7 @@ class StudentDocument:
             surname = morph.parse(fullname[2])[0].inflect({case}).word
         else:
             surname = "  "
-        return f"{lastname[0].upper()+lastname[1:]} {firstname[0].upper() + firstname[1:]} {surname[0] + surname[1:]}"
+        return f"{lastname[0].upper()+lastname[1:]} {firstname[0].upper() + firstname[1:]} {surname[0].upper() + surname[1:]}"
     
     def __collect_student_data(self):
         name = [current_user.lastname, current_user.firstname, current_user.surname]

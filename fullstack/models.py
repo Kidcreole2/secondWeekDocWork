@@ -250,6 +250,7 @@ class Director_OPOP(db.Model) :
     @staticmethod
     def update(old_director, new_director):
         old_director = Director_OPOP.query.filter_by(user_id=old_director.user_id).first()
+        print(old_director)
         old_director.post = new_director.post
         db.session.commit()
 

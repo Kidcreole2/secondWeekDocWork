@@ -13,12 +13,12 @@
   <tbody>
     {% for student_practice in student_practices %}
     <tr>
-      {{student_practice.practice.id}}
+      {{student_practice[0].name}}
     </tr>
     <tr>
       <!-- Редактирование практики -->
-      <td><a href="/studentPractice/update/{{student_practice.id}}">{{student_practice.id}}</a></td>
-      <td><a href="/studentPractice/student/upload/{{ student_practice.id }}">Скачать отчет</a></td>
+      <td><a href="/studentPractice/update/{{student_practice[1].id}}">{{student_practice[0].order}}</a></td>
+      <td><a href="/studentPractice/student/upload/{{ student_practice[0].id }}">Скачать отчет</a></td>
     </tr>
     {% endfor %}    
   </tbody>
@@ -59,13 +59,12 @@
   </thead>
   <tbody>
     {% for student_practice in student_practices %}
-    <tr class="student-practice__content">
-      {{student_practice.id}}
+    <tr>
+      {{student_practice[0].name}}
     </tr>
     <tr class="student-practice__content">
       <!-- Редактирование практики -->
-      <td><a href="/studentPractice/update/{{student_practice.id}}">{{student_practice.id}}</a></td>
-        <td><a href="/studentPractice/director/upload/{{ current_user.id }}">Скачать отчет</a></td>
+      <td><a href="/studentPractice/update/{{student_practice[1].id}}">{{student_practice[2].lastname}} {{student_practice[2].firstname}} {{student_practice[2].surname}}</a></td>
     </tr>
     {% endfor %}    
   </tbody>
