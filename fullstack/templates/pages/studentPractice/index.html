@@ -28,18 +28,41 @@
 <!-- Часть видимая только руководителю -->
 <div>Практики студента</div>
   
-<table>
+<div class="row row-cols-2 student-practice justify-content-md-center">
+  <div class="row">
+    <div>
+      <p>Название</p>
+    </div>
+  </div>
+  <div class="row">
+    {% for student_practice in student_practices %}
+    <div>
+      {{student_practice.id}}
+    </div>
+    <div>
+      <!-- Редактирование практики -->
+      <td><a href="/studentPractice/update/{{student_practice.id}}">{{student_practice.id}}</a></td>
+        <td><a href="/studentPractice/director/upload/{{ current_user.id }}">Скачать отчет</a></td>
+    </div>
+    {% endfor %}    
+  </div>
+</div>
+
+<table class="student-practice">
   <thead>
-    <tr>
+    <tr class="student-practice__name">
       <th>Название</th>
+    </tr>
+    <tr>
+
     </tr>
   </thead>
   <tbody>
     {% for student_practice in student_practices %}
-    <tr>
+    <tr class="student-practice__content">
       {{student_practice.id}}
     </tr>
-    <tr>
+    <tr class="student-practice__content">
       <!-- Редактирование практики -->
       <td><a href="/studentPractice/update/{{student_practice.id}}">{{student_practice.id}}</a></td>
         <td><a href="/studentPractice/director/upload/{{ current_user.id }}">Скачать отчет</a></td>

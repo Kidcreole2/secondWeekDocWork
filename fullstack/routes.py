@@ -63,7 +63,7 @@ def login():
         print(login)
         password = request.form.get("password")
         roles = Users.auth_user(login, password)["role"]
-        roles = roles.split
+        roles = roles.split(" ")
         if "admin" in roles:
             return redirect("/admin")
         if "student" in roles:
