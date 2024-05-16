@@ -64,5 +64,12 @@ def login():
         password = request.form.get("password")
         roles = Users.auth_user(login, password)["role"]
         roles = roles.split
-        return render_template("index.html", roles=roles)
+        if "admin" in roles:
+            return redirect("/admin")
+        if "student" in roles:
+            return redirect("/studentPractice/student")
+        if "director-opop" in roles:
+            return redirect("/opop")
+        return redirect("/studentPractice/supervisor")
+        # return render_template("index.html", roles=roles)
     return render_template("login.html")
