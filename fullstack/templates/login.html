@@ -1,18 +1,17 @@
 {% extends "base_login.html" %}
 {% block content %}
-      <form action="/" method="post">
+      <form action="/" method="post" class="form">
 
-        <h1 class="h3 mb-3 fw-normal">Пожайлуста войдите</h1>
+        <h1 class="center fw-bold fs-4 text-white">Пожайлуста войдите</h1>
     
-        <div class="form-floating">
+        <div class="form__content">
+          <label for="login" class="text-white fs-5">Логин</label>
           <input type="text" class="form-control" id="login" name="login" placeholder="Login" required> 
-          <label for="login">логин</label>
         </div>
-        <div class="form-floating">
+        <div class="form__content">
+          <label for="password" class="text-white fs-5">Пароль</label>
           <input type="password" class="form-control" name="password" id="password" placeholder="Password" required>
-          <label for="password">Пароль</label>
         </div>
-        <button class="btn" type="submit">Войти</button>
-        <a class="btn" href="/admin_user_create">Зарегистрироваться</a>
+        <button class="create text-white fs-5" type="submit">Войти</button>
       </form>
 {% endblock %}
