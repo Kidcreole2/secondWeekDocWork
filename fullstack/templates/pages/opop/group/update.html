@@ -1,49 +1,67 @@
 {% extends "base.html" %} {% block content %}
-<div class="admin-back">
-  <a href="/opop">Назад</a>
-</div>
-<form action="#" method="post">
-  <div>
-    <label for="name">Название</label>
-    <input type="text" name="name" required />
-  </div>
-  <select name="specialization_id" id="">
-    {% for spezialization in spezializations %}
-        <option value="{{ spezialization.id }}">{{spezialization.name}}</option>
-    {% endfor %}
-  </select>
-  <div>
-    <label for="course">Курс</label>
-    <input type="number" name="course" required />
-  </div>
-  <select name="form" id="">
-    <option value="очная">очная</option>
-    <option value="очно-заочная">очно-заочная</option>
-    <option value="заочная">заочная</option>
-  </select>
-  <button id="group_update" type="button">Создать</button>
-</form>
-<div>
-  <a href="/opop/group/update/{{group.id}}/create">Создать студента</a>
-</div>
+<div class="edit-page">
+  <div class="ref">
+    <div class="back">
+      <i class="bi bi-arrow-left fs-5"></i>
+      <a class="text-black no-decorate fw-bold fs-5" href="/opop">Назад</a>
+    </div>
 
-<h2 class="student-table__name">Студенты</h2>
-<table id="student-table">
-  <thead class="student-table__head">
-    <tr class="student-table__names">
-      <th class="student-table__content">id</th>
-    </tr>
-  </thead>
-  <tbody class="student-table__body">
+    <div class="go-create">
+      <i class="bi bi-arrow-right fs-5"></i> 
+      <a class="text-black no-decorate fw-bold fs-5" href="/opop/group/update/{{group.id}}/create">Создать студента</a>
+    </div>
+  </div>
+  <form action="#" method="post" class="edit-form col-sm-4" style="margin-bottom: 10px;">
+    <h1 class="center fw-bold fs-4 text-white">Редактирование группы</h1>
+    <div class="form__content">
+      <label class="text-white fs-6" for="name">Название</label>
+      <input class="form-control" type="text" name="name" required />
+    </div>
+    <div class="form__content">
+      <label class="text-white fs-6" class="text-white fs-6" for="specialization_id">Направление подготовки</label>
+      <select name="specialization_id" id="">
+        {% for spezialization in spezializations %}
+        <option value="{{ spezialization.id }}">{{spezialization.name}}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="form__content">
+      <label class="text-white fs-6" for="course">Курс</label>
+      <input class="form-control" type="number" name="course" required />
+    </div>
+    <div class="form__content">
+      <label class="text-white fs-6" class="text-white fs-6" for="form">Форма обучения</label>
+      <select name="form" id="">
+        <option value="очная">очная</option>
+        <option value="очно-заочная">очно-заочная</option>
+        <option value="заочная">заочная</option>
+      </select>
+    </div>
+    <button id="group_update" type="button" class="create text-white">Создать</button>
+  </form>
+
+  <div class="student-practice">
+    <h2 class="text-center fs-3 fw-bold text-white border-down">Студенты</h2>
+    <div class="row row-cols-2 border-down">
+      <div class="col-9 border-right">
+        <p class="text-center fs-6 fw-bold text-white">id</p>
+      </div>
+      <div class="col-3">
+        <p class="text-center fs-6 fw-bold text-white">Редактирование</p>
+      </div>
+    </div>
     {% for student_user in student_users %}
-    <tr class="student-table__data">
-      <td class="student-table__content">{{ student_user.id }}</td>
-      <td class="student-table__content">
-        <a href="/opop_student_update/{{student_user.id}}">Изменить пользователя</a>
-      </td>
-    </tr>
+    <div class="row row-cols-2 border-down">
+      <div class="col-9 border-right text-white">
+        <div class="buttons">{{ student_user.id }}</div>
+      </div>
+      <div class="col-3 buttons">
+        <a class="update text-white" href="/opop_student_update/{{student_user.id}}">Изменить</a>
+      </div>
+    </div>
     {% endfor %}
-  </tbody>
-</table>
+  </div>
+
+</div>
 
 {% endblock %}

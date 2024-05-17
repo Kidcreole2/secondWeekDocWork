@@ -1,24 +1,33 @@
-{% extends "base.html" %} {% block content %} 
-<div>
-  <a href="/opop">Назад</a>
-</div>
-{% for student in students %}
-  <form action="" method="post">
-    <div>Начать практику</div>
-    <h2>{{ student.lastname }} {{ student.firstname }} {{ student.surname }}</h2>
+{% extends "base.html" %} {% block content %}
+<div class="edit-page">
+  <div class="ref">
+    <div class="back"> 
+      <i class="bi bi-arrow-left fs-5"></i>
+      <a class="text-black no-decorate fw-bold fs-5" href="/opop">Назад</a>
+    </div>
+
+    <button class="create text-white" id="startPractice" type="button">Отправить</button>
+  </div>
+  {% for student in students %}
+  <form action="" method="post" class="edit-form col-sm-4 practices">
+    <h1 class="center fw-bold fs-4 text-white">Начать практику</h1>
+    <h2 class="center fs-5 text-white">{{ student.lastname }} {{ student.firstname }} {{ student.surname }}</h2>
     <input type="hidden" name="practice_id" value="{{ practice.id }}" />
     <input type="hidden" name="student_id" value="{{ student.id }}" />
-    <div>
+    <div class="form__content">
+      <label class="text-white fs-6" for="paid">Оплачиваемая</label>
       <input type="checkbox" name="paid" />
     </div>
-    <div>
+    <div class="form__content">
+      <label class="text-white fs-6" for="kind_of_contract">Вид контракта</label>
       <select name="kind_of_contract">
         <option value="not" selected>-</option>
         <option value="short">Краткосрочный</option>
         <option value="long">Долгосрочный</option>
       </select>
     </div>
-    <div>
+    <div class="form__content">
+      <label class="text-white fs-6" for="director">Руководитель</label>
       <select name="director">
         {% for director in directors %}
         <option value="{{ director.id }}">
@@ -28,8 +37,8 @@
       </select>
     </div>
   </form>
-{% endfor %}
-<button id="startPractice" type="button">Отправить</button>
+  {% endfor %}
+</div>
 {% endblock %}
 
 {% block script %}

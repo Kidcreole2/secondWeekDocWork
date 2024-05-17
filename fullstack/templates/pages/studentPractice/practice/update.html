@@ -1,121 +1,140 @@
 {% extends "base.html" %} {% block content %}
-<div>
-  <a href="/studentPractice/{{role}}">Назад</a>
-</div>
+<div class="edit-page">
+  <div class="ref">
+    <div class="back">
+      <i class="bi bi-arrow-left fs-5"></i>
+      <a class="text-black no-decorate fw-bold fs-5" href="/studentPractice/{{role}}">Назад</a>
+    </div>
 
-<div>
-  <a href="/studentPractice/update/{{student_practice.id}}/task/create">Создать задачу</a>
-</div>
-
-<ul>
-  {% for task in tasks %}
-  <li>
-    <a href="/studentPractice/update/{{student_practice.id}}/task/update/{{task.id}}">{{task.name}}</a>
-    <span>
-      <button id="{{ task.id }}">Delete</button>
-    </span>
-  </li>
-  {% endfor %}
-</ul>
-
-<form class="col-sm-7 edit-form">
-  <h1 class="center fw-bold fs-4 text-white">Редактирование практики</h1>
-
-  <div class="form__content">
-    <label class="text-white fs-6">Город прохождения практики</label>
-    <input class="form-control" type="text" name="place_city" value="{{ student_practice.place_city }}" />
+    <div class="go-create">
+      <i class="bi bi-arrow-right fs-5"></i>
+      <a class="text-black no-decorate fw-bold fs-5"
+        href="/studentPractice/update/{{student_practice.id}}/task/create">Создать задачу</a>
+    </div>
   </div>
 
-  <div class="form__content">
-    <label class="text-white fs-6">Адрес прохождения практики</label>
-    <input class="form-control" type="text" name="place_address" value="{{ student_practice.place_address }}" />
-  </div>
 
-  <div class="form__content">
-    <label class="text-white fs-6">Название предприятия на котором проходит практика</label>
-    <input class="form-control" type="text" name="place_name" value="{{ student_practice.place_name }}" />
-  </div>
+  <ul class="taski">
+    {% for task in tasks %}
+    <li class="task">
+      <div class="row row-cols-3 w-row">
+        <div class="col-7">
+          <p class="fs-5">{{task.name}}</p>
+        </div>
+        <div class="col-3">
+          <a class="update text-white"
+            href="/studentPractice/update/{{student_practice.id}}/task/update/{{task.id}}">Изменить</a>
+        </div>
+        <div class="col-2">
+          <span>
+            <button class="update text-white" id="{{ task.id }}">Удалить</button>
+          </span>
+        </div>
+      </div>
+    </li>
+    {% endfor %}
+  </ul>
 
-  <div class="form__content">
-    <label class="text-white fs-6">Сокращенное название предприятия на котором проходит практика</label>
-    <input class="form-control" type="text" name="place_name_short" {{ student_practice.place_name_short }} />
-  </div>
-  {% if current_user.role != "student" %}
-  <div class="form__content">
-    <label class="text-white fs-6">Прошёл ли студент практику</label>
-    <select name="passed" class="text-center">
-      {% if student_practice.passed %}
-      <option selected value="Да">Да</option>
-      <option value="Нет">Нет</option>
-      {% else %}
-      <option value="Да">Да</option>
-      <option selected value="Нет">Нет</option>
-      {% endif %}
-    </select>
-  </div>
-  <div class="form__content">
-    <label class="text-white fs-6">Какая оценка у студента</label>
-    <select name="grade" class="text-center">
-      {% if student_practice.grade == 2 %}
-      <option selected value="2">2</option>
-      {% else %}
-      <option value="2">2</option>
-      {% endif %}
-      {% if student_practice.grade == 3%}
-      <option selected value="3">3</option>
-      {% else %}
-      <option value="3">3</option>
-      {% endif %}
-      {% if student_practice.grade == 4%}
-      <option selected value="4">4</option>
-      {% else %}
-      <option value="4">4</option>
-      {% endif %}
-      {% if student_practice.grade == 5%}
-      <option selected value="5">5</option>
-      {% else %}
-      <option value="5">5</option>
-      {% endif %}
-    </select>
-  </div>
-  <div class="form__content">
-    <label class="text-white fs-6">Если нет то по какой причине</label>
-    <input class="form-control" type="text" value="{{ student_practice.reason }}" name="reason" />
-  </div>
-  <div class="form__content">
-    <label class="text-white fs-6">Продемонстрированные качества</label>
-    <input class="form-control" type="text" name="demonstrated_qualities" value="{{ student_practice.demonstrated_qualities }}" />
-  </div>
+  <form class="col-sm-7 edit-form">
+    <h1 class="center fw-bold fs-4 text-white">Редактирование практики</h1>
 
-  <div class="form__content">
-    <label class="text-white fs-6">Как справлялся с возникающими при работе проблемами</label>
-    <select name="overcoming_difficulties" class="text-center">
-      <option value="оперативно">Оперативно</option>
-      <option value="легко">Легко</option>
-      <option value="с трудом">С трудом</option>
-    </select>
-  </div>
+    <div class="form__content">
+      <label class="text-white fs-6">Город прохождения практики</label>
+      <input class="form-control" type="text" name="place_city" value="{{ student_practice.place_city }}" />
+    </div>
 
-  <div class="form__content">
-    <label class="text-white fs-6">Индивидуальное задание, предусмотренное программой практики, выполнено...</label>
-    <select name="work_volume" class="text-center">
-      <option value="частично">Частично</option>
-      <option value="в полном объёме">В полном объёме</option>
-      <option value="успешно">Успешно</option>
-    </select>
-  </div>
-  <div class="form__content">
-    <label class="text-white fs-6">Замечания</label>
-    <input class="form-control" type="text" value="{{ student_practice.remarks }}" name="remarks" />
-  </div>
+    <div class="form__content">
+      <label class="text-white fs-6">Адрес прохождения практики</label>
+      <input class="form-control" type="text" name="place_address" value="{{ student_practice.place_address }}" />
+    </div>
+
+    <div class="form__content">
+      <label class="text-white fs-6">Название предприятия на котором проходит практика</label>
+      <input class="form-control" type="text" name="place_name" value="{{ student_practice.place_name }}" />
+    </div>
+
+    <div class="form__content">
+      <label class="text-white fs-6">Сокращенное название предприятия на котором проходит практика</label>
+      <input class="form-control" type="text" name="place_name_short" {{ student_practice.place_name_short }} />
+    </div>
+    {% if current_user.role != "student" %}
+    <div class="form__content">
+      <label class="text-white fs-6">Прошёл ли студент практику</label>
+      <select name="passed" class="text-center">
+        {% if student_practice.passed %}
+        <option selected value="Да">Да</option>
+        <option value="Нет">Нет</option>
+        {% else %}
+        <option value="Да">Да</option>
+        <option selected value="Нет">Нет</option>
+        {% endif %}
+      </select>
+    </div>
+    <div class="form__content">
+      <label class="text-white fs-6">Какая оценка у студента</label>
+      <select name="grade" class="text-center">
+        {% if student_practice.grade == 2 %}
+        <option selected value="2">2</option>
+        {% else %}
+        <option value="2">2</option>
+        {% endif %}
+        {% if student_practice.grade == 3%}
+        <option selected value="3">3</option>
+        {% else %}
+        <option value="3">3</option>
+        {% endif %}
+        {% if student_practice.grade == 4%}
+        <option selected value="4">4</option>
+        {% else %}
+        <option value="4">4</option>
+        {% endif %}
+        {% if student_practice.grade == 5%}
+        <option selected value="5">5</option>
+        {% else %}
+        <option value="5">5</option>
+        {% endif %}
+      </select>
+    </div>
+    <div class="form__content">
+      <label class="text-white fs-6">Если нет то по какой причине</label>
+      <input class="form-control" type="text" value="{{ student_practice.reason }}" name="reason" />
+    </div>
+    <div class="form__content">
+      <label class="text-white fs-6">Продемонстрированные качества</label>
+      <input class="form-control" type="text" name="demonstrated_qualities"
+        value="{{ student_practice.demonstrated_qualities }}" />
+    </div>
+
+    <div class="form__content">
+      <label class="text-white fs-6">Как справлялся с возникающими при работе проблемами</label>
+      <select name="overcoming_difficulties" class="text-center">
+        <option value="оперативно">Оперативно</option>
+        <option value="легко">Легко</option>
+        <option value="с трудом">С трудом</option>
+      </select>
+    </div>
+
+    <div class="form__content">
+      <label class="text-white fs-6">Индивидуальное задание, предусмотренное программой практики, выполнено...</label>
+      <select name="work_volume" class="text-center">
+        <option value="частично">Частично</option>
+        <option value="в полном объёме">В полном объёме</option>
+        <option value="успешно">Успешно</option>
+      </select>
+    </div>
+    <div class="form__content">
+      <label class="text-white fs-6">Замечания</label>
+      <input class="form-control" type="text" value="{{ student_practice.remarks }}" name="remarks" />
+    </div>
+    {% endif %}
+    <button id="student-practice-change" class="editing text-white" type="button">Изменить пользователя</button>
+  </form>
+  {% endblock %}
+  {% block script %}
+  {% if current_user.role == "student" %}
+  <script src="{{ url_for('static', filename='js/student.studentPractice-update.js') }}"></script>
+  {% else %}
+  <script src="{{ url_for('static', filename='js/studentPractice-update.js') }}"></script>
   {% endif %}
-  <button id="student-practice-change" class="editing" type="button">Изменить пользователя</button>
-</form>
-{% endblock %}
-{% block script %}
-{% if current_user.role == "student" %}
-<script src="{{ url_for('static', filename='js/student.studentPractice-update.js') }}"></script>
-{% else %}
-<script src="{{ url_for('static', filename='js/studentPractice-update.js') }}"></script>
-{% endif %}
+</div>
 {% endblock %}

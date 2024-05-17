@@ -1,79 +1,114 @@
-{% extends "base.html" %} 
+{% extends "base.html" %}
 {% block content %}
-<div class="admin-back">
+<!-- <div class="admin-back">
   <a href="/opop">Назад</a>
-</div>
+</div> -->
+<!-- <div class="ref">
+  <div></div>
+  <div class="go-create">
+    <i class="bi bi-arrow-right fs-5"></i>
+    <a class="text-black no-decorate fw-bold fs-5" href="opop/practice/create">Создать</a>
+  </div>
+</div> -->
+<div class="edit-page">
+  <div class="practices base">
 
-<div>
-  <a href="opop/practice/create">Создать</a>
-</div>
-
-<div class="practices">
-
-  <div class="practices-head list-head">
-    <h2 class="practice-table__name">Практики</h2>
-    <div class="practices-head-tools tools">
-      <a href="/opop/practice/create" class="practices-head-tools__a add">
-        Add
-      </a>
-      <button class="practices-head-tools__button toggle">&#x2B9F;</button>
+    <div class="practices-head list-head">
+      <h2 class="practice-table__name fw-bold fs-4 text-white">Практики</h2>
+      <a class="big-update text-white buttons" href="/opop/practice/create" class="practices-head-tools__a add">Создать
+        практику</a>
+      <div class="practices-head-tools tools">
+        <label class="text-white" for="practice">Выбрать практику</label>
+        <button name="practice" class="practices-head-tools__button toggle">&#x2B9F;</button>
+      </div>
     </div>
-  </div>
 
-  <ul class="practices-list">
-    {% for practice in practices %}
-    <li id="practice_{{ practice.id }}">
-      <a href="/opop/practice/update/{{practice.id}}">{{practice.name}}</a>
-      <span class="users-list-item-tools">
-        <button id="{{ practice.id }}" class="practice-list-tools__button delete">
-          Delete
-        </button>
-      </span>
-    </li>
-    {% endfor %}
-  </ul>
-</div>
-
-<div class="groups">
-  <div class="groups-head list-head">
-    <h2 class="group-table__name">Группы</h2>
-    <div class="groups-head-tools tools">
-      <a href="/opop/group/create" class="groups-head-tools__a add">
-        Add
-      </a>
-      <button class="group-head-tools__button toggle">&#x2B9F;</button>
-  </div>
-  <div class="groups-list">
-  <ul>
-    {% for group in groups %}
-    <li id="group_{{ group.id }}">
-      <a href="/opop/group/update/{{group.id}}" class="group-table__content">{{group.name}}</a>
-      <span class="group-table__content">{{group.course}}</span>
-
-      <span class="users-list-item-tools">
-        <button class="group-list-tools__button delete" id="{{ group.id }}">Delete</button>
-        <button class="group-list-tools__button toggle" >&#x2B9F;</button>
-      </span>
-    </li>
-    <ul class="group-students-list">
-      {% for students_data in students %}
-        {% if students_data[0] == group.id %}
-          {% for student in students_data[1] %}
-            <li id="student_{{student.id}}">
-              <a href="/opop/group/update/{{ group.id }}/update/{{ student.id }}">{{ student.lastname }} {{ student.firstname }} {{ student.surname }}</a>
-              <span class="student-list-tools">
-                <button class="student-list-tools__button delete" data-group-id="{{group.id}}" id="{{ student.id }}">Delete</button>
-              </span>
-            </li>
-          {% endfor %}
-        {% endif %}
+    <ul class="practices-list">
+      {% for practice in practices %}
+      <li class="task nesting" id="practice_{{ practice.id }}">
+        <div class="row row-cols-3 w-row" style="align-items: center;">
+          <div class="col-md-5">
+            <p class="text-white zero-margin">{{practice.name}}</p>
+          </div>
+          <div class="col-md-3">
+            <a class="update text-white zero-margin" href="/opop/practice/update/{{practice.id}}">Изменить</a>
+          </div>
+          <div class="col-md-2">
+            <span class="users-list-item-tools zero-margin">
+              <button id="{{ practice.id }}"
+                class="practice-list-tools__button update delete text-white">Удалить</button>
+            </span>
+          </div>
+        </div>
+      </li>
       {% endfor %}
     </ul>
-    {% endfor %}
-    </ul>
   </div>
-</div>
-{% endblock %}
-{% block script %}
+
+  <div class="groups base">
+    <div class="groups-head list-head">
+      <h2 class="group-table__name practice-table__name fw-bold fs-4 text-white">Группы</h2>
+      <a href="/opop/group/create" class="groups-head-tools__a add big-update text-white buttons">Создать группу</a>
+      <div class="groups-head-tools tools">
+        <label class="text-white" for="create-group">Выбрать группу</label>
+        <button name="create-group" class="group-head-tools__button toggle">&#x2B9F;</button>
+      </div>
+
+      <div class="groups-list">
+        <ul>
+          {% for group in groups %}
+          <li id="group_{{ group.id }}">
+            <div class="row row-cols-5 w-row nesting">
+              <div class="col-2 border-down">
+                <p class="text-white">{{group.name}}</p>
+              </div>
+              <div class="col-2 border-down">
+                <span class="group-table__content text-white">{{group.course}} курс</span>
+              </div>
+              <div class="col-3 border-down">
+                <a href="/opop/group/update/{{group.id}}"
+                  class="group-table__content update text-white">Изменить</a>
+              </div>
+              <div class="col-4 border-down">
+                <span class="users-list-item-tools" style="display: flex;">
+                  <button class="group-list-tools__button delete update text-white" id="{{ group.id }}">Delete</button>
+                  <button class="group-list-tools__button toggle">&#x2B9F;</button>
+                </span>
+              </div>
+            </div>
+          </li>
+          <ul class="group-students-list">
+            {% for students_data in students %}
+            {% if students_data[0] == group.id %}
+            {% for student in students_data[1] %}
+            <li id="student_{{student.id}}">
+              <div class="row row-cols-3 nesting" style="align-items: center;">
+                <div class="col-5">
+                  <p class="text-white zero-margin">{{ student.lastname }} {{
+                    student.firstname }} {{ student.surname }}</p>
+                </div>
+                <div class="col-3">
+                  <a class="update text-white zero-margin"
+                    href="/opop/group/update/{{ group.id }}/update/{{ student.id }}">Изменить</a>
+                </div>
+                <div class="col-2">
+                  <span class="student-list-tools zero-margin">
+                    <button class="student-list-tools__button delete update text-white" data-group-id="{{group.id}}"
+                      id="{{ student.id }}">Delete</button>
+                  </span>
+                </div>
+              </div>
+            </li>
+            {% endfor %}
+            {% endif %}
+            {% endfor %}
+          </ul>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+  {% endblock %}
+  {% block script %}
   <script src="{{ url_for('static', filename='js/opop.index.js') }}"></script>
-{% endblock %}
+  {% endblock %}

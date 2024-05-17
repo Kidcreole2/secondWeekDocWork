@@ -1,21 +1,31 @@
 {% extends "base.html" %} {% block content %}
-<div class="admin-back">
-    <a id="goBack" href="/studentPractice/{{role}}">Назад</a>
-</div>
-<div class="tasks">
-    <form>
-        <div>
-            <label>Название</label>
-            <input type="text" name="name">
+<div class="edit-page">
+    <div class="ref">
+        <div class="back">
+            <i class="bi bi-arrow-left fs-5"></i>
+            <a id="goBack" class="text-black no-decorate fw-bold fs-5" href="/studentPractice/{{role}}">Назад</a>
         </div>
-        <div>
-            <label>Дата</label>
-            <input type="date" name="date">
-        </div>
-    </form>
+    </div>
+    <div class="out-btn">
+        <button class="new-form-btn out-btn text-white" id="add" type="button">Добавить поле для заполнения</button>
+    </div>
+    <div class="tasks">
+        <form class="col-sm-4 edit-form new-form">
+            <h1 class="center fw-bold fs-4 text-white">Новая задача</h1>
+            <div class="form__content">
+                <label class="text-white fs-6">Название</label>
+                <input class="form-control" type="text" name="name">
+            </div>
+            <div class="form__content">
+                <label class="text-white fs-6">Дата</label>
+                <input class="form-control" type="date" name="date">
+            </div>
+        </form>
+    </div>
+    <div class="out-btn">
+        <button class="create text-white" id="tasks-create" type="button">Создать</button>
+    </div>
 </div>
-<button id="add" type="button">Добавить</button>
-<button id="tasks-create" type="button">Создать</button>
 {% endblock %}
 {% block script %}
 <script src="{{ url_for('static', filename='js/tasks-create.js') }}"></script>

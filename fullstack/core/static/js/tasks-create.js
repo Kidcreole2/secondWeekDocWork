@@ -15,15 +15,15 @@ $(document).ready(() => {
   });
 
   $("button#add").click(() => {
-    $(".tasks").append(`<form>
-        <div>
-            <label>Название</label>
-            <input type="text" name="name">
-        </div>
-        <div>
-            <label>Дата</label>
-            <input type="date" name="date">
-        </div>
+    $(".tasks").append(`<form class="col-sm-4 edit-form new-form">
+    <div class="form__content">
+        <label class="text-white fs-6">Название</label>
+        <input class="form-control" type="text" name="name">
+    </div>
+    <div class="form__content">
+        <label class="text-white fs-6">Дата</label>
+        <input class="form-control" type="date" name="date">
+    </div>
     </form>`);
   });
 });

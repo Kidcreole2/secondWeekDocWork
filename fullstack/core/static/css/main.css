@@ -92,7 +92,31 @@ form {
   border-radius: 15px;
 }
 
-form input {
+form input[type=text] {
+  background-color: rgba(204, 204, 204, 0.85) !important;
+  height: 40px;
+  border-radius: 20px !important;
+  margin-top: 7px;
+  border: none !important;
+}
+
+form input[type=select] {
+  background-color: rgba(204, 204, 204, 0.85) !important;
+  height: 40px;
+  border-radius: 20px !important;
+  margin-top: 7px;
+  border: none !important;
+}
+
+form input[type=date] {
+  background-color: rgba(204, 204, 204, 0.85) !important;
+  height: 40px;
+  border-radius: 20px !important;
+  margin-top: 7px;
+  border: none !important;
+}
+
+form input[type=number] {
   background-color: rgba(204, 204, 204, 0.85) !important;
   height: 40px;
   border-radius: 20px !important;
@@ -213,7 +237,117 @@ form select:focus {
 
 form select option {  
   background-color: rgba(204, 204, 204, 0.85) !important;
-  border-radius: 20px !important;
+}
+
+.back {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100px;
+  margin-left: 20px;
+}
+
+.back:hover {
+  text-decoration: underline black;
+}
+
+.edit-page {
+  margin-inline: auto;
+  max-width: 1400px;
+  margin-top: 90px;
+}
+
+.no-decorate {
+  text-decoration: none;
+}
+
+.go-create {
+  display: flex;
+  justify-content: space-evenly;
+  width: 190px;
+  margin-right: 20px;
+  flex-direction: row-reverse;
+}
+
+.go-create:hover {
+  text-decoration: underline black;
+}
+
+.ref {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.task {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.taski {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  flex-wrap: wrap;
+  margin-inline: auto;
+  padding: 0;
+}
+
+.w-row {
+  width: 500px;
+}
+
+.new-form {
+  margin-bottom: 20px;
+}
+
+.new-form-btn {
+  background-color: #00b4dbe6;
+  border-radius: 20px;
+  width: 270px;
+  height: 35px;
+  border: none !important;
+}
+
+.out-btn {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.base {
+  background-color: rgba(0, 13, 125, 0.8);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: 500px;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.big-update {
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  background-color: #00b4dbe6;
+  border-radius: 20px;
+  width: 160px;
+  height: 25px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  border: none !important;
+}
+
+.nesting {
+  padding-top: 7px;
+}
+
+.zero-margin {
+  margin: 0 !important;
+}
+
+.practices {
+  margin-top: 10px;
 }
 
 /*# sourceMappingURL=main.css.map */

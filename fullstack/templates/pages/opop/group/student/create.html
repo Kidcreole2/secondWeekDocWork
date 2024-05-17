@@ -1,21 +1,25 @@
 {% extends "base.html" %} {% block content %}
-<div>
-  <a href="/opop">Назад</a>
+<div class="ref">
+  <div class="back">
+    <i class="bi bi-arrow-left fs-5"></i>
+    <a class="text-black no-decorate fw-bold fs-5" href="/opop">Назад</a>
+  </div>
 </div>
-<form action="#" method="post">
-  <div>Создать студента</div>
-  <div>
-    <label for="firstname">Имя</label>
-    <input type="text" name="firstname">
+
+<form action="#" method="post" class="edit-form col-sm-4">
+  <h1 class="center fw-bold fs-4 text-white">Создание студента</h1>
+  <div class="form__content">
+    <label class="text-white fs-6" for="firstname">Имя</label>
+    <input class="form-control" type="text" name="firstname">
   </div>
-  <div>
-    <label for="lastname">Фамилия</label>
-    <input type="text" name="lastname">
+  <div class="form__content">
+    <label class="text-white fs-6" for="lastname">Фамилия</label>
+    <input class="form-control" type="text" name="lastname">
   </div>
-  <div>
-    <label for="surname">Отчество</label>
-    <input type="text" name="surname">
+  <div class="form__content">
+    <label class="text-white fs-6" for="surname">Отчество</label>
+    <input class="form-control" type="text" name="surname">
   </div>
-  <button type="submit">Создать</button>
+  <button class="create text-white" type="submit">Создать</button>
 </form>
 {% endblock %}

@@ -1,30 +1,41 @@
 {% extends "base.html" %} {% block content %}
-<div class="admin-back">
-  <a href="/opop">Назад</a>
+<div class="ref">
+  <div class="back">
+    <i class="bi bi-arrow-left fs-5"></i>
+    <a class="text-black no-decorate fw-bold fs-5" href="/opop">Назад</a>
+  </div>
 </div>
-<form action="#" method="post">
-  <div>
-    <label for="name">Название</label>
-    <input type="text" name="name" required />
+
+<form action="#" method="post" class="edit-form col-sm-4">
+  <h1 class="center fw-bold fs-4 text-white">Создание группы</h1>
+  <div class="form__content">
+    <label class="text-white fs-6" for="name">Название группы</label>
+    <input class="form-control" type="text" name="name" required />
   </div>
-  <select name="specialization_id" id="">
-    {% for spezialization in spezializations %}
-        <option value="{{ spezialization.id }}">{{spezialization.name}}</option>
-    {% endfor %}
-  </select>
-  <div>
-    <label for="course">Курс</label>
-    <input type="number" name="course" required />
+  <div class="form__content">
+    <label class="text-white fs-6" for="specialization_id">Направление подготовки</label>
+    <select name="specialization_id" id="">
+      {% for spezialization in spezializations %}
+      <option value="{{ spezialization.id }}">{{spezialization.name}}</option>
+      {% endfor %}
+    </select>
   </div>
-  <select name="form" id="">
-    <option value="очная">очная</option>
-    <option value="очно-заочная">очно-заочная</option>
-    <option value="заочная">заочная</option>
-  </select>
-  <button id="group_create" type="button">Создать</button>
+  <div class="form__content">
+    <label class="text-white fs-6" for="course">Курс</label>
+    <input class="form-control" type="number" name="course" required />
+  </div>
+  <div class="form__content">
+    <label class="text-white fs-6" for="form">Форма обучения</label>
+    <select name="form" id="">
+      <option value="очная">очная</option>
+      <option value="очно-заочная">очно-заочная</option>
+      <option value="заочная">заочная</option>
+    </select>
+  </div>
+  <button id="group_create" type="button" class="create text-white">Создать</button>
 </form>
 {% endblock %}
 
 {% block script %}
-  <script src="{{ url_for('static', filename='js/opop.group-create.js') }}"></script>
+<script src="{{ url_for('static', filename='js/opop.group-create.js') }}"></script>
 {% endblock %}
