@@ -1,63 +1,69 @@
 {% extends "base.html" %} {% block content %}
-<div class="admin-back">
-  <a href="/admin">Назад</a>
+<div class="edit-page">
+  <div class="ref">
+    <div class="back">
+      <i class="bi bi-arrow-left fs-5"></i>
+      <a href="/admin" class="text-black no-decorate fw-bold fs-5">Назад</a>
+    </div>
+  </div>
+  <!-- TODO Подписать все на русском -->
+  <!-- TODO сделать генератор на js -->
+  <!-- TODO Сделать checkbox с Руководителем практики от ЮГУ -->
+  <form action="#" method="post" class="edit-form col-sm-5">
+    <h1 class="center fw-bold fs-4 text-white">Создание пользователя</h1>
+    <div class="form-patronymic form__content">
+      <label for="fio" class="text-white fs-6">Ф. И. О.</label>
+      <input type="text" class="form-patronymic form-control" name="fio" placeholder="Иванов" required />
+    </div>
+
+    <div class="form-role form__content">
+      <div class="form-role-director-opop">
+        <label for="director" class="text-white fs-6" style="margin-right: 10px;">Руководитель ОПОП</label>
+        <input class="form-role__checkbox" type="checkbox" name="director-opop" id="director">
+      </div>
+
+      <div class="form-role-director-organization">
+        <label for="director" class="text-white fs-6" style="margin-right: 10px;">Руководитель организации</label>
+        <input class="form-role__checkbox" type="checkbox" name="director-organization" id="director">
+      </div>
+
+      <div class="form-role-director-company">
+        <label for="director" class="text-white fs-6" style="margin-right: 10px;">Руководитель предприятия</label>
+        <input class="form-role__checkbox" type="checkbox" name="director-company" id="director">
+      </div>
+
+      <div class="form-role-director-usu">
+        <label for="director-usu" class="text-white fs-6" style="margin-right: 10px;">Руководителем практики от ЮГУ</label>
+        <input class="form-role__checkbox" type="checkbox" name="director-usu" id="admin">
+      </div>
+    </div>
+
+
+
+    <div class="form-login form__content">
+      <label for="login" class="text-white fs-6">Логин</label>
+      <input type="text" class="form-login form-control" name="login" placeholder="ИИИ" required />
+    </div>
+
+    <div class="form-pass form__content">
+      <label for="password" class="text-white fs-6">Пароль</label>
+      <input type="password" class="form-pass form-control" name="password" placeholder="Пароль" required />
+    </div>
+
+    <div class="form-two-pass form__content">
+      <label for="passwordConfirm" class="text-white fs-6">Повторите пароль</label>
+      <input type="password" class="form-two-pass form-control" name="passwordConfirm" placeholder="Пароль" required />
+    </div>
+    <div class="form-post form__content">
+      <label for="post" class="text-white fs-6">Должность</label>
+      <input class="form-post__input form-control" type="text" name="post" id="post">
+    </div>
+    <button id="user-create" class="create text-white" type="button">Создать</button>
+  </form>
+
 </div>
-<!-- TODO Подписать все на русском -->
-<!-- TODO сделать генератор на js -->
-<!-- TODO Сделать checkbox с Руководителем практики от ЮГУ -->
-<h4>Создание</h4>
-<form action="#" method="post">
-  <div class="form-patronymic">
-    <label for="fio">Ф. И. О.</label>
-    <input type="text" class="form-patronymic" name="fio" placeholder="Иванов" required />
-  </div>
-
-  <div class="form-role">
-    <div class="form-role-director-opop">
-      <label for="director">Руководитель ОПОП</label>
-      <input class="form-role__checkbox" type="checkbox" name="director-opop" id="director">
-    </div>
-
-    <div class="form-role-director-organization">
-      <label for="director">Руководитель организации</label>
-      <input class="form-role__checkbox" type="checkbox" name="director-organization" id="director">
-    </div>
-
-    <div class="form-role-director-company">
-      <label for="director">Руководитель предприятия</label>
-      <input class="form-role__checkbox" type="checkbox" name="director-company" id="director">
-    </div>
- 
-    <div class="form-role-director-usu">
-      <label for="director-usu">Руководителем практики от ЮГУ</label>
-      <input class="form-role__checkbox" type="checkbox" name="director-usu" id="admin">
-    </div>
-  </div>
-  
- 
- 
-  <div class="form-login">
-    <label for="login">Логин</label>
-    <input type="text" class="form-login" name="login" placeholder="ИИИ" required />
-  </div>
-
-  <div class="form-pass">
-    <label for="password">Пароль</label>
-    <input type="password" class="form-pass" name="password" placeholder="Пароль" required />
-  </div>
-
-  <div class="form-two-pass">
-    <label for="passwordConfirm">Повторите пароль</label>
-    <input type="password" class="form-two-pass" name="passwordConfirm" placeholder="Пароль" required />
-  </div>
-    <div class="form-post">
-      <label for="post">Должность</label>
-      <input class="form-post__input" type="text" name="post" id="post">
-  </div>
-  <button id="user-create" class="btn" type="button">Добавить пользователя</button>
-</form>
 
 {% endblock %}
 {% block script %}
-  <script src="{{ url_for('static', filename='js/admin.user-create.js') }}"></script>
+<script src="{{ url_for('static', filename='js/admin.user-create.js') }}"></script>
 {% endblock %}

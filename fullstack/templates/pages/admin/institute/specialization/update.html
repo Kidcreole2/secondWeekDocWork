@@ -1,38 +1,42 @@
 {% extends "base.html" %} {% block content %}
-<div class="admnin-back">
-  <a href="/admin">Назад</a>
+<div class="ref">
+  <div class="back">
+    <i class="bi bi-arrow-left fs-5"></i>
+    <a href="/admin" class="text-black no-decorate fw-bold fs-5">Назад</a>
+  </div>
 </div>
 
-<form action="#" method="post">
-  <div class="form-name">
-    <label for="name">Название</label>
-    <input type="text" name="name" value="{{ old_spec.name }}" required />
+<form action="#" method="post" class="edit-form col-sm-5">
+  <div class="form-name form__content">
+    <label class="text-white fs-6" for="name">Название</label>
+    <input class="form-control" type="text" name="name" value="{{ old_spec.name }}" required />
   </div>
   <input type="hidden" name="id" value="{{ old_spec.id }}">
-  <div class="form-spec">
-    <label for="specialization_code">Код направления</label>
-    <input type="text" name="code" value="{{ old_spec.specialization_code }}" required />
+  <div class="form-spec form__content">
+    <label class="text-white fs-6" for="specialization_code">Код направления</label>
+    <input class="form-control" type="text" name="code" value="{{ old_spec.specialization_code }}" required />
   </div>
 
-  <div class="form-opop">
-    <label for="name">Имя</label>
+  <div class="form-opop form__content">
+    <label class="text-white fs-6" for="name">Имя директора ОПОП</label>
     <select name="director_opop_id" id="">
       {% for opop_director in opop_directors %}
       <option value="{{ opop_director.user_id }}">
-        {{ opop_director.id }}
+        {{ opop_director.user.lastname }} {{ opop_director.user.firstname }} {{ opop_director.user.surname }}
       </option>
       {% endfor %}
     </select>
   </div>
 
-  <div class="form-institute">
+  <div class="form-institute form__content">
+    <label class="text-white fs-6" for="spec-institute">Название института</label>
     <select name="spec-institute" list="institutes">
       {% for institute in institutes %}
       <option value="{{ institute.id }}">{{ institute.name }}</option>
       {% endfor %}
     </select>
   </div>
-  <button id="specialisation-update" type="button">Обновить</button>
+  <button class="create text-white" id="specialisation-update" type="button">Обновить</button>
 </form>
 {% endblock %} 
 

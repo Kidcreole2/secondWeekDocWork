@@ -85,13 +85,13 @@
     <div class="form__content">
       {% for group in groups_in_practice %}
       <div>
-        <label class="text-white fs-6" for="{{group.id}}" checked>{{group.name}}</label>
+        <label class="text-white fs-6" for="{{group.id}}" checked style="margin-right: 10px;">{{group.name}}</label>
         <input class="form-control" type="checkbox" class="group-checkbox" name="{{group.id}}">
       </div>
       {% endfor %}
       {% for group in groups_not_in_practice %}
       <div>
-        <label class="text-white fs-6" for="{{group.id}}">{{group.name}}</label>
+        <label class="text-white fs-6" for="{{group.id}}" style="margin-right: 10px;">{{group.name}}</label>
         <input class="form-control" type="checkbox" class="group-checkbox" name="{{group.id}}">
       </div>
       {% endfor %}

@@ -1,13 +1,16 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="admnin-back">
-  <a href="/admin">Назад</a>
-</div>
-<form action="#" method="post">
-  <div>
-    <label for="name">Название</label>
-    <input type="text" name="name" placeholder="Иван" required />
+<div class="ref">
+  <div class="back">
+    <i class="bi bi-arrow-left fs-5"></i>
+    <a href="/admin" class="text-black no-decorate fw-bold fs-5">Назад</a>
   </div>
-  <button type="submit">Создать</button>
+</div>
+<form action="#" method="post" class="edit-form col-sm-5"> 
+  <div class="form__content">
+    <label for="name" class="text-white fs-6">Название</label>
+    <input class="form-control" type="text" name="name" placeholder="Название института" required />
+  </div>
+  <button class="create text-white" type="submit">Создать</button>
 </form>
 {% endblock %}

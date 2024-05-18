@@ -65,7 +65,7 @@
     </div>
     {% for group in groups %}
     <div class="form__content">
-      <label class="text-white fs-6" for="{{group.id}}">{{group.name}}</label>
+      <label class="text-white fs-6" for="{{group.id}}" style="margin-right: 10px;">{{group.name}}</label>
       <input type="checkbox" class="group-checkbox" name="{{group.id}}">
     </div>
     {% endfor %}

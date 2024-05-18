@@ -124,6 +124,14 @@ form input[type=number] {
   border: none !important;
 }
 
+form input[type=password] {
+  background-color: rgba(204, 204, 204, 0.85) !important;
+  height: 40px;
+  border-radius: 20px !important;
+  margin-top: 7px;
+  border: none !important;
+}
+
 form input:focus {
   background-color: white !important;
 }

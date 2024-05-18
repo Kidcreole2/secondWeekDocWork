@@ -1,69 +1,112 @@
 {% extends "base.html" %} {% block content %}
-  <div class="users list-block">
-    <div class="users-head list-head">
-      <h3 class="users-head__h3">Пользователи</h3>
-      <div class="users-head-tools">
-        <button class="users-head-tools__button add">Add</button>
-        <button class="users-head-tools__button toggle">&#x2B9F;</button>
+
+<div class="edit-page row row-cols-2" style="margin-top: 20px; justify-content: center;">
+  <div class="col-5 zero-margin">
+    <div class="users list-block base">
+      <div class="users-head list-head ">
+        <h3 class="users-head__h3 fw-bold fs-4 text-white">Пользователи</h3>
+        <button class="users-head-tools__button add big-update text-white ">Создать</button>
+        <div class="users-head-tools">
+          <label class="text-white" for="btn">Посмотреть пользователей</label>
+          <button name="btn" class="users-head-tools__button toggle">&#x2B9F;</button>
+        </div>
       </div>
-    </div>
-    <ul class="users-list list">
-      {% for user in users %}
-        <li class="users-list-item" id="user_{{ user.id }}">
-          <a href="/admin/user/edit/{{ user.id }}" class="users-list-item__a">
-            {{ user.lastname }} {{ user.firstname }}
-          </a>
-          <span class="users-list-item-tools">
-        <button id="{{ user.id }}" class="users-list-tools__button delete">Delete</button>
-      </span>
+
+      <ul class="users-list list">
+        {% for user in users %}
+        <li class="users-list-item nesting task" id="user_{{ user.id }}">
+          <div class="row row-cols-3 w-row" style="align-items: center;">
+            <div class="col-5">
+              <p class="text-white zero-margin">{{ user.lastname }} {{ user.firstname }}</p>
+            </div>
+            <div class="col-3">
+              <a href="/admin/user/edit/{{ user.id }}"
+                class="users-list-item__a update text-white zero-margin">Изменить</a>
+            </div>
+            <div class="col-3">
+              <span class="users-list-item-tools zero-margin">
+                <button id="{{ user.id }}" class="users-list-tools__button delete update text-white">Удалить</button>
+              </span>
+            </div>
+          </div>
         </li>
-      {% endfor %}
-    </ul>
+        {% endfor %}
+      </ul>
+    </div>
   </div>
 
-  <div class="institutes">
-    <div class="institutes-head">
-      <h3 class="institutes-head__h3">Институты</h3>
-      <div class="institutes-head-tools">
-        <button class="institutes-head-tools__button add">Add</button>
-        <button class="insitutes-head-tools__button toggle">&#x2B9F;</button>
+  <div class="col-5 zero-margin">
+    <div class="institutes base">
+      <div class="institutes-head">
+        <h3 class="institutes-head__h3 fw-bold fs-4 text-white">Институты</h3>
+        <button class="institutes-head-tools__button add big-update text-white">Создать</button>
+        <div class="institutes-head-tools">
+          <label class="text-white" for="btn">Посмотреть институты</label>
+          <button class="insitutes-head-tools__button toggle">&#x2B9F;</button>
+        </div>
       </div>
-    </div>
-    <ul class="institutes-list">
-      {% for institute in institutes %}
-        <li class="institutes-list-item" id="inst_{{ institute.id }}">
-          <a href="/admin/institute/edit/{{ institute.id }}" class="institutes-list-item__a">
-            {{ institute.name }}
-          </a>
-          <span class="institutes-list-item-tools">
-        <button id="{{ institute.id }}" class="institutes-list-item-tools__button delete">Delete</button>
-      </span>
 
+      <ul class="institutes-list">
+        {% for institute in institutes %}
+        <li class="institutes-list-item nesting task" id="inst_{{ institute.id }}">
+          <div class="row row-cols-3 w-row" style="align-items: center;">
+            <div class="col-5">
+              <p class="text-white zero-margin">{{ institute.name }}</p>
+            </div>
+            <div class="col-3">
+              <a href="/admin/institute/edit/{{ institute.id }}"
+                class="institutes-list-item__a update text-white zero-margin">Изменить</a>
+            </div>
+            <div class="col-3">
+              <span class="institutes-list-item-tools zero-margin">
+                <button id="{{ institute.id }}"
+                  class="institutes-list-item-tools__button delete update text-white">Удалить</button>
+              </span>
+            </div>
+          </div>
         </li>
-      {% endfor %}
-    </ul>
-  </div>
-  <div class="specialisations">
-    <div class="specialisations-head list-head">
-      <h4 class="specialisations-head__h4">Специализации</h4>
-      <div class="specialization-head-tools">
-        <button class="specialization-head-tools__button add">Add</button>
-        <button class="specialization-head-tools__button toggle">&#x2B9F;</button>
-      </div>
+        {% endfor %}
+      </ul>
     </div>
-    <ul class="specializations-list">
-      {% for specialization in specializations %}
-        <li id="specialisation_{{specialization.id}}" class="specialization-item">
-          <a href="/admin/specialization/edit/{{ specialization.id }}"
-             class="specializations-list-item__a edit">{{ specialization.name }}</a>
-          <span class="specializations-list-item-tools">
-        <button id="{{ specialization.id }}" class="specializations-list-item-tools__a delete">Delete</button>
-      </span>
-        </li>
-      {% endfor %}
-    </ul>
   </div>
+
+  <div class="col-5 zero-margin">
+    <div class="specialisations base">
+      <div class="specialisations-head list-head">
+        <h4 class="specialisations-head__h4 fw-bold fs-4 text-white">Специализации</h4>
+        <button class="specialization-head-tools__button add add big-update text-white">Создать</button>
+        <div class="specialization-head-tools">
+          <label class="text-white" for="btn">Посмотреть специализации</label>
+          <button class="specialization-head-tools__button toggle">&#x2B9F;</button>
+        </div>
+      </div>
+
+      <ul class="specializations-list">
+        {% for specialization in specializations %}
+        <li id="specialisation_{{specialization.id}}" class="specialization-item nesting task">
+          <div class="row row-cols-3 w-row" style="align-items: center;">
+            <div class="col-5">
+              <p class="text-white zero-margin">{{specialization.name }}</p>
+            </div>
+            <div class="col-3">
+              <a href="/admin/specialization/edit/{{ specialization.id }}"
+                class="specializations-list-item__a edit update text-white zero-margin">Изменить</a>
+            </div>
+            <div class="col-3">
+              <span class="specializations-list-item-tools zero-margin">
+                <button id="{{ specialization.id }}"
+                  class="specializations-list-item-tools__a delete update text-white">Удалить</button>
+              </span>
+            </div>
+          </div>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="col-5"></div>
+</div>
 {% endblock %}
 {% block script %}
-  <script src="{{ url_for('static', filename='js/admin.index.js') }}"></script>
+<script src="{{ url_for('static', filename='js/admin.index.js') }}"></script>
 {% endblock %}

@@ -1,33 +1,40 @@
 {% extends "base.html" %} {% block content %}
-<div class="admin-back">
-  <a href="/admin">Назад</a>
-</div>
-<div class="institute-form">
-  <form action="" method="post">
-    <div>
-      <label for="name">Название</label>
-      <input type="text" name="name" placeholder="Иван" value="{{ institute.name }}" required />
+<div class="edit-page">
+  <div class="ref">
+    <div class="back">
+      <i class="bi bi-arrow-left fs-5"></i>
+      <a href="/admin" class="text-black no-decorate fw-bold fs-5">Назад</a>
     </div>
-    <button type="submit">Обновить</button>
+  </div>
+  <form action="" method="post" class="edit-form col-sm-5" style="margin-bottom: 10px;">
+    <div class="form__content">
+      <label for="name" class="text-white fs-6">Название</label>
+      <input class="form-control" type="text" name="name" placeholder="Название института" value="{{ institute.name }}"
+        required />
+    </div>
+    <button type="submit" class="create text-white">Изменить</button>
   </form>
-</div>
-<div class="specializaitons">
-  <h2 class="specialization-table__name">Направления</h2>
-  <table class="specialization-table">
-    <thead class="specialization-table__head">
-      <tr class="specialization-table__names">
-        <th class="specialization-table__content">Название</th>
-        <th class="specialization-table__content">Код направления</th>
-      </tr>
-    </thead>
-    <tbody class="specialization-table__body">
-      {% for specialization in current_specializations %} 
-      <tr class="specialization-table__data">
-        <td class="specialization-table__content">{{specialization.name}}</td>
-        <td class="specialization-table__content">{{specialization.specialization_code}}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+
+  <div class="student-practice">
+    <h3 class="text-center fs-3 fw-bold text-white border-down">Направления входящие в институт</h3>
+    <div class="row row-cols-2 border-down">
+      <div class="col-6 border-right">
+        <p class="text-center fs-6 fw-bold text-white">Название</p>
+      </div>
+      <div class="col-6">
+        <p class="text-center fs-6 fw-bold text-white">Код направления</p>
+      </div>
+    </div>
+    {% for specialization in current_specializations %}
+    <div class="row row-cols-2 border-down">
+      <div class="col-6 border-right text-white">
+        <div class="buttons">{{specialization.name}}</div>
+      </div>
+      <div class="col-6 text-white">
+        <div class="buttons">{{specialization.specialization_code}}</div>
+      </div>
+    </div>
+    {% endfor %}
+  </div> 
 </div>
 {% endblock %}
