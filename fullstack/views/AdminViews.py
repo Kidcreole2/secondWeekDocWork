@@ -3,11 +3,6 @@ from flask_login import login_required
 from models import *
 
 def init_admin_views():
-    # TODO Переделать
-    @app.before_request
-    def create_admin():
-        print("admin")
-        Users.create(Users(login="admin", password="admin", firstname="Admin", lastname="Adminov", surname="Adminovich", role="admin"))
     
     @app.route("/admin/user/login_check", methods=["POST"])
     @login_required
@@ -105,7 +100,7 @@ def init_admin_views():
                         director_opop_id=int(request.form['opop_id']),
                         institute_id=int(request.form['id'])
                     ))
-                    return jsonify({"message": "123"}), 200
+                    return jsonify({"message": "Специализация успешно создана"}), 200
                 opop_directors = Director_OPOP.query.all()
                 institutes = Institute.query.all()
                 opop_directors_user = []
@@ -123,7 +118,7 @@ def init_admin_views():
                     match action:
                         case "delete":
                             Users.delete(user_id=entity_id)
-                            return jsonify({"message": "Pidor"}), 200
+                            return jsonify({"message": "ok"}), 200
                         
                         case "edit":
                             old_user = Users.query.filter_by(id=entity_id).first()

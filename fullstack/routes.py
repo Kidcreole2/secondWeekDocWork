@@ -43,7 +43,7 @@ def upload():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for("login"))
+    return redirect("/")
 
 
 @app.route("/home")
@@ -57,6 +57,15 @@ def home():
 
 @app.route("/", methods=["GET", "POST"])
 def login():
+    if current_user.is_authenticated:
+        roles = current_user.role.split()
+        if "admin" in roles:
+            return redirect("/admin")
+        if "student" in roles:
+            return redirect("/studentPractice/student")
+        if "director-opop" in roles:
+            return redirect("/opop")
+        return redirect("/studentPractice/supervisor")
     if request.method == "POST":
         # TODO make password check
         login = request.form["login"]

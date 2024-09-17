@@ -15,7 +15,7 @@
         </div>
         <div class="form__content">
             <label class="text-white fs-6">Дата</label>
-            <input class="form-control" type="date" value="{{ task.date }}" name="date">
+            <input class="form-control" type="date" value="{{ task.date.strftime("%Y-%m-%d") }}" name="date">
         </div>
         <button class="create text-white" id="tasks-create">Создать</button>
     </form>

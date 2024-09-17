@@ -3,16 +3,17 @@
   <div class="ref">
     <div class="back">
       <i class="bi bi-arrow-left fs-5"></i>
-      <a href="/admin" class="text-black no-decorate fw-bold fs-5">Назад</a>
+      <a href="/" class="text-black no-decorate fw-bold fs-5">Назад</a>
     </div>
   </div>
-  <form action="" method="post" class="edit-form col-sm-5" style="margin-bottom: 10px;">
+  <form  class="edit-form col-sm-5" style="margin-bottom: 10px;">
     <div class="form__content">
       <label for="name" class="text-white fs-6">Название</label>
       <input class="form-control" type="text" name="name" placeholder="Название института" value="{{ institute.name }}"
         required />
+      <input type="hidden" name="id" value="{{ institute.id }}">
     </div>
-    <button type="submit" class="create text-white">Изменить</button>
+    <button id="submit-data" class="create text-white">Изменить</button>
   </form>
 
   <div class="student-practice">
@@ -37,4 +38,8 @@
     {% endfor %}
   </div> 
 </div>
+{% endblock %}
+
+{% block script %}
+  <script src="{{ url_for('static', filename='js/admin.institute-update.js') }}"></script>
 {% endblock %}

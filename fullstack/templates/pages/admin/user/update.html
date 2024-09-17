@@ -39,8 +39,19 @@
       </div>
     </div>
     <div class="form-post form__content">
+      {% if old_user.director_opop %}
       <label for="post" class="text-white fs-6">Должность</label>
-      <input class="form-post__input form-control" type="text" value="{{ old_user.post }}" name="post" id="post">
+      <input class="form-post__input form-control" type="text" value="{{ old_user.director_opop.post }}" name="post" id="post">
+      {% elif old_user.director_practice_usu %}
+      <label for="post" class="text-white fs-6">Должность</label>
+        <input class="form-post__input form-control" type="text" value="{{ old_user.director_practice_usu.post }}" name="post" id="post">
+      {% elif old_user.director_practice_company %}
+      <label for="post" class="text-white fs-6">Должность</label>
+      <input class="form-post__input form-control" type="text" value="{{ old_user.director_practice_company.post }}" name="post" id="post">
+      {% elif old_user.director_practice_organization %}
+      <label for="post" class="text-white fs-6">Должность</label>
+      <input class="form-post__input form-control" type="text" value="{{ old_user.director_practice_organization.post }}" name="post" id="post">
+      {% endif %}
     </div>
     <div class="form-pass form__content">
       <label for="password" class="text-white fs-6">Пароль</label>

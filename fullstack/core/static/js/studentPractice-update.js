@@ -20,7 +20,21 @@ $(document).ready(() => {
             },
             success: () => {
                 alert("Данные успешно переданы")
-                window.location.replace('/studentPractice/student')
+                window.location.replace('/')
+            }
+        })
+    })
+
+    $('.delete').click((e) => {
+        let id = e.target.id
+        console.log(window.location.href)
+        $.ajax({
+            method: "POST",
+            url: window.location.href + `/task/delete/${id}`,
+            dataType: "html",
+            success: () => {
+                $(`li#${id}`).hide(20);
+                alert("Данные успешно удалены")
             }
         })
     })

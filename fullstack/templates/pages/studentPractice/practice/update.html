@@ -15,8 +15,8 @@
 
 
   <ul class="taski">
-    {% for task in tasks %}
-    <li class="task">
+    {% for task in student_practice.task %}
+    <li class="task" id="{{ task.id }}">
       <div class="row row-cols-3 w-row">
         <div class="col-7">
           <p class="fs-5">{{task.name}}</p>
@@ -27,7 +27,7 @@
         </div>
         <div class="col-2">
           <span>
-            <button class="update text-white" id="{{ task.id }}">Удалить</button>
+            <button class="delete update text-white" id="{{ task.id }}">Удалить</button>
           </span>
         </div>
       </div>

@@ -122,10 +122,12 @@ def init_studentPractice_views():
                     return jsonify({ "message": "Данные успешно обновлены" }), 200
                 student_practice = Student_Practice.query.filter_by(id = practice_id).first()
                 urlForUpdate = f"update/{practice_id}"
-                task = Task.query.filter_by(student_practice_id=practice_id).all()
+                task = Task.query.filter_by(student_practice_id=practice_id).first()
                 return render_template("pages/studentPractice/practice/tasks/update.html", student_practice=student_practice, role=urlForUpdate, task=task)
             case "delete":
-                return "Fuck you"
+                if request.method == "POST":
+                    Task.delete(task_id=task_id)
+                    return jsonify({"message": "Задача успешно удалена"}), 200
     
     @app.route("/studentPractice/<role>/upload/<practice_id>")
     def studentPractice_report(role, practice_id):

@@ -1,17 +1,29 @@
+'use strict';
+
 $(document).ready(() => {
   $("button#tasks-create").click(() => {
-    $(".tasks > form").each((i, el) => {
+    alert($(".tasks > form").length)
+    $(".tasks > form").each(function (i, el) {
+      let date = $(el).find("input[name='date']").val()
+      let name = $(el).find("input[name='name']").val()
       $.ajax({
+        async: false,
         method: "POST",
         dataType: "html",
         data: {
-          date: $(el).find("input[name='date']").val(),
-          name: $(el).find("input[name='name']").val(),
+          date: date,
+          name: name,
         },
-      });
+        error: (xhr, status, error) => {
+          console.log(error)
+        },
+        success: (data) => {
+          console.log(data)
+        },
+      })
     });
 
-    window.location.replace($("a#goBack").attr("href"));
+    window.location.replace($("a#goBack").attr("href"))
   });
 
   $("button#add").click(() => {
